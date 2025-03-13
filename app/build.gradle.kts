@@ -41,6 +41,14 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":feature-handyman"))
+    implementation(project(":feature-housecleaning"))
+    implementation(project(":feature-laundry"))
+    implementation(project(":feature-learn"))
+    implementation(project(":feature-mechanic"))
+    implementation(project(":feature-pcrepair"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
