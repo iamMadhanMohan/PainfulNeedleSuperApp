@@ -12,15 +12,12 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core" />
-            <option value="$PROJECT_DIR$/feature-handyman" />
-            <option value="$PROJECT_DIR$/feature-housecleaning" />
-            <option value="$PROJECT_DIR$/feature-laundry" />
-            <option value="$PROJECT_DIR$/feature-learn" />
-            <option value="$PROJECT_DIR$/feature-mechanic" />
-            <option value="$PROJECT_DIR$/feature-pcrepair" />
-            <option value="$PROJECT_DIR$/sample-feature" />
-            <option value="$PROJECT_DIR$/sample-sample-sample" />
-            <option value="$PROJECT_DIR$/test-feature" />
+            <option value="$PROJECT_DIR$/feature-bank" />
+            <option value="$PROJECT_DIR$/feature-delivery" />
+            <option value="$PROJECT_DIR$/feature-hotel" />
+            <option value="$PROJECT_DIR$/feature-pet" />
+            <option value="$PROJECT_DIR$/feature-tinder" />
+            <option value="$PROJECT_DIR$/feature-uber" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

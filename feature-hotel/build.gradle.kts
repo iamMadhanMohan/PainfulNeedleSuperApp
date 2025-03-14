@@ -1,21 +1,19 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
 }
 
 android {
-    namespace = "com.madhan.adamsuperapp"
+    namespace = "com.madhan.feature_hotel"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.madhan.adamsuperapp"
         minSdk = 25
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -40,14 +38,6 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":core"))
-    implementation(project(":feature-bank"))
-    implementation(project(":feature-delivery"))
-    implementation(project(":feature-hotel"))
-    implementation(project(":feature-pet"))
-    implementation(project(":feature-tinder"))
-    implementation(project(":feature-uber"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
