@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services") //firebase google service id
+    id("com.google.firebase.crashlytics") //firebase crashlytics id
 }
 
 android {
@@ -48,6 +50,13 @@ dependencies {
     implementation(project(":feature-pet"))
     implementation(project(":feature-tinder"))
     implementation(project(":feature-uber"))
+
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    //Firebase Analytics
+    implementation(libs.firebase.analytics)
+    //Firebase Crashlytics
+    implementation(libs.firebase.crashlytics)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
