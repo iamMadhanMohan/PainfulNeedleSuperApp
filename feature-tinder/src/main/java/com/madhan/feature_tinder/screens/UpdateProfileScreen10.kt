@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.composable.TopBar
 import com.madhan.feature_tinder.util.convertMillisToDate
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -50,11 +51,25 @@ fun UpdateProfileScreen03(
         convertMillisToDate(it)
     } ?: ""
 
+    
     Column(
         modifier = modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        TopBar(
+            leftSlot = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_return),
+                    contentDescription = ""
+                )
+            },
+            middleSlot = {
+                Text(
+                    text = "Modify your profile"
+                )
+            }
+        )
         OutlinedTextField(
             value = "",
             onValueChange = {},

@@ -1,5 +1,6 @@
 package com.madhan.feature_tinder.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.composable.TopBar
 
 @Composable
 fun AccountScreen09(
@@ -34,6 +36,26 @@ fun AccountScreen09(
         modifier = modifier
             .fillMaxSize()
     ) {
+        TopBar(
+            leftSlot = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_return),
+                    contentDescription = ""
+                )
+            },
+            middleSlot = {
+                Text(
+                    text = "Account"
+                )
+            },
+            rightSlot = {
+                Text(
+                    modifier = Modifier
+                        .clickable {  },
+                    text = "Clear"
+                )
+            }
+        )
         Column {
             Row(
                 verticalAlignment = Alignment.CenterVertically

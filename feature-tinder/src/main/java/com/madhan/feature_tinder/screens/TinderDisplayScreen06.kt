@@ -12,16 +12,23 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.composable.BottomButtonRow
+import com.madhan.feature_tinder.composable.ImageCard
+import com.madhan.feature_tinder.composable.TopBar
+
+// DISPLAY SCREEN IS A MAJOR STATE HOLDER
 
 @Composable
 fun TinderDisplayScreen06(
@@ -29,36 +36,47 @@ fun TinderDisplayScreen06(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column {
-            // Image
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row {
-                    Text(
-                        text = "Emily,"
-                    )
-                    Text(
-                        text = "23"
-                    )
-
-                }
-                Row {
-                    Text(
-                        text = "3"
-                    )
-                    Icon(
-                        painter = painterResource(R.drawable.ic_picture),
-                        contentDescription = ""
-                    )
-                }
+        TopBar(
+            leftSlot = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_home),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            },
+            middleSlot = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_chat),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(24.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            },
+            rightSlot = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_account),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(32.dp),
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
+        )
+        Column {
+            ImageCard(
+                image = R.drawable.profile_1,
+                name = "Person1",
+                age = "123",
+                likes = "3"
+            )
+            BottomButtonRow()
         }
-        BottomButtonRow()
     }
 }
 
