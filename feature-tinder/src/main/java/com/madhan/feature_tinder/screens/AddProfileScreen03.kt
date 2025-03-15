@@ -34,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.util.convertMillisToDate
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -186,9 +187,4 @@ fun CompleteProfileScreen03(
 @Composable
 fun CompleteProfileScreen03Preview() {
     CompleteProfileScreen03()
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-    return formatter.format(Date(millis))
 }

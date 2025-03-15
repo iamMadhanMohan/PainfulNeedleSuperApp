@@ -58,6 +58,7 @@ fun TinderDisplayScreen06(
                 }
             }
         }
+        BottomButtonRow()
     }
 }
 
@@ -67,26 +68,3 @@ fun TinderDisplayScreen06Preview() {
     TinderDisplayScreen06()
 }
 
-
-@Composable
-fun BottomButton(@DrawableRes icon: Int) {
-    Surface(
-        shape = CircleShape,
-        shadowElevation = 6.dp,
-    ) {
-        Box(
-            modifier = Modifier
-                .clickable {  }
-                .padding(16.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(icon),
-                contentDescription = "",
-                modifier = Modifier
-                    .size(32.dp)
-            )
-        }
-        BottomButtonRow()
-    }
-}
