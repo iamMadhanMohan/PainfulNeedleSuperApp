@@ -28,15 +28,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.madhan.feature_hotel.R
 import com.madhan.core.ui.components.PrimaryButton
+import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 
 @Composable
 fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController) {
-
-    //Custom Colors
-    val orange = Color(0xFFFF7A1A)
-    val hotelTextColor = Color(0xFF171D33)
-    val descriptionColor = Color(0xFFA6AAB4)
 
     Column(
         modifier = Modifier.fillMaxSize().padding(paddingValues),
@@ -49,7 +45,7 @@ fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController)
               enabled = true,
               colors = IconButtonColors(
                   containerColor =  Color.Transparent,
-                  contentColor = orange,
+                  contentColor = customColors.orange,
                   disabledContainerColor = Color.Transparent,
                   disabledContentColor = Color.Gray
               )
@@ -78,7 +74,7 @@ fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController)
              fontSize = 32.sp,
                 textAlign = TextAlign.Center,
              fontWeight = FontWeight.SemiBold,
-                color = hotelTextColor
+                color = customColors.hotelTextColor
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -91,7 +87,7 @@ fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController)
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium,
-                color = descriptionColor,
+                color = customColors.descriptionColor,
             )
         )
         Spacer(modifier = Modifier.height(60.dp))

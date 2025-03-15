@@ -24,8 +24,7 @@ fun AppNavigation(navController: NavHostController, paddingValues: PaddingValues
         }
 
         composable(HOMESCREEN) { HomeScreen(
-            navController = navController,
-            paddingValues = paddingValues
+            navController = navController
         ) }
     }
 }
