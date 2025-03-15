@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.googleid)
+    implementation(libs.androidx.navigation.compose)
     ksp(libs.hilt.android.compiler)
     //viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

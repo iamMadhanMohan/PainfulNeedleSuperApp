@@ -10,19 +10,23 @@ import androidx.compose.runtime.Composable
 import com.madhan.adamsuperapp.ui.theme. AdamSuperAppTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.madhan.feature_hotel.ui.screens.OnboardingScreen
+import androidx.navigation.compose.rememberNavController
+import com.madhan.feature_hotel.ui.nav.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             AdamSuperAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   OnboardingScreen(
-                       paddingValues = innerPadding
+                   AppNavigation(
+                       paddingValues = innerPadding,
+                      navController = navController
                    )
                 }
             }
@@ -34,10 +38,12 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun OnboardingPreview() {
+    val navController = rememberNavController()
     AdamSuperAppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-            OnboardingScreen(
-                paddingValues = innerPadding
+            AppNavigation(
+                paddingValues = innerPadding,
+                navController = navController
             )
         }
     }

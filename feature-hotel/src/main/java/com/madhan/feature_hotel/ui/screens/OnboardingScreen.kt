@@ -25,11 +25,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.madhan.feature_hotel.R
 import com.madhan.core.ui.components.PrimaryButton
+import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 
 @Composable
-fun OnboardingScreen(paddingValues: PaddingValues) {
+fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController) {
 
     //Custom Colors
     val orange = Color(0xFFFF7A1A)
@@ -96,7 +98,7 @@ fun OnboardingScreen(paddingValues: PaddingValues) {
         //Button
        PrimaryButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = {},
+            onClick = {navController.navigate(HOMESCREEN)},
             text = "Let' go",
             width = 257.dp,
             height = 56.dp,
