@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 object routes {
     const val HOTELSCREEN = " Hotel"
     const val HOMESCREEN = "Home"
+    const val FILTERSCREEN = "Filter"
 
 }
 

@@ -41,6 +41,7 @@ import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.HotelSearchCard
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -149,7 +150,7 @@ fun HomeScreen(navController: NavController) {
                         )
                         //Filter button
                         IconButton(
-                            onClick = {/*Opens the filter screen*/},
+                            onClick = {navController.navigate(FILTERSCREEN)}, //Go to filter screen
                             enabled = true,
                             colors = IconButtonDefaults.filledIconButtonColors (
                                containerColor =  Color.Transparent,

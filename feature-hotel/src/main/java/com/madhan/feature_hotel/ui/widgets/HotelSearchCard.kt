@@ -34,17 +34,17 @@ import com.madhan.feature_hotel.utils.customColors
 @Composable
 fun HotelSearchCard(modifier: Modifier) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = modifier.padding(16.dp)) {
             // Location Row
             Row (
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -57,7 +57,7 @@ fun HotelSearchCard(modifier: Modifier) {
                 )
                 //Icon Text
                 IconTextRow(
-                    modifier=Modifier.clickable { /* Handle places selection */  },
+                    modifier=modifier.clickable { /* Handle places selection */  },
                     icon = painterResource(id = R.drawable.map),
                     text = "Places",
                     textSize = 20.sp,
@@ -69,17 +69,17 @@ fun HotelSearchCard(modifier: Modifier) {
 
             // Date and Room Selection
             Row(
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column(modifier = Modifier.weight(1f)) {
+                Column(modifier = modifier.weight(1f)) {
                     Text(text = "CHOOSE DATES", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
                     Text(text = "20 Mar - 22 Mar", style = MaterialTheme.typography.bodyMedium)
                 }
-                Spacer(modifier = Modifier.width(8.dp))
-                Column(modifier = Modifier.weight(1f)) {
+                Spacer(modifier = modifier.width(8.dp))
+                Column(modifier = modifier.weight(1f)) {
                     Text(text = "NUMBERS OF ROOMS", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
                     Text(text = "1 Room - 2 Adults", style = MaterialTheme.typography.bodyMedium)
                 }
@@ -92,12 +92,12 @@ fun HotelSearchCard(modifier: Modifier) {
                 placeholder = { Text("Search location / name / country") },
                 leadingIcon = {
                     Icon(
-                        modifier = Modifier.clickable {  },
+                        modifier = modifier.clickable {  },
                         painter = painterResource(id = R.drawable.search),
                         contentDescription = "Search"
                     )
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(8.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Color.LightGray,
@@ -108,7 +108,7 @@ fun HotelSearchCard(modifier: Modifier) {
             // Search Button
             Button(
                 onClick = { /* Handle search action */ },
-                modifier = Modifier
+                modifier = modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = customColors.orange)
