@@ -1,4 +1,4 @@
-package com.madhan.adamsuperapp
+package com.madhan.feature_delivery
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -12,11 +12,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.madhan.feature_delivery.navigation.AppNavigation
+import com.madhan.feature_delivery.ui.theme.AdamSuperAppTheme
 
-import com.madhan.adamsuperapp.ui.theme.AdamSuperAppTheme
+class DeliveryActivity : ComponentActivity(), OnMapReadyCallback {
 
-class MainActivity : ComponentActivity() {
-
+    private lateinit var mGoogleMap: GoogleMap
+    private val LOCATION_PERMISSION_REQUEST = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,6 +38,26 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        mGoogleMap = googleMap
+        getLocationAccess()
+    }
+
+    private fun getLocationAccess() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mGoogleMap.isMyLocationEnabled = true
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST
+            )
+        }
+    }
 
 }
 
