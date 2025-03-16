@@ -2,7 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-
+    id("com.google.gms.google-services") //firebase google service id
+    id("com.google.firebase.crashlytics") //firebase crashlytics id
+    id("com.google.devtools.ksp") //ksp
+    id("dagger.hilt.android.plugin") //hilt
 }
 
 android {
@@ -11,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.madhan.adamsuperapp"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -50,6 +53,21 @@ dependencies {
     implementation(project(":feature-tinder"))
     implementation(project(":feature-uber"))
 
+    //Firebase
+    implementation(platform(libs.firebase.bom))
+    //Firebase Analytics
+    implementation(libs.firebase.analytics)
+    //Firebase Crashlytics
+    implementation(libs.firebase.crashlytics)
+    //Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.googleid)
+    implementation(libs.androidx.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+    //viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -58,6 +76,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
