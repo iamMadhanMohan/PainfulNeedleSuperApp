@@ -3,6 +3,7 @@ package com.madhan.feature_tinder.screens
 import android.icu.text.CaseMap.Title
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,7 +29,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
 import com.madhan.feature_tinder.composable.HeroImage
 import com.madhan.feature_tinder.composable.TitleText
@@ -36,15 +39,19 @@ import com.madhan.feature_tinder.composable.TopBar
 
 @Composable
 fun TutorialScreen05(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController? = null
 ) {
-    Column {
+    Column(modifier = modifier) {
         TopBar(
             leftSlot = {
                 Icon(
                     painter = painterResource(R.drawable.ic_return),
                     contentDescription = "",
                     modifier = Modifier
+                        .clickable {
+                            navController!!.navigate(TinderRoute.EnableLocation.route)
+                        }
                         .scale(2f)
                         .size(32.dp),
                     tint = MaterialTheme.colorScheme.primary
@@ -103,7 +110,9 @@ fun TutorialScreen05(
 
             CustomButton(
                 text = "Discover the profiles",
-                onClick = {},
+                onClick = {
+                    navController!!.navigate(TinderRoute.ProfileScreen.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)

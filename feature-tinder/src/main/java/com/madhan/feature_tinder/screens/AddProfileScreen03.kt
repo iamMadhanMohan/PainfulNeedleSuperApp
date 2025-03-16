@@ -2,6 +2,7 @@ package com.madhan.feature_tinder.screens
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import androidx.navigation.NavController
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
 import com.madhan.feature_tinder.composable.TitleText
 import com.madhan.feature_tinder.composable.TopBar
@@ -48,21 +51,25 @@ import com.madhan.feature_tinder.util.convertMillisToDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CompleteProfileScreen03(
-    modifier: Modifier = Modifier
+fun AddProfileScreen03(
+    modifier: Modifier = Modifier,
+    navController: NavController? = null
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
     val selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
     } ?: ""
-    Column {
+    Column(modifier = modifier) {
         TopBar(
             leftSlot = {
                 Icon(
                     painter = painterResource(R.drawable.ic_return),
                     contentDescription = "",
                     modifier = Modifier
+                        .clickable {
+                            navController!!.navigate(TinderRoute.TakePhoto.route)
+                        }
                         .scale(2f)
                         .size(32.dp),
                     tint = MaterialTheme.colorScheme.primary
@@ -159,7 +166,9 @@ fun CompleteProfileScreen03(
             }
             CustomButton(
                 text = "Next",
-                onClick = {},
+                onClick = {
+                    navController!!.navigate(TinderRoute.EnableLocation.route)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(min = 64.dp)
@@ -193,6 +202,6 @@ fun ItemBox(
 @Preview(showBackground = true)
 @Composable
 fun CompleteProfileScreen03Preview() {
-    CompleteProfileScreen03()
+    AddProfileScreen03()
 }
 

@@ -22,7 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
 import com.madhan.feature_tinder.composable.HeroImage
 import com.madhan.feature_tinder.composable.TitleText
@@ -30,9 +32,10 @@ import com.madhan.feature_tinder.composable.TopBar
 
 @Composable
 fun PictureChoiceScreen01(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController? = null
 ) {
-    Column {
+    Column(modifier = modifier) {
         TopBar(
             leftSlot = {
                 Icon(
@@ -81,7 +84,9 @@ fun PictureChoiceScreen01(
                 )
                 CustomButton(
                     text = "Take a picture",
-                    onClick = {},
+                    onClick = {
+                        navController!!.navigate(TinderRoute.TakePhoto.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 64.dp),

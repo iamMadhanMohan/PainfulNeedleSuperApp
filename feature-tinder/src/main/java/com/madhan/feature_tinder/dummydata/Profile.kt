@@ -5,14 +5,18 @@ import java.time.LocalDate
 import java.util.Date
 
 data class Profile(
-    val photos: List<Photo>,
+    @DrawableRes val photo: Int,
     val firstName: String,
     val lastName: String,
-    val dob: LocalDate,
+    val age: String,
     val city: String,
     val description: String,
-    val milesAway: Int,
-    val photoViews: Int
+    val milesAway: String,
+    val photoViews: String,
+    var haveInteracted: Boolean = false,
+    var haveRejected: Boolean = false,
+    var haveLiked: Boolean = false,
+    var haveSuperLiked: Boolean = false
 )
 
 data class Photo(

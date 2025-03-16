@@ -1,6 +1,7 @@
 package com.madhan.feature_tinder.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,25 +25,31 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.madhan.feature_tinder.R
+import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
 import com.madhan.feature_tinder.composable.TitleText
 import com.madhan.feature_tinder.composable.TopBar
 
 @Composable
 fun TakePhotoScreen02(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController? = null
 ){
     val config = LocalConfiguration.current
     val screenHeight = config.screenHeightDp.dp
     val imageHeight = screenHeight * 0.75f
-    Column {
+    Column(modifier = modifier) {
         TopBar(
             leftSlot = {
                 Icon(
                     painter = painterResource(R.drawable.ic_return),
                     contentDescription = "",
                     modifier = Modifier
+                        .clickable {
+                            navController!!.navigate(TinderRoute.TinderScreen.route)
+                        }
                         .scale(2f)
                         .size(32.dp),
                     tint = MaterialTheme.colorScheme.primary
@@ -98,7 +105,9 @@ fun TakePhotoScreen02(
             ) {
                 CustomButton(
                     icon = R.drawable.ic_camera,
-                    onClick = {},
+                    onClick = {
+                        navController!!.navigate(TinderRoute.AddProfile.route)
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 64.dp)

@@ -22,19 +22,29 @@ import androidx.compose.ui.unit.dp
 import com.madhan.feature_tinder.R
 
 @Composable
-fun BottomButtonRow() {
+fun BottomButtonRow(
+    showBack: Boolean = true,
+    onDenyClicked: () -> Unit = {},
+    onLikedClicked: () -> Unit = {},
+    onSuperLikedClicked: () -> Unit = {},
+    onBack: () -> Unit = {}
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        BottomButton(
-            icon = R.drawable.ic_rewind,
-            iconColor = Color(0xFF2B7FFF)
-        )
+        if(showBack) {
+            BottomButton(
+                icon = R.drawable.ic_rewind,
+                iconColor = Color(0xFF2B7FFF),
+                onClick = onBack
+            )
+        }
         BottomButton(
             icon = R.drawable.ic_bigclose,
-            iconColor = Color(0xFFEE7308)
+            iconColor = Color(0xFFEE7308),
+            onClick = onDenyClicked
         )
         BottomButton(
             icon = R.drawable.ic_fire,
@@ -42,11 +52,13 @@ fun BottomButtonRow() {
         )
         BottomButton(
             icon = R.drawable.ic_heart,
-            iconColor = Color(0xFF4BEAC5)
+            iconColor = Color(0xFF4BEAC5),
+            onClick = onLikedClicked
         )
         BottomButton(
             icon = R.drawable.ic_star,
-            iconColor = Color(0xFFFFCB0E)
+            iconColor = Color(0xFFFFCB0E),
+            onClick = onSuperLikedClicked
         )
     }
 }
@@ -55,14 +67,15 @@ fun BottomButtonRow() {
 @Composable
 fun BottomButton(
     @DrawableRes icon: Int,
-    iconColor: Color
+    iconColor: Color,
+    onClick: () -> Unit = {}
 ) {
     Surface(
         shape = CircleShape,
         shadowElevation = 6.dp,
         modifier = Modifier
             .padding(bottom = 32.dp)
-            .clickable {  }
+            .clickable { onClick()  }
     ) {
         Box(
             modifier = Modifier

@@ -2,6 +2,7 @@ package com.madhan.feature_tinder.composable
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -34,7 +36,8 @@ fun ImageCard(
     @DrawableRes image: Int,
     name: String = "",
     age: String = "",
-    likes: String = ""
+    likes: String = "",
+    color: Color
 ) {
     val config = LocalConfiguration.current
     val screenHeight = config.screenHeightDp.dp
@@ -44,6 +47,7 @@ fun ImageCard(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(16.dp)
+            .background(color)
     ) {
         Column(
             modifier = Modifier
