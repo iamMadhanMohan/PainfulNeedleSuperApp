@@ -1,6 +1,8 @@
 package com.madhan.feature_hotel.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,8 +35,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,106 +57,156 @@ import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.ui.nav.AppNavigation
 import com.madhan.feature_hotel.ui.widgets.CustomHotelCard
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
+import com.madhan.feature_hotel.ui.widgets.HotelSearchCard
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.utils.customColors
 
 @Composable
 fun HomeScreen(navController: NavController) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        LazyColumn(
+        // State to control HotelSearchCard visibility
+        var showSearchCard by remember { mutableStateOf(false) }
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .clickable(enabled = showSearchCard) { showSearchCard = false }
         ) {
-            // Background Image with Home Icon
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(261.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.hotelimg1), // Background image
-                        contentDescription = "Hotel Background",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    IconButton(
-                        onClick = { /* Handle Home Icon click */ },
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                // Background Image with Home Icon
+                item {
+                    Box(
                         modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.TopStart),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = customColors.orange
-                        )
+                            .fillMaxWidth()
+                            .height(261.dp)
                     ) {
-                        Icon(
-                            modifier = Modifier.size(24.dp),
-                            painter = painterResource(id = R.drawable.home), // Home icon
-                            contentDescription = "Home Icon",
-                            tint = Color.White
+                        Image(
+                            painter = painterResource(id = R.drawable.hotelimg1), // Background image
+                            contentDescription = "Hotel Background",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                        IconButton(
+                            onClick = { showSearchCard = !showSearchCard },
+                            modifier = Modifier
+                                .align(Alignment.TopStart),
+                            colors = IconButtonDefaults.filledIconButtonColors(
+                                containerColor = if (!showSearchCard) customColors.orange else Color.White,
+
+                                )
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(id = R.drawable.home), // Home icon
+                                contentDescription = "Home Icon",
+                                tint = if (!showSearchCard) Color.White else customColors.orange
+                            )
+                        }
+                        // Show Hotel Search Card only when showSearchCard is true
+                        if (showSearchCard) {
+                            HotelSearchCard(
+                                modifier = Modifier
+                                    .align(Alignment.BottomCenter) // Position below Home Icon
+                                    .offset(y = 50.dp) // Push it down slightly
+                            )
+                        }
+                    }
+                }
+
+                // Favorites and Orders Row
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(96.dp)
+                            .background(customColors.orange),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.Bottom
+                    ) {
+
+                        IconTextRow(
+                            modifier = Modifier.padding(bottom = 16.dp),
+                            icon = painterResource(id = R.drawable.heart),
+                            text = "Favorites",
+                            textSize = 16.sp,
+                            textColor = Color.White,
+                            iconSize = 24.dp,
+                            iconTint = Color.White
+                        )
+
+                        IconTextRow(
+                            modifier = Modifier.padding(bottom = 16.dp),
+                            icon = painterResource(id = R.drawable.file),
+                            text = "Orders",
+                            textSize = 16.sp,
+                            iconSize = 24.dp,
+                            textColor = Color.White,
+                            iconTint = Color.White,
                         )
                     }
                 }
-            }
+                // Spacer after icons
+                item { Spacer(modifier = Modifier.height(16.dp)) }
+                // Recommended Hotels Title
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CustomTitleText(
+                            text = "Recommended Hotels",
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Start,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        //Filter button
+                        IconButton(
+                            onClick = {/*Opens the filter screen*/},
+                            enabled = true,
+                            colors = IconButtonDefaults.filledIconButtonColors (
+                               containerColor =  Color.Transparent,
+                                contentColor = customColors.orange
+                            )
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(24.dp),
+                                painter = painterResource(R.drawable.filter),
+                                contentDescription = "filter",
+                                tint =  customColors.orange
 
-            // Spacer after background
-            item { Spacer(modifier = Modifier.height(16.dp)) }
+                            )
+                        }
+                    }
+                }
 
-            // Favorites and Orders Row
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    IconTextRow(
-                        icon = painterResource(id = R.drawable.heartfill),
-                        text = "Favorites",
-                        iconSize = 24.dp,
-                        iconTint = customColors.orange
-                    )
-
-                    IconTextRow(
-                        icon = painterResource(id = R.drawable.file),
-                        text = "Orders",
-                        iconSize = 24.dp,
-                        iconTint = customColors.orange
+                // Recommended Hotels List
+                items(10) { index ->
+                    CustomHotelCard(
+                        backgroundImage = painterResource(
+                            id = when (index % 5) {
+                                0 -> R.drawable.hotelimg4
+                                1 -> R.drawable.hotelimg2
+                                2 -> R.drawable.hotelimg5
+                                3 -> R.drawable.hotelimg6
+                                4 -> R.drawable.hotelimg1
+                                else -> R.drawable.hotelimg3
+                            }
+                        ),
+                        hotelType = "Resort Hotel",
+                        hotelLocation = "Smyrna",
+                        hotelRating = "4.5",
+                        hotelDistance = "1.5 km to center",
+                        hotelPrice = "$ 50",
+                        isSelected = remember { mutableStateOf(false) }
                     )
                 }
-            }
-
-            // Spacer after icons
-            item { Spacer(modifier = Modifier.height(16.dp)) }
-
-            // Recommended Hotels Title
-            item {
-                Text(
-                    text = "Recommended Hotels",
-                    modifier = Modifier.padding(start = 16.dp, top = 8.dp)
-                )
-            }
-
-            // Recommended Hotels List
-            items(10) { index ->
-                CustomHotelCard(
-                    backgroundImage = painterResource(
-                        id = when (index % 5) {
-                            0 -> R.drawable.hotelimg4
-                            1 -> R.drawable.hotelimg2
-                            2 -> R.drawable.hotelimg5
-                            3 -> R.drawable.hotelimg6
-                            4 -> R.drawable.hotelimg1
-                            else -> R.drawable.hotelimg3
-                        }
-                    ),
-                    hotelType = "Resort Hotel",
-                    hotelLocation = "Smyrna",
-                    hotelRating = "4.5",
-                    hotelDistance = "1.5 km to center",
-                    hotelPrice = "$ 50",
-                    isSelected = remember { mutableStateOf(false) }
-                )
             }
         }
     }
