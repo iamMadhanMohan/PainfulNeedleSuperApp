@@ -19,7 +19,7 @@ import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 import com.madhan.feature_hotel.utils.routes.PLACESCREEN
 
 @Composable
-fun AppNavigation(navController: NavHostController) {
+fun HotelAppNavigation(navController: NavHostController) {
     NavHost (
         navController = navController,
         startDestination = HOTELSCREEN
