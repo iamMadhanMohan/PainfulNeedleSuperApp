@@ -23,11 +23,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val navController = rememberNavController()
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
                    AppNavigation(
                       navController = navController
                    )
-                }
+
             }
         }
 }
@@ -38,10 +38,8 @@ class MainActivity : ComponentActivity() {
 fun OnboardingPreview() {
     val navController = rememberNavController()
     AdamSuperAppTheme {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppNavigation(
                 navController = navController
             )
-        }
     }
 }
