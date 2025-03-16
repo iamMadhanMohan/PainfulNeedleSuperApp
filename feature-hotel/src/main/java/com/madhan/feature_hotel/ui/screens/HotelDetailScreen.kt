@@ -3,7 +3,10 @@ package com.madhan.feature_hotel.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,7 +26,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +39,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.R
+import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
@@ -58,23 +64,41 @@ fun HotelDetailScreen(navController: NavController){
                 )
         ) {
             //Moving Images
-            Row {
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
+//            Row {
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//            }
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(14.dp) // Adds spacing between images
+            ) {
+                items(DummyData.imageList) {  imageResId -> // Adjust the number based on your data
+                    Image(
+                        painter = painterResource(id = imageResId),
+                        contentDescription = "Hotel Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(215.dp)
+                            .width(328.dp)
+                            .clip(RoundedCornerShape(8.dp)
+
+                            )
+                    )
+                }
             }
 
             Surface (modifier =
@@ -196,26 +220,46 @@ fun HotelDetailScreen(navController: NavController){
                }
            }
             //Implement LazyRow of images here
-            Row(modifier = Modifier
-                .height(136.dp)
-                .fillMaxWidth()) {
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.hotelimg4),
-                    contentDescription = null
-                )
+//            Row(modifier = Modifier
+//                .height(136.dp)
+//                .fillMaxWidth()) {
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//                Image(
+//                    painter = painterResource(id = R.drawable.hotelimg4),
+//                    contentDescription = null
+//                )
+//            }
+            //LazyRow
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(14.dp) // Adds spacing between images
+            ) {
+                items(DummyData.hotelRoomList) {  imageId -> // Adjust the number based on your data
+                    Image(
+                        painter = painterResource(id = imageId),
+                        contentDescription = "Hotel Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .height(136.dp)
+                            .width(375.dp)
+                            .clip(RoundedCornerShape(4.dp)
+
+                            )
+                    )
+                }
             }
+
             Spacer(Modifier.height(15.dp))
             //Column
             Column(modifier = Modifier.absolutePadding(top = 10.dp, left = 15.dp)) {
