@@ -25,4 +25,6 @@ object DummyData {
         R.drawable.hotelimgroom6
     )
 
+    val hotelDescription : String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas. Pellen tesque ultricies justo."
+
 }

@@ -17,6 +17,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,25 +65,7 @@ fun HotelDetailScreen(navController: NavController){
                     state = rememberScrollState()
                 )
         ) {
-            //Moving Images
-//            Row {
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//            }
+            //LazyRow moving Images
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp) // Adds spacing between images
@@ -94,7 +78,8 @@ fun HotelDetailScreen(navController: NavController){
                         modifier = Modifier
                             .height(215.dp)
                             .width(328.dp)
-                            .clip(RoundedCornerShape(8.dp)
+                            .clip(
+                                RoundedCornerShape(8.dp)
 
                             )
                     )
@@ -108,7 +93,6 @@ fun HotelDetailScreen(navController: NavController){
                 Column(
                     modifier = Modifier
                         .height(130.dp)
-
                 ) {
                     CustomTitleText(
                         modifier = Modifier.absolutePadding(top = 10.dp, left = 15.dp),
@@ -219,28 +203,7 @@ fun HotelDetailScreen(navController: NavController){
                    )
                }
            }
-            //Implement LazyRow of images here
-//            Row(modifier = Modifier
-//                .height(136.dp)
-//                .fillMaxWidth()) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//                Image(
-//                    painter = painterResource(id = R.drawable.hotelimg4),
-//                    contentDescription = null
-//                )
-//            }
-            //LazyRow
+            //LazyRow of images
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp) // Adds spacing between images
@@ -253,7 +216,8 @@ fun HotelDetailScreen(navController: NavController){
                         modifier = Modifier
                             .height(136.dp)
                             .width(375.dp)
-                            .clip(RoundedCornerShape(4.dp)
+                            .clip(
+                                RoundedCornerShape(4.dp)
 
                             )
                     )
@@ -270,7 +234,9 @@ fun HotelDetailScreen(navController: NavController){
                     fontSize = 16.sp,
                     textAlign = TextAlign.Start
                 )
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)) {
                     Column ( modifier = Modifier.weight(1f)){
                         CustomTitleText(
                            // modifier = Modifier.weight(1f),
@@ -292,10 +258,7 @@ fun HotelDetailScreen(navController: NavController){
                     }
                     Spacer(Modifier.width(10.dp))
                     Column ( modifier = Modifier.weight(1f)){
-//                        Text("Adults")
-//                        Text("2")
                         CustomTitleText(
-                            // modifier = Modifier.weight(1f),
                             text = "Adults",
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
@@ -304,7 +267,6 @@ fun HotelDetailScreen(navController: NavController){
                         )
                         Spacer(Modifier.height(5.dp))
                         CustomTitleText(
-                            // modifier = Modifier.weight(1f),
                             text = "2",
                             fontWeight = FontWeight.Medium,
                             fontSize = 18.sp,
@@ -314,7 +276,6 @@ fun HotelDetailScreen(navController: NavController){
                     }
                     Column ( modifier = Modifier.weight(1f)){
                         CustomTitleText(
-                            // modifier = Modifier.weight(1f),
                             text = "Kids",
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
@@ -323,7 +284,6 @@ fun HotelDetailScreen(navController: NavController){
                         )
                         Spacer(Modifier.height(5.dp))
                         CustomTitleText(
-                            // modifier = Modifier.weight(1f),
                             text = "1",
                             fontWeight = FontWeight.Medium,
                             fontSize = 18.sp,
@@ -425,7 +385,9 @@ fun HotelDetailScreen(navController: NavController){
                             // Close button
                             IconButton(
                                 onClick = { showSheet = false },
-                                modifier = Modifier.align(Alignment.End)
+                                modifier = Modifier
+                                    .align(Alignment.End)
+                                    .size(24.dp)
                             ) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.close),
@@ -433,13 +395,84 @@ fun HotelDetailScreen(navController: NavController){
                                     tint = customColors.orange
                                 )
                             }
-
                             Spacer(modifier = Modifier.height(16.dp))
-
                             // Modal content
-                            Column {
-                                PrimaryButton(
+                            Column (
+                              horizontalAlignment = Alignment.CenterHorizontally
+                            ){
+                                //Row
+                                Row(
+                                 modifier = Modifier
+                                     .fillMaxWidth()
+                                     .padding(bottom = 16.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    CustomTitleText(
+                                        modifier = Modifier.weight(1f),
+                                        text = "Standard",
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 18.sp,
+                                        textAlign = TextAlign.Start
+                                    )
+                                    IconTextRow(
+                                        modifier = Modifier.weight(1f),
+                                        icon= painterResource(id=R.drawable.moon),
+                                        iconSize = 17.dp,
+                                        text = "$ 150",
+                                        textSize = 14.sp,
+                                        iconTint = customColors.descriptionColor
+                                    )
+
+                                }
+                                //Description
+                                CustomTitleText(
+                                    modifier = Modifier.weight(1f),
+                                    text = DummyData.hotelDescription,
+                                    color = customColors.descriptionColor,
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 14.sp,
+                                    textAlign = TextAlign.Start
+                                )
+                                Spacer(Modifier.height(16.dp))
+                                Column(
                                     modifier = Modifier,
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Surface(
+                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                            .height(51.dp)
+                                            .width(51.dp),
+                                        shape = RoundedCornerShape(8.dp),
+                                        border = BorderStroke(1.dp, customColors.descriptionColor)
+                                    ) {
+                                        Box(
+                                            contentAlignment = Alignment.Center, // Centers the text inside Surface
+                                            modifier = Modifier.fillMaxSize() // Ensures Box takes full Surface size
+                                        ) {
+                                            CustomTitleText(
+                                                text = "2",
+                                                fontWeight = FontWeight.SemiBold,
+                                                fontSize = 24.sp,
+                                                color = customColors.hotelTextColor
+                                            )
+                                        }
+                                    }
+                                }
+                                //Remove text button
+                                TextButton(onClick = {}) {
+                                    CustomTitleText(
+                                        text = "Remove",
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 14.sp,
+                                        textAlign = TextAlign.Center,
+                                        color = customColors.orange
+                                    )
+                                }
+                                //Spacer
+                               Spacer(Modifier.height(16.dp))
+                                PrimaryButton(
+                                    modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onClick = {navController.navigate(ORDERSCREEN)},
                                     text = "Add to Order",
                                 )

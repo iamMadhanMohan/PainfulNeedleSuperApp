@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.madhan.feature_hotel.R
 import com.madhan.core.ui.components.PrimaryButton
+import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
@@ -71,7 +72,7 @@ fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController)
         //Description
         Text(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit.Duis lobortis sit amet odio in egestas. Pellen tesque ultricies justo.",
+            text=DummyData.hotelDescription,
             softWrap = true,
             style = TextStyle(
                 fontSize = 16.sp,
