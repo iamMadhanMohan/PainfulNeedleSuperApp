@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     val viewModel: ProfileViewModel = viewModel<ProfileViewModel>()
                     NavHost(
                         navController = navController,
-                        startDestination = TinderRoute.ProfileScreen.route
+                        startDestination = TinderRoute.TinderScreen.route
                     ) {
 
                         composable(route = TinderRoute.TinderScreen.route) {
