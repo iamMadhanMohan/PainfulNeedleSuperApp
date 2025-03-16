@@ -26,7 +26,7 @@ object DummyData {
     )
 
     //Hotel description
-    val hotelDescription : String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas. Pellen tesque ultricies justo."
+    val hotelDescription : String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas. Pellen tesque ultricies justo skajhdkjhfjsk kdahdksj  ikajsj ksj  lajkdl jlksdhihkeliusnksh ks k."
 
     val hotelList = listOf(
         Hotel(R.drawable.hotelimg1, "Resort Hotel", "New York", "4.5", "2 km to center", "$100"),

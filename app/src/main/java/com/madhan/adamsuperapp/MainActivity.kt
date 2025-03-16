@@ -22,16 +22,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
-            AdamSuperAppTheme {
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                    AppNavigation(
-                       paddingValues = innerPadding,
                       navController = navController
                    )
                 }
             }
         }
-    }
 }
 
 
@@ -42,7 +40,6 @@ fun OnboardingPreview() {
     AdamSuperAppTheme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             AppNavigation(
-                paddingValues = innerPadding,
                 navController = navController
             )
         }

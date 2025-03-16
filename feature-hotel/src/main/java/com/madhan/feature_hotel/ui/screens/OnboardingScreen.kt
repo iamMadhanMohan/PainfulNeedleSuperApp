@@ -34,10 +34,10 @@ import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 
 @Composable
-fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController) {
+fun OnboardingScreen(navController: NavController) {
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(paddingValues),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {

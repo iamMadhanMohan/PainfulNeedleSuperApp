@@ -378,7 +378,7 @@ fun HotelDetailScreen(navController: NavController){
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(368.dp) // Adjust for half-screen size
+                                .height(350.dp) // Adjust for half-screen size
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -426,7 +426,7 @@ fun HotelDetailScreen(navController: NavController){
                                 }
                                 //Description
                                 CustomTitleText(
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.weight(1f).padding(bottom = 10.dp),
                                     text = DummyData.hotelDescription,
                                     color = customColors.descriptionColor,
                                     fontWeight = FontWeight.Medium,
@@ -470,7 +470,7 @@ fun HotelDetailScreen(navController: NavController){
                                     )
                                 }
                                 //Spacer
-                               Spacer(Modifier.height(16.dp))
+                               Spacer(Modifier.height(10.dp))
                                 PrimaryButton(
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onClick = {navController.navigate(ORDERSCREEN)},
