@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_hotel.R
+import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.ui.widgets.CustomHotelCard
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.HotelSearchCard
@@ -169,24 +171,15 @@ fun HomeScreen(navController: NavController) {
                 }
 
                 // Recommended Hotels List
-                items(10) { index ->
+                items(DummyData.hotelList) { hotel ->
                     CustomHotelCard(
                         modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
-                        backgroundImage = painterResource(
-                            id = when (index % 5) {
-                                0 -> R.drawable.hotelimg4
-                                1 -> R.drawable.hotelimg2
-                                2 -> R.drawable.hotelimg5
-                                3 -> R.drawable.hotelimg6
-                                4 -> R.drawable.hotelimg1
-                                else -> R.drawable.hotelimg3
-                            }
-                        ),
-                        hotelType = "Resort Hotel",
-                        hotelLocation = "Smyrna",
-                        hotelRating = "4.5",
-                        hotelDistance = "1.5 km to center",
-                        hotelPrice = "$ 50",
+                        backgroundImage = painterResource(id = hotel.imageResId),
+                        hotelType = hotel.hotelType,
+                        hotelLocation = hotel.hotelLocation,
+                        hotelRating = hotel.hotelRating,
+                        hotelDistance = hotel.hotelDistance,
+                        hotelPrice = hotel.hotelPrice,
                         isSelected = remember { mutableStateOf(false) }
                     )
                 }
