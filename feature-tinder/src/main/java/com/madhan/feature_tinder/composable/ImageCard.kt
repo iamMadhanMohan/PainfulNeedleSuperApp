@@ -47,10 +47,10 @@ fun ImageCard(
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .padding(16.dp)
-            .background(color)
     ) {
         Column(
             modifier = Modifier
+                .background(color)
                 .padding(16.dp)
         ) {
             Image(

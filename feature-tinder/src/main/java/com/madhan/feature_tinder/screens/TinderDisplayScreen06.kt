@@ -87,9 +87,9 @@ fun TinderDisplayScreen06(
                 }
             )
             var color = Color.Transparent
-            if (profile.haveRejected) color = Color(0xFF7A1AFF)
-            if (profile.haveLiked) color = Color(0x63E2BCFF)
-            if (profile.haveSuperLiked) color = Color(0xFFC10EFF)
+            if (profile.haveRejected) color = Color(0xFFEE7308)
+            if (profile.haveLiked) color = Color(0xFF4BEAC5)
+            if (profile.haveSuperLiked) color = Color(0xFFFFCB0E)
             ImageCard(
                 image = profile.photo,
                 name = profile.firstName,
