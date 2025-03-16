@@ -122,14 +122,6 @@ fun PasswordRecoveryScreen() {
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFF00008B) // Dark blue background
-@Composable
-fun PasswordRecoveryScreenPreview() {
-    PasswordRecoveryScreen()
-}
-
-
-
 @Composable
 fun SignInButton(onClick: () -> Unit) {
     Button(
@@ -199,8 +191,5 @@ fun GoogleLoginButton(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun GitHubLoginButtonPreview() {
-    GitHubLoginButton(onClick = {
-        // Placeholder for onClick action in preview
-        println("GitHub login button clicked (preview)")
-    })
+    PasswordRecoveryScreen()
 }
