@@ -1,6 +1,5 @@
 package com.madhan.adamsuperapp.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +22,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = SecondaryColor,
     tertiary = TertiaryColor,
     surface = BackgroundWhite
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
