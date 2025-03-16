@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.madhan.feature_hotel.R
 import com.madhan.core.ui.components.PrimaryButton
+import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 
@@ -39,23 +40,12 @@ fun OnboardingScreen(paddingValues: PaddingValues, navController: NavController)
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        //The back button
-          IconButton(
-              onClick = {},
-              enabled = true,
-              colors = IconButtonColors(
-                  containerColor =  Color.Transparent,
-                  contentColor = customColors.orange,
-                  disabledContainerColor = Color.Transparent,
-                  disabledContentColor = Color.Gray
-              )
-          ) {
-             Icon(
-                 modifier = Modifier.size(24.dp),
-                 painter = painterResource(R.drawable.back_arrow),
-                 contentDescription = "back arrow"
-             )
-          }
+        //Back arrow
+        CustomIconButton(
+            onClick = { /* Handle back navigation */ },
+            icon = painterResource(R.drawable.back_arrow),
+            contentDescription = "Back Arrow"
+        )
         //Vector image
         Image(
             painter = painterResource(R.drawable.woman),

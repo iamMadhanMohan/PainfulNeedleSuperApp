@@ -6,6 +6,9 @@ object routes {
     const val HOTELSCREEN = " Hotel"
     const val HOMESCREEN = "Home"
     const val FILTERSCREEN = "Filter"
+    const val PLACESCREEN = "Place"
+    const val HOTELDETAILSCREEN = "Hotel_Details"
+    const val ORDERSCREEN = "Order"
 
 }
 
@@ -14,6 +17,7 @@ object customColors {
     val hotelTextColor = Color(0xFF171D33)
     val descriptionColor = Color(0xFFA6AAB4)
     val cardColor = Color(0xFFE8E9EC)
-    val dividerColor = Color(0xFFC4C4C4)
+    val buttonColorGreen = Color(0xFF10C971)
+    val dividerColor = Color(0xFFE8E9EC)
 
 }

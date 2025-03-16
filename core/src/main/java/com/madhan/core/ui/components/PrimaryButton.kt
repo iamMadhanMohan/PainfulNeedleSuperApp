@@ -1,6 +1,7 @@
 package com.madhan.core.ui.components
 
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,11 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PrimaryButton(
     text: String,
+    textColor: Color = Color.White,
+    buttonBorder: BorderStroke = BorderStroke(
+        1.dp,
+       Color.LightGray
+    ),
     onClick: () -> Unit,
     colors: ButtonColors = ButtonDefaults.buttonColors(Color(0xFFFF7A1A)), // Default to orange
     width: Dp = 257.dp,
@@ -35,6 +41,7 @@ fun PrimaryButton(
             enabled = true,
             colors = colors,
             shape = RoundedCornerShape(10.dp),
+            border = buttonBorder,
             modifier = Modifier
                 .width(width)
                 .height(height)
@@ -45,7 +52,8 @@ fun PrimaryButton(
                 style = TextStyle(
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = textColor
                 )
             )
         }

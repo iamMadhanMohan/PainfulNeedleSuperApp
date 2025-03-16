@@ -42,6 +42,7 @@ import com.madhan.feature_hotel.ui.widgets.HotelSearchCard
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
+import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -91,8 +92,7 @@ fun HomeScreen(navController: NavController) {
                         if (showSearchCard) {
                             HotelSearchCard(
                                 modifier = Modifier
-                                    .align(Alignment.BottomCenter) // Position below Home Icon
-                                    .offset(y = 50.dp) // Push it down slightly
+                                    .align(Alignment.Center) // Position below Home Icon
                             )
                         }
                     }
@@ -171,6 +171,7 @@ fun HomeScreen(navController: NavController) {
                 // Recommended Hotels List
                 items(10) { index ->
                     CustomHotelCard(
+                        modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
                         backgroundImage = painterResource(
                             id = when (index % 5) {
                                 0 -> R.drawable.hotelimg4
@@ -196,9 +197,7 @@ fun HomeScreen(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun HomeScreenPreview() {
+fun HomeScreenPreview(){
     val navController = rememberNavController()
-            HomeScreen(
-                navController = navController
-            )
+    HomeScreen(navController = navController)
 }
