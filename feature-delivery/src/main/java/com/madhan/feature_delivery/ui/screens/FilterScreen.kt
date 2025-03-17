@@ -13,12 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
 import com.madhan.feature_delivery.ui.components.CustomBackButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterScreen() {
+fun FilterScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -30,7 +32,8 @@ fun FilterScreen() {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CustomBackButton { /* Handle click*/ }
+            CustomBackButton { /* Handle click*/
+                navController.popBackStack()}
             Text(text = "Filters", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             TextButton(onClick = { /* Handle clear button click */ }) {
                 Text(text = "Clear", fontSize = 15.sp, color = Color(0xFFFF8000))
@@ -115,6 +118,7 @@ fun FilterScreen() {
 
             // Apply Button
             BottomOrangeButton("Apply") {
+                navController.navigate("delivery_men")
 
             }
         }
@@ -125,5 +129,5 @@ fun FilterScreen() {
 @Preview(showBackground = true)
 @Composable
 fun FilterScreenPreview() {
-    FilterScreen()
+    FilterScreen(rememberNavController())
 }

@@ -1,6 +1,7 @@
 package com.madhan.feature_delivery.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -26,16 +27,16 @@ import androidx.compose.material3.IconButton
 import com.madhan.feature_delivery.R
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-import androidx.compose.foundation.layout.fillMaxSize // If you don't already have it
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.maps.android.compose.MapProperties
 import com.madhan.feature_delivery.ui.components.HomeIcon
@@ -43,7 +44,7 @@ import com.madhan.feature_delivery.ui.components.MapContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MapSearchScreen() {
+fun MapSearchScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +60,7 @@ fun MapSearchScreen() {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
-                    //HomeIcon()
+                    HomeIcon(onClick = { navController.navigate("delivery_home") })
                     IconButton(onClick = { /*Implement the mapTypes*/ }) {
                         Icon(painterResource(id = R.drawable.menu), contentDescription = "Filter")
                     }
@@ -74,23 +75,19 @@ fun MapSearchScreen() {
                 )
 
                 Column(modifier = Modifier.weight(1f)) {
-                    // Google Map Implementation
-                    // Using markerPosition parameter
                     val markerPosition = remember { mutableStateOf<LatLng?>(null) }
 
-                   // Replace the Text Button with the Image Button
                     IconButton(onClick = { markerPosition.value = LatLng(37.4221, -122.0841) }) {
                         Image(
-                            painter = painterResource(id = R.drawable.floating_button), // Replace with your image resource
+                            painter = painterResource(id = R.drawable.floating_button),
                             contentDescription = "",
                             modifier = Modifier
-                                .size(48.dp) // Adjust size as needed
-                                .clip(RoundedCornerShape(8.dp)) // Optional: Add rounded corners
+                                .size(48.dp)
+                                .clip(RoundedCornerShape(8.dp))
                         )
                     }
                     MapContent(markerPosition = markerPosition.value)
 
-                    // Location Button
                     FloatingActionButton(
                         onClick = { /* Handle location click */ },
                         modifier = Modifier
@@ -100,21 +97,23 @@ fun MapSearchScreen() {
                     }
                 }
 
-                // Bottom Driver Cards
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    DriverCard("Jenny Jones", 4.8f, 4.5f, R.drawable.delivery_guy)
-                    DriverCard("Sacha Down", 4.8f, 4.5f, R.drawable.group_2_1)
+                    DriverCard("Jenny Jones", 4.8f, 4.5f, R.drawable.delivery_guy, navController) {
+                        navController.navigate("order_details")
+                    }
+                    DriverCard("Sacha Down", 4.8f, 4.5f, R.drawable.group_2_1, navController) {
+                        navController.navigate("order_details")
+                    }
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun UserMarker(name: String, rating: Float, distance: Float, imageRes: Int, modifier: Modifier = Modifier) {
@@ -134,12 +133,12 @@ fun UserMarker(name: String, rating: Float, distance: Float, imageRes: Int, modi
 }
 
 @Composable
-fun DriverCard(name: String, rating: Float, distance: Float, imageRes: Int) {
+fun DriverCard(name: String, rating: Float, distance: Float, imageRes: Int, navController: NavController, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(160.dp)
-            .padding(4.dp),
-        //elevation = 4.dp
+            .padding(4.dp)
+            .clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier.padding(8.dp),
@@ -158,7 +157,7 @@ fun DriverCard(name: String, rating: Float, distance: Float, imageRes: Int) {
                     painterResource(id = R.drawable.star),
                     contentDescription = "Rating",
                     tint = Color.Yellow,
-                    modifier = Modifier.size(16.dp) // Adjust the size as needed
+                    modifier = Modifier.size(16.dp)
                 )
                 Text(text = "$rating")
             }
@@ -169,16 +168,16 @@ fun DriverCard(name: String, rating: Float, distance: Float, imageRes: Int) {
 
 @Composable
 fun MapTypeSwitcher() {
-    var mapType by remember { mutableStateOf(com.google.maps.android.compose.MapType.NORMAL) } // Use the correct MapType
+    var mapType by remember { mutableStateOf(com.google.maps.android.compose.MapType.NORMAL) }
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(37.4221, -122.0841), 10f) // Example: Mountain View, CA
+        position = CameraPosition.fromLatLngZoom(LatLng(37.4221, -122.0841), 10f)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
         GoogleMap(
-            modifier = Modifier.weight(1f), // Take up most of the space
+            modifier = Modifier.weight(1f),
             cameraPositionState = cameraPositionState,
-            properties = MapProperties(mapType = mapType) // Use the correct MapType
+            properties = MapProperties(mapType = mapType)
         )
 
         Row(modifier = Modifier.padding(8.dp)) {
@@ -198,11 +197,8 @@ fun MapTypeSwitcher() {
     }
 }
 
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun AfricarScreenPreview() {
-    MapSearchScreen()
+    MapSearchScreen(rememberNavController())
 }

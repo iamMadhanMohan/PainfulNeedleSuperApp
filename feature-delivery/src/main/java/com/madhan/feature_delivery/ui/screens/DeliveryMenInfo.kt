@@ -2,6 +2,7 @@ package com.madhan.feature_delivery.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,10 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madhan.feature_delivery.R
 import androidx.compose.ui.graphics.Brush
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_delivery.ui.components.HomeIcon
 
 @Composable
-fun DeliveryMenInfo() {
+fun DeliveryMenInfo(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +53,7 @@ fun DeliveryMenInfo() {
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-               // HomeIcon()
+                HomeIcon(onClick = { navController.navigate("delivery_home") })
             }
 
             // Main Content
@@ -168,7 +171,8 @@ fun DeliveryMenInfo() {
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(text = "Favorites")
                                 }
-                                Button(onClick = { /* Handle Orders */ },
+                                Button(onClick = { /* Handle Orders */
+                                    navController.navigate("")},
                                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8000)),
                                     modifier = Modifier.width(136.dp)) {
 
@@ -199,9 +203,10 @@ fun DeliveryMenInfo() {
                                 fontSize = 18.sp
                             )
                             Spacer(modifier = Modifier.width(190.dp))
-                            IconButton(onClick = { /* Handle filters */ }) {
+                            IconButton(onClick = {
+                                navController.navigate("filter") }) {
                                 Icon(
-                                    imageVector = Icons.Default.Info,
+                                    painter = painterResource(id = R.drawable.filter),
                                     contentDescription = "Filters",
                                 )
                             }
@@ -209,11 +214,12 @@ fun DeliveryMenInfo() {
                             Spacer(modifier = Modifier.height(8.dp))
                         }
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
-                        ) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
+                            .clickable { navController.navigate("map_search") } //Make the card clickable
+                    ) {
                             Column(
                                 modifier = Modifier
                                     .padding(16.dp)
@@ -227,7 +233,7 @@ fun DeliveryMenInfo() {
                                     modifier = Modifier
                                         .size(100.dp)
                                         .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
+                                    contentScale = ContentScale.Crop,
                                 )
 
                                 Spacer(modifier = Modifier.width(16.dp))
@@ -268,5 +274,5 @@ fun DeliveryMenInfo() {
 @Preview(showBackground = true)
 @Composable
 fun DeliveryMenPreview() {
-    DeliveryMenInfo()
+    DeliveryMenInfo(rememberNavController())
 }

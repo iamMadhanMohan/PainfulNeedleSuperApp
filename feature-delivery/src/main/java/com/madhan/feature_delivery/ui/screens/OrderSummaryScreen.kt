@@ -20,11 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_delivery.R
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
 
 @Composable
-fun OrderDetailsScreen() {
+fun OrderSummaryScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -42,7 +44,8 @@ fun OrderDetailsScreen() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /* Handle back click */ }) {
+                IconButton(onClick = {
+                    navController.popBackStack()/* Handle back click */ }) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
                 }
                 Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
@@ -206,6 +209,6 @@ fun OrderDetailsScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun OrderDetailsPreview() {
-    OrderDetailsScreen()
+fun OrderSummaryPreview() {
+    OrderSummaryScreen(rememberNavController())
 }

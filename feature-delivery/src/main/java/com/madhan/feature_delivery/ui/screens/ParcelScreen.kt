@@ -60,7 +60,7 @@ fun ParcelScreen(navController: NavController) {
                     .padding(0.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HomeIcon(onClick = { navController.navigate("home") })
+                HomeIcon(onClick = { navController.navigate("delivery_home") })
                 //Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Your parcel",
@@ -88,7 +88,7 @@ fun ParcelScreen(navController: NavController) {
 
             // Next Button
             BottomOrangeButton(text = "Next") {
-                navController.navigate("deliveryAddress")
+                navController.navigate("delivery_address")
 
             }
         }
@@ -200,6 +200,5 @@ fun ParcelSlider(label: String, range: ClosedFloatingPointRange<Float>, initial:
     @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val navController = rememberNavController()
-    ParcelScreen(navController = navController)
+    ParcelScreen(rememberNavController())
 }

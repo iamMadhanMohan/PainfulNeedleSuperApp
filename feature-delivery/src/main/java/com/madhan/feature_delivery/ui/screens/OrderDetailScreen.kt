@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
 import com.madhan.feature_delivery.ui.components.CustomBackButton
@@ -23,7 +25,7 @@ import com.madhan.feature_delivery.ui.components.MapContent
 import com.madhan.feature_delivery.R
 
 @Composable
-fun OrderDetailsScreen() {
+fun OrderDetailsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,7 +44,7 @@ fun OrderDetailsScreen() {
             MapContent(markerPosition = markerPosition.value)
 
             CustomBackButton {
-                //navController?.popBackStack() // Navigate back when clicked
+                navController.popBackStack() // Navigate back when clicked
             }
         }
 
@@ -100,6 +102,7 @@ fun OrderDetailsScreen() {
             // Button Section (Bottom)
             BottomOrangeButton("Confirm") {
                 // Handle confirm click
+                navController.navigate("order_summary")
             }
         }
     }
@@ -108,5 +111,5 @@ fun OrderDetailsScreen() {
 @Preview(showBackground = true)
 @Composable
 fun OrderDetailsPreview() {
-    OrderDetailsScreen()
+    OrderDetailsScreen(rememberNavController())
 }

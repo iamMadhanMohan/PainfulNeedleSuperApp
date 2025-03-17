@@ -54,7 +54,7 @@ fun DeliveryHomeScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CustomBackButton {  // Navigate back
-                    navController.popBackStack()
+                    navController.navigate("root")
                 }
                 Spacer(modifier = Modifier.weight(1f)) // Push other content to the right
             }
@@ -107,6 +107,5 @@ fun DeliveryHomeScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewDeliveryScreen() {
-    val navController = rememberNavController()
-    DeliveryHomeScreen(navController = navController)
+    DeliveryHomeScreen(rememberNavController())
 }

@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.madhan.feature_delivery.navigation.AppNavigation
 import com.madhan.feature_delivery.ui.theme.AdamSuperAppTheme
 
 class DeliveryActivity : ComponentActivity(), OnMapReadyCallback {

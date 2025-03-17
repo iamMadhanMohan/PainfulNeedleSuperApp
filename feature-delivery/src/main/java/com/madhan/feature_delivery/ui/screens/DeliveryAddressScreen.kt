@@ -61,7 +61,7 @@ fun DeliveryAddressScreen(navController: NavController) {
                 title = { Text("Enter delivery address") },
                 navigationIcon = {
                     CustomBackButton {
-                        // navController?.popBackStack() // Navigate back when clicked
+                        navController.popBackStack() // Navigate back when clicked
                     }
                 },
                 actions = {
@@ -148,6 +148,8 @@ fun DeliveryAddressScreen(navController: NavController) {
                         .padding(16.dp)
                 ) {
                     BottomOrangeButton("Confirm") {
+
+                        navController.navigate("delivery_men")
                         // Handle confirm click
                     }
                 }
@@ -175,6 +177,5 @@ private fun getAddressFromLatLng(context: Context, latLng: LatLng): String? {
 @Preview(showBackground = true)
 @Composable
 fun DeliveryAddressScreenPreview() {
-    val navController = rememberNavController()
-    DeliveryAddressScreen(navController = navController)
+    DeliveryAddressScreen(rememberNavController())
 }
