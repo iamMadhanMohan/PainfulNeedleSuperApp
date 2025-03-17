@@ -15,11 +15,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_pet.composable.PetButton
 import com.madhan.feature_pet.R
 
 @Composable
-fun StartScreen() {
+fun StartScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,7 +68,7 @@ fun StartScreen() {
         )
         Spacer(modifier = Modifier.height(180.dp))
         PetButton(text = "Let's go") {
-            // TODO: Navigate to next screen
+            navController.navigate("your_dog_details") // Navigate to YourDogDetails
         }
     }
 }
@@ -74,5 +76,6 @@ fun StartScreen() {
 @Preview
 @Composable
 fun StartScreenPreview() {
-    StartScreen()
+    val navController = rememberNavController() // Fix: Create navController
+    StartScreen(navController = navController)
 }

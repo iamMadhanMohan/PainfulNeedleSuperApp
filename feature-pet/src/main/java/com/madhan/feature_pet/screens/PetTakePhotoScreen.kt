@@ -20,21 +20,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import coil3.compose.rememberAsyncImagePainter
 import com.madhan.feature_pet.R
 import java.io.File
 
 @Composable
-fun PetTakePhotoScreen() {
+fun PetTakePhotoScreen(navController: NavHostController) {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
+    var showMessage by remember { mutableStateOf(false) }
+
 
     // Camera launcher
     var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
 
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
-            imageUri = capturedImageUri // Save the captured image URI
+            imageUri = capturedImageUri
+            navController.navigate("dog_list")
         }
     }
 
@@ -57,7 +62,7 @@ fun PetTakePhotoScreen() {
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* TODO: Navigate Back */ }) {
+            IconButton(onClick = {navController.navigateUp() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
@@ -128,9 +133,7 @@ fun PetTakePhotoScreen() {
             },
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8C00)),
-            modifier = Modifier
-                .fillMaxWidth(0.8f)
-                .height(56.dp)
+            modifier = Modifier.fillMaxWidth(0.8f).height(56.dp)
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_camera),
@@ -153,5 +156,6 @@ fun createImageFile(context: Context): Uri {
 @Preview
 @Composable
 fun PetTakePhotoScreenPreview() {
-    PetTakePhotoScreen()
+    val navController = rememberNavController()
+    PetTakePhotoScreen(navController)
 }

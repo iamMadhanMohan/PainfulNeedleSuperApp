@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.madhan.adamsuperapp.ui.screens.HomeScreen
 import com.madhan.feature_bank.navigation.bankNavGraph
+import com.madhan.feature_pet.navigation.petNavGraph
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -18,7 +19,7 @@ fun AppNavigation(navController: NavHostController) {
         composable(Screen.Hotel.route) { ServiceAScreen(navController) } // Hotel Home Screen
         composable(Screen.Uber.route) { ServiceBScreen(navController) } // Uber Home Screen
         composable(Screen.Delivery.route) { ServiceBScreen(navController) } // Delivery Home Screen
-        composable(Screen.Pet.route) { ServiceBScreen(navController) } // Pet Home Screen
+        petNavGraph(navController) // Pet Home Screen
         composable(Screen.Tinder.route) { ServiceBScreen(navController) } // Tinder Home Screen
         bankNavGraph(navController) // IBank NavGraph
     }

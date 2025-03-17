@@ -34,6 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_pet.R
 import com.madhan.feature_pet.composable.FilterSlider
 import com.madhan.feature_pet.composable.PetButton
@@ -41,7 +43,7 @@ import com.madhan.feature_pet.composable.PetTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterScreen() {
+fun FilterScreen(navController: NavHostController) {
     var expandedSort by remember { mutableStateOf(false) }
     var selectedSort by remember { mutableStateOf("Recommend") }
     var pricePerHour by remember { mutableFloatStateOf(30f) }
@@ -60,7 +62,7 @@ fun FilterScreen() {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* Navigate Back */ }) {
+            IconButton(onClick = { navController.navigate("dog_list") }) { // Navigate to DogListScreen
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFFFF8C00))
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -73,17 +75,17 @@ fun FilterScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Sort Dropdown using PetTextField
+        // Sort Dropdown
         Spacer(modifier = Modifier.height(8.dp))
 
         ExposedDropdownMenuBox(
             expanded = expandedSort,
-            onExpandedChange = { expandedSort = !expandedSort } // Fix: Toggle dropdown state
+            onExpandedChange = { expandedSort = !expandedSort }
         ) {
-            PetTextField(   // Using PetTextField instead of OutlinedTextField
+            PetTextField(
                 label = "Sort by",
                 value = selectedSort,
-                onValueChange = {} // Read-only dropdown
+                onValueChange = {}
             )
 
             ExposedDropdownMenu(expanded = expandedSort, onDismissRequest = { expandedSort = false }) {
@@ -99,31 +101,10 @@ fun FilterScreen() {
             }
         }
 
-
-
         Spacer(modifier = Modifier.height(24.dp))
 
         // Price/hour Slider
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Price/hour",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Divider(
-                color = Color.Gray,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-            )
-        }
+        FilterSectionTitle(title = "Price/hour")
         FilterSlider(
             value = pricePerHour,
             onValueChange = { pricePerHour = it },
@@ -136,26 +117,7 @@ fun FilterScreen() {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Price/Day Slider
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Price/Day",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Divider(
-                color = Color.Gray,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-            )
-        }
+        FilterSectionTitle(title = "Price/Day")
         FilterSlider(
             value = pricePerDay,
             onValueChange = { pricePerDay = it },
@@ -168,26 +130,7 @@ fun FilterScreen() {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Rating Section
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Rate",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Divider(
-                color = Color.Gray,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-            )
-        }
+        FilterSectionTitle(title = "Rate")
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             repeat(5) { index ->
                 Icon(
@@ -203,13 +146,39 @@ fun FilterScreen() {
 
         // Apply Button
         PetButton(text = "Apply") {
-
+            navController.navigate("pet_care_list") // Navigate to PetCarePersonListScreen
         }
+    }
+}
+
+@Composable
+fun FilterSectionTitle(title: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = title,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Gray,
+            modifier = Modifier.padding(end = 8.dp)
+        )
+        Divider(
+            color = Color.Gray,
+            modifier = Modifier
+                .weight(1f)
+                .height(1.dp)
+        )
     }
 }
 
 @Preview
 @Composable
 fun FilterScreenPreview() {
-    FilterScreen()
+    val navController = rememberNavController()
+    FilterScreen(navController)
 }
+

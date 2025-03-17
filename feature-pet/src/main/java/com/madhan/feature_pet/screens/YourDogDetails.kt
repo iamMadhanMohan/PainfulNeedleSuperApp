@@ -10,12 +10,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_pet.composable.PetButton
 import com.madhan.feature_pet.composable.PetTextField
 import com.madhan.feature_pet.composable.FilterSlider
@@ -23,7 +27,7 @@ import com.madhan.feature_pet.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun YourDogDetails() {
+fun YourDogDetails(navController: NavHostController) {
     var name by remember { mutableStateOf("Kobe") }
     var selectedAge by remember { mutableStateOf("10") }
     var selectedRace by remember { mutableStateOf("Pug") }
@@ -43,7 +47,7 @@ fun YourDogDetails() {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {  }) {
+            IconButton(onClick = { navController.navigate("start") }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_home),
                     contentDescription = "Home Icon",
@@ -156,6 +160,7 @@ fun YourDogDetails() {
 
         Spacer(modifier = Modifier.height(8.dp))
         var expanded by remember { mutableStateOf(false) }
+        val focusRequester = remember { FocusRequester() }
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -174,7 +179,9 @@ fun YourDogDetails() {
                         )
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester)
             )
 
             ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
@@ -224,7 +231,7 @@ fun YourDogDetails() {
         )
         Spacer(modifier = Modifier.height(150.dp))
         PetButton(text = "Next") {
-
+            navController.navigate("photo") // Navigate to PetTakePhotoScreen
         }
     }
 }
@@ -232,5 +239,7 @@ fun YourDogDetails() {
 @Preview
 @Composable
 fun YourDogDetailsPreview() {
-    YourDogDetails()
+    val navController = rememberNavController() //Fix: Create navController
+    YourDogDetails(navController = navController)
 }
+

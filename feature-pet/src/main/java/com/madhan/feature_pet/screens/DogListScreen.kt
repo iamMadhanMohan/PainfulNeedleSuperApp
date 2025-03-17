@@ -15,12 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_pet.R
 import com.madhan.feature_pet.composable.PetButton
 
 @Composable
-fun DogListScreen() {
-    var dogList by remember { mutableStateOf(listOf("Kobe")) } // Example dog list
+fun DogListScreen(navController: NavHostController) {
+    var dogList by remember { mutableStateOf(listOf("Kobe","Buddy")) } // Example dog list
 
     Column(
         modifier = Modifier
@@ -34,7 +36,7 @@ fun DogListScreen() {
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* Navigate Home */ }) {
+            IconButton(onClick = { navController.navigate("start")}) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_home),
                     contentDescription = "Home",
@@ -57,7 +59,7 @@ fun DogListScreen() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { /* Navigate to FilterScreen */ }
+                .clickable { navController.navigate("your_dog_details") }
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -96,14 +98,14 @@ fun DogListScreen() {
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                IconButton(onClick = { /* Edit Dog */ }) {
+                IconButton(onClick = { navController.navigate("your_dog_details") }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_edit),
                         contentDescription = "Edit",
                         tint = Color.Gray
                     )
                 }
-                IconButton(onClick = { /* Delete Dog */ }) {
+                IconButton(onClick = { dogList = dogList.filterNot { it == dogName } }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_delete),
                         contentDescription = "Delete",
@@ -117,12 +119,15 @@ fun DogListScreen() {
         Spacer(modifier = Modifier.weight(1f))
 
         // Next Button
-        PetButton(text = "Next"){}
+        PetButton(text = "Next"){
+            navController.navigate("filter")
+        }
     }
 }
 
 @Preview
 @Composable
 fun DogListScreenPreview() {
-    DogListScreen()
+    val navController = rememberNavController()
+    DogListScreen(navController)
 }
