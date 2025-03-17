@@ -45,6 +45,7 @@ import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
 import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
+import com.madhan.feature_hotel.utils.routes.PLACESCREEN
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -78,28 +79,28 @@ fun HomeScreen(navController: NavController) {
                             onClick = { showSearchCard = !showSearchCard },
                             modifier = Modifier
                                 .align(Alignment.TopStart),
-                            colors = IconButtonDefaults.filledIconButtonColors(
-                                containerColor = if (!showSearchCard) customColors.orange else Color.White,
-
+                           colors = IconButtonDefaults.filledIconButtonColors(
+                               // containerColor = if (!showSearchCard) customColors.orange else Color.White,
+                                contentColor = Color.Red
                                 )
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                painter = painterResource(id = R.drawable.home), // Home icon
+                                painter = painterResource(id = R.drawable.homeicon), // Home icon
                                 contentDescription = "Home Icon",
-                                tint = if (!showSearchCard) Color.White else customColors.orange
+                                tint = Color.White
+                               // tint = if (!showSearchCard) Color.White else customColors.orange
                             )
                         }
                         // Show Hotel Search Card only when showSearchCard is true
                         if (showSearchCard) {
                             HotelSearchCard(
-                                modifier = Modifier
-                                    .align(Alignment.Center) // Position below Home Icon
+                                modifier = Modifier.align(Alignment.Center),
+                                onClick = { navController.navigate(PLACESCREEN) } //Opens map
                             )
                         }
                     }
                 }
-
                 // Favorites and Orders Row
                 item {
                     Row(

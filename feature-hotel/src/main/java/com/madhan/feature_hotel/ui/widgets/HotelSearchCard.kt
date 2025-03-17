@@ -32,7 +32,7 @@ import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.utils.customColors
 
 @Composable
-fun HotelSearchCard(modifier: Modifier) {
+fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -57,7 +57,7 @@ fun HotelSearchCard(modifier: Modifier) {
                 )
                 //Icon Text
                 IconTextRow(
-                    modifier=modifier.clickable { /* Handle places selection */  },
+                    modifier=modifier.clickable { onClick() },
                     icon = painterResource(id = R.drawable.map),
                     text = "Places",
                     textSize = 20.sp,
@@ -123,5 +123,5 @@ fun HotelSearchCard(modifier: Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun HotelSearchCardPreview() {
-        HotelSearchCard(modifier = Modifier)
+        HotelSearchCard(modifier = Modifier, onClick = {})
 }
