@@ -1,196 +1,109 @@
 package com.madhan.feature_pet.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.madhan.feature_pet.R
+import com.madhan.feature_pet.composable.FilterSlider
 import com.madhan.feature_pet.composable.PetButton
 import com.madhan.feature_pet.composable.PetTextField
-import com.madhan.feature_pet.composable.FilterSlider
-import com.madhan.feature_pet.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterScreen() {
-    var name by remember { mutableStateOf("Kobe") }
-    var selectedAge by remember { mutableStateOf("10") }
-    var selectedRace by remember { mutableStateOf("Pug") }
-    var isMale by remember { mutableStateOf(true) }
-    val raceOptions = listOf("Pug", "Mix", "Shepperd", "Golden Retriever", "Husky")
-    val ageOptions = (1..20).map { it.toString() }
+    var expandedSort by remember { mutableStateOf(false) }
+    var selectedSort by remember { mutableStateOf("Recommend") }
+    var pricePerHour by remember { mutableFloatStateOf(30f) }
+    var pricePerDay by remember { mutableFloatStateOf(300f) }
+    var rating by remember { mutableFloatStateOf(4.5f) }
+    val sortOptions = listOf("Recommend", "Newest", "Oldest", "Popular")
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        // Top Bar
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {  }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_home),
-                    contentDescription = "Home Icon",
-                    tint = Color(0xFFFF8C00),
-                    modifier = Modifier.size(28.dp)
-                )
+            IconButton(onClick = { /* Navigate Back */ }) {
+                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFFFF8C00))
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Your dog",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(text = "Filters", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+            Spacer(modifier = Modifier.weight(1f))
+            TextButton(onClick = { /* Clear Filters */ }) {
+                Text(text = "Clear", fontSize = 16.sp, color = Color(0xFFFF8C00))
             }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        PetTextField(label = "Name", value = name, onValueChange = { name = it })
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Race",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Divider(
-                color = Color.Gray,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-            )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            raceOptions.forEach { race ->
-                Button(
-                    onClick = { selectedRace = race },
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.shadow(4.dp, RoundedCornerShape(20.dp)),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (selectedRace == race) Color(0xFFFF8C00) else Color.LightGray
-                    )
-                ) {
-                    Text(text = race, color = if (selectedRace == race) Color.White else Color.Black)
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Sex",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Gray,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            Divider(
-                color = Color.Gray,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(1.dp)
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = isMale,
-                    onCheckedChange = { isMale = true },
-                    colors = CheckboxDefaults.colors(checkmarkColor = Color.White, checkedColor = Color(0xFFFF8C00))
-                )
-                Text(text = "Male", fontSize = 16.sp, color = Color.Black)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = !isMale,
-                    onCheckedChange = { isMale = false },
-                    colors = CheckboxDefaults.colors(checkmarkColor = Color.White, checkedColor = Color(0xFFFF8C00))
-                )
-                Text(text = "Female", fontSize = 16.sp, color = Color.Black)
-            }
-        }
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Sort Dropdown using PetTextField
         Spacer(modifier = Modifier.height(8.dp))
-        var expanded by remember { mutableStateOf(false) }
 
         ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded }
+            expanded = expandedSort,
+            onExpandedChange = { expandedSort = !expandedSort } // Fix: Toggle dropdown state
         ) {
-            OutlinedTextField(
-                value = selectedAge,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Age") },
-                trailingIcon = {
-                    IconButton(onClick = { expanded = !expanded }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.dropdown_pet),
-                            contentDescription = "Dropdown Icon"
-                        )
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
+            PetTextField(   // Using PetTextField instead of OutlinedTextField
+                label = "Sort by",
+                value = selectedSort,
+                onValueChange = {} // Read-only dropdown
             )
 
-            ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                ageOptions.forEach { age ->
+            ExposedDropdownMenu(expanded = expandedSort, onDismissRequest = { expandedSort = false }) {
+                sortOptions.forEach { sort ->
                     DropdownMenuItem(
-                        text = { Text(age) },
+                        text = { Text(sort) },
                         onClick = {
-                            selectedAge = age
-                            expanded = false
+                            selectedSort = sort
+                            expandedSort = false
                         }
                     )
                 }
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Price/hour Slider
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -198,7 +111,7 @@ fun FilterScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Size",
+                text = "Price/hour",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
@@ -211,19 +124,85 @@ fun FilterScreen() {
                     .height(1.dp)
             )
         }
-
-        var petSize by remember { mutableStateOf(50f) }
         FilterSlider(
-            value = petSize,
-            onValueChange = { petSize = it },
-            minValue = 1f,
-            maxValue = 100f,
-            startLabel = "Small",
-            middleLabel = "Medium",
-            endLabel = "Big"
+            value = pricePerHour,
+            onValueChange = { pricePerHour = it },
+            minValue = 0f,
+            maxValue = 60f,
+            startLabel = "0",
+            endLabel = "60"
         )
-        Spacer(modifier = Modifier.height(150.dp))
-        PetButton(text = "Next") {
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Price/Day Slider
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Price/Day",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Divider(
+                color = Color.Gray,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+            )
+        }
+        FilterSlider(
+            value = pricePerDay,
+            onValueChange = { pricePerDay = it },
+            minValue = 0f,
+            maxValue = 600f,
+            startLabel = "0",
+            endLabel = "600"
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Rating Section
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Rate",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Gray,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Divider(
+                color = Color.Gray,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(1.dp)
+            )
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            repeat(5) { index ->
+                Icon(
+                    painter = painterResource(id = if (index < rating.toInt()) R.drawable.ic_star_filled else R.drawable.ic_star_unfilled),
+                    contentDescription = "Rating Star",
+                    tint = Color(0xFFFF8C00),
+                    modifier = Modifier.size(48.dp)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Apply Button
+        PetButton(text = "Apply") {
 
         }
     }
