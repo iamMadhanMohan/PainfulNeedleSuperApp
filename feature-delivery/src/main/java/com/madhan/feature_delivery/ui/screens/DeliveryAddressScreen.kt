@@ -132,7 +132,7 @@ fun DeliveryAddressScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 316.dp), // Adjust top padding based on top bar, text field, and LazyColumn height
+                .padding(top = 316.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
             MapContent(markerPosition = markerPosition.value)

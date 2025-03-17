@@ -63,7 +63,7 @@ fun DeliveryHomeScreen(navController: NavController) {
 
             // Image
             Image(
-                painter = painterResource(id = R.drawable.home), // Replace with your image
+                painter = painterResource(id = R.drawable.home),
                 contentDescription = "Delivery Illustration",
                 modifier = Modifier
                     .fillMaxWidth(0.9f)

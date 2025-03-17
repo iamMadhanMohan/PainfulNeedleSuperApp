@@ -30,7 +30,6 @@ fun OrderSummaryScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Top Orange Section (40% of Screen)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -107,7 +106,7 @@ fun OrderSummaryScreen(navController: NavController) {
             }
         }
 
-        // Delivery Details (White Background - 60% of Screen)
+        // Delivery Details
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -193,7 +192,7 @@ fun OrderSummaryScreen(navController: NavController) {
                 Text(text = "$ 85.00", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
 
-            Spacer(modifier = Modifier.height(160.dp)) // Push button to bottom
+            Spacer(modifier = Modifier.height(160.dp))
 
             Row(horizontalArrangement = Arrangement.Center,
                 modifier = Modifier

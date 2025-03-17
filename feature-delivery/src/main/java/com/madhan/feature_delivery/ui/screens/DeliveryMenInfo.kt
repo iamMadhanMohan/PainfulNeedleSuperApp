@@ -218,12 +218,12 @@ fun DeliveryMenInfo(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
-                            .clickable { navController.navigate("map_search") } //Make the card clickable
+                            .clickable { navController.navigate("map_search") } // card clickable
                     ) {
                             Column(
                                 modifier = Modifier
                                     .padding(16.dp)
-                                    .verticalScroll(rememberScrollState()) // Make content scrollable
+                                    .verticalScroll(rememberScrollState()) // Makes the  content scrollable
                             ) {
 
                                 // delivery men image

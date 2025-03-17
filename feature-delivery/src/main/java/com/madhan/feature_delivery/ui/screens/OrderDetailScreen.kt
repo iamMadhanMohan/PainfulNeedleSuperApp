@@ -48,7 +48,7 @@ fun OrderDetailsScreen(navController: NavController) {
             }
         }
 
-        // Profile Picture, Name, Details, and Button (Remaining Space)
+
         Column(
             modifier = Modifier
                 .fillMaxSize() // Fill the remaining space
@@ -70,7 +70,7 @@ fun OrderDetailsScreen(navController: NavController) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
-            // Details Section (Middle)
+            // Details Section
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -99,7 +99,7 @@ fun OrderDetailsScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(180.dp)) // Push button to bottom
 
-            // Button Section (Bottom)
+            // Button Section
             BottomOrangeButton("Confirm") {
                 // Handle confirm click
                 navController.navigate("order_summary")
