@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -21,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.SigninWithGithub
+import com.madhan.adamsuperapp.auth.findActivity
 
 
 val orange = Color(0xFFFF7D1E)
@@ -35,6 +38,7 @@ fun SignInScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val activity = LocalContext.current.findActivity()
 
     Scaffold(
         topBar = {
@@ -134,7 +138,11 @@ fun SignInScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Social Login Buttons with consistent styling
-                    GitHubLoginButton()
+                    GitHubLoginButton(
+                        onClick = {
+                            SigninWithGithub.signIn(activity!!)
+                        }
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
