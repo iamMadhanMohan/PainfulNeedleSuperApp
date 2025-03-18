@@ -31,13 +31,13 @@ import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 fun OnboardingScreen(navController: NavController) {
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         //Back arrow
         CustomIconButton(
-            onClick = { /* Handle back navigation */ },
+            onClick = { navController.navigate("root") },
             icon = painterResource(R.drawable.back_arrow),
             contentDescription = "Back Arrow"
         )

@@ -67,7 +67,6 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     //viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
