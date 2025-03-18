@@ -286,7 +286,7 @@ fun CreditCardItem(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Q",
+                    text = "US",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp

@@ -96,21 +96,21 @@ fun RideRatingScreen(
 //            }
         }
 
-        // Car marker on the map
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .align(Alignment.Center)
-                .offset(y = (-40).dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_directions),
-                contentDescription = "Car",
-                tint = Color.Black,
-                modifier = Modifier.size(32.dp)
-            )
-        }
+//        // Car marker on the map
+//        Box(
+//            modifier = Modifier
+//                .size(40.dp)
+//                .align(Alignment.Center)
+//                .offset(y = (-40).dp),
+//            contentAlignment = Alignment.Center
+//        ) {
+//            Icon(
+//                painter = painterResource(id = android.R.drawable.ic_menu_directions),
+//                contentDescription = "Car",
+//                tint = Color.Black,
+//                modifier = Modifier.size(32.dp)
+//            )
+//        }
 
         // Rating card
         Card(
@@ -162,31 +162,15 @@ fun RideRatingScreen(
 
                     // Rating message
                     Text(
-                        text = "You rate Gabriel 4 stars",
+                        text = "rate your driver",
                         fontSize = 16.sp,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
                     // Star rating
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.padding(bottom = 24.dp)
-                    ) {
-                        repeat(4) {
-                            Icon(
-                                painter = painterResource(id = android.R.drawable.btn_star_big_on),
-                                contentDescription = "Star",
-                                tint = Color(0xFFFF9800),
-                                modifier = Modifier.size(32.dp)
-                            )
-                        }
-                        Icon(
-                            painter = painterResource(id = android.R.drawable.btn_star_big_off),
-                            contentDescription = "Empty Star",
-                            tint = Color.LightGray,
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
+                    ClickableRating()
+
+                    var text by remember { mutableStateOf("") } // State to hold text input
 
                     // Comment field
                     TextField(
@@ -300,6 +284,30 @@ fun TipButton(
             color = textColor,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+@Composable
+fun ClickableRating() {
+    var selectedRating by remember { mutableStateOf(0) } // Store selected rating
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(bottom = 24.dp)
+    ) {
+        for (i in 1..5) {
+            Icon(
+                painter = painterResource(
+                    id = if (i <= selectedRating) android.R.drawable.btn_star_big_on
+                    else android.R.drawable.btn_star_big_off
+                ),
+                contentDescription = "Star",
+                tint = if (i <= selectedRating) Color(0xFFFF9800) else Color.LightGray,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable { selectedRating = i } // Set rating when clicked
+            )
+        }
     }
 }
 

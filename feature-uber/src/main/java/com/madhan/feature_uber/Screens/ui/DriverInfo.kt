@@ -75,14 +75,14 @@ fun RideOptionsScreen(
 
     val drivers = remember {
         listOf(
-            Driver("Gabriel F.", 4.8, "Peugeot 308", "Red", 3, "$8-10"),
-            Driver("Leon G.", 4.2, "Peugeot 407", "Red", 4, "$9-11"),
-            Driver("John S.", 4.6, "Honda Jazz", "Red", 5, "$9-11"),
-            Driver("Marta D.", 4.8, "Ford Fiesta", "Red", 3, "$12-14"),
-            Driver("Gabriel F.", 3.2, "Hyundai i30", "Red", 9, "$16-18"),
-            Driver("Sophie M.", 4.9, "Toyota Corolla", "Blue", 2, "$7-9"),
-            Driver("Marcus L.", 4.0, "Renault Clio", "Black", 7, "$10-12"),
-            Driver("Anna K.", 4.7, "Volkswagen Golf", "Silver", 4, "$11-13")
+            Driver("Sina F.", 4.8, "Batmobile", "Red", 3, "$8-10"),
+            Driver("Michael F.", 4.2, "ferrari LA", "Red", 4, "$9-11"),
+            Driver("Adam M.", 4.6, "Airbus A380", "Red", 5, "$9-11"),
+            Driver("Simon A.", 4.8, "Ford Mustang", "Red", 3, "$12-14"),
+            Driver("Riya D.", 3.2, "Hyundai accent", "Red", 9, "$16-18"),
+            Driver("Madhan G.", 4.9, "Toyota Corolla", "Blue", 2, "$7-9"),
+            Driver("Usman A.", 4.0, "Cadillac Escalade", "Black", 7, "$10-12"),
+            Driver("Gus D.", 4.7, "BMW M3", "Silver", 4, "$11-13")
         )
     }
 
