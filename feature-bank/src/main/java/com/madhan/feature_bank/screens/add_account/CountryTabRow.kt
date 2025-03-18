@@ -2,6 +2,7 @@ package com.madhan.feature_bank.screens.add_account
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -23,9 +24,9 @@ fun CountryTabRow(navController: NavController) {
             containerColor = Color.Transparent,
             contentColor = Color.DarkGray,
             indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
+                SecondaryIndicator(
                     modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                    color = PrimaryColor,
+                    color = PrimaryColor
                 )
             },
             modifier = Modifier.fillMaxWidth()
