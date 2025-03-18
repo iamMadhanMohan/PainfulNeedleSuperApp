@@ -4,6 +4,10 @@ package com.madhan.feature_uber.Screens.Navigation
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavGraphBuilder
 import com.madhan.feature_uber.Screens.ui.RideInfo
@@ -43,16 +47,20 @@ sealed class Screen(val route: String) {
 }
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-fun SetupNavGraph(navController: NavHostController , onBackToHome: () -> Unit) {
+fun SetupNavGraph(navController: NavHostController, onBackToHome: () -> Unit) {
+    // Create remember variables to hold the location data
+    var pickupLocation by remember { mutableStateOf<LocationInfo?>(null) }
+    var destinationLocation by remember { mutableStateOf<LocationInfo?>(null) }
+
     NavHost(
         navController = navController,
         startDestination = Screen.Transport.route,
-        route = "uber_graph" // Add a route name for this nested graph
+        route = "uber_graph"
     ) {
         composable(Screen.Transport.route) {
             TransportScreen(
                 onLoginClick = { navController.navigate(Screen.Permission.route) },
-                onBackHomeClick = { onBackToHome() } // Call the callback to navigate back to home}
+                onBackHomeClick = { onBackToHome() }
             )
         }
         composable(Screen.Permission.route) {
@@ -61,36 +69,43 @@ fun SetupNavGraph(navController: NavHostController , onBackToHome: () -> Unit) {
                 onLetsGoClick = { navController.navigate(Screen.SetDestination.route) }
             )
         }
-        composable(Screen.SetPickup.route) {
-            PickUpScreen(
-                onBackClick = { navController.popBackStack() },
-                onProceed = { navController.navigate(Screen.RideOptions.route) },
-                onCalendar = { navController.navigate(Screen.DelayedTrip.route) }
-            )
-        }
         composable(Screen.SetDestination.route) {
             DestinationScreen(
-                onLocationSelected = { navController.navigate(Screen.SetPickup.route) },
+                onLocationSelected = { location ->
+                    // Convert Location to LocationInfo
+                    destinationLocation = LocationInfo(
+                        name = location.name,
+                        address = location.address,
+                        city = "Johannesburg" // Assuming city is always Johannesburg
+                    )
+                    navController.navigate(Screen.SetPickup.route)
+                },
                 onBackClick = { navController.popBackStack() },
                 onCalendar = { navController.navigate(Screen.DelayedTrip.route) }
             )
         }
-        composable(Screen.DelayedTrip.route) {
-            DelayedTripDateTimeScreen(
+        composable(Screen.SetPickup.route) {
+            PickUpScreen(
+                onProceed = { selected ->
+                    // Convert Location to LocationInfo
+                    pickupLocation = LocationInfo(
+                        name = selected.name,
+                        address = selected.address,
+                        city = "Johannesburg" // Assuming city is always Johannesburg
+                    )
+                    navController.navigate(Screen.RideOptions.route)
+                },
                 onBackClick = { navController.popBackStack() },
-                onDateTimeConfirmed = { _, _ -> navController.navigate(Screen.SetDestination.route) }
+                onCalendar = { navController.navigate(Screen.DelayedTrip.route) }
             )
         }
         composable(Screen.RideOptions.route) {
             RideOptionsScreen(
                 onBackClick = { navController.popBackStack() },
                 onDriverSelected = { driver ->
-                    val encodedName =
-                        URLEncoder.encode(driver.name, StandardCharsets.UTF_8.toString())
-                    val encodedCar =
-                        URLEncoder.encode(driver.car, StandardCharsets.UTF_8.toString())
-                    val encodedCarColor =
-                        URLEncoder.encode(driver.carColor, StandardCharsets.UTF_8.toString())
+                    val encodedName = URLEncoder.encode(driver.name, StandardCharsets.UTF_8.toString())
+                    val encodedCar = URLEncoder.encode(driver.car, StandardCharsets.UTF_8.toString())
+                    val encodedCarColor = URLEncoder.encode(driver.carColor, StandardCharsets.UTF_8.toString())
                     navController.navigate(
                         "${Screen.RideConfirmation.route.split("/{")[0]}/$encodedName/${driver.rating}/$encodedCar/$encodedCarColor/${driver.estimatedTime}/${driver.estimatedPriceRange}"
                     )
@@ -113,6 +128,8 @@ fun SetupNavGraph(navController: NavHostController , onBackToHome: () -> Unit) {
             )
             val time = backStackEntry.arguments?.getString("time")?.toIntOrNull() ?: 0
             val price = backStackEntry.arguments?.getString("price") ?: ""
+
+            // Use the saved location data
             val rideInfo = RideInfo(
                 driverName = name,
                 driverRating = rating,
@@ -120,9 +137,11 @@ fun SetupNavGraph(navController: NavHostController , onBackToHome: () -> Unit) {
                 carColor = carColor,
                 estimatedTime = time,
                 estimatedPriceRange = price,
-                destinationLocation = LocationInfo("Work", "28 Broad Street", "Johannesburg"),
-                pickupLocation = LocationInfo("Home", "28 Orchard Road", "Johannesburg")
+                // Use the saved location info or fallback to default
+                destinationLocation = destinationLocation ?: LocationInfo("Work", "28 Broad Street", "Johannesburg"),
+                pickupLocation = pickupLocation ?: LocationInfo("Home", "28 Orchard Road", "Johannesburg")
             )
+
             RideConfirmationScreen(
                 rideInfo = rideInfo,
                 onBackClick = { navController.popBackStack() },
