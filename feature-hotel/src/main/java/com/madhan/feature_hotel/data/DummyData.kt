@@ -28,6 +28,7 @@ object DummyData {
     //Hotel description
     val hotelDescription : String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas. Pellen tesque ultricies justo skajhdkjhfjsk kdahdksj  ikajsj ksj  lajkdl jlksdhihkeliusnksh ks k."
 
+    //Hotel List
     val hotelList = listOf(
         Hotel(R.drawable.hotelimg1, "Resort Hotel", "New York", "4.5", "2 km to center", "$100"),
         Hotel(R.drawable.hotelimg2, "Luxury Hotel", "Los Angeles", "4.7", "1 km to beach", "$150"),
@@ -37,7 +38,8 @@ object DummyData {
         Hotel(R.drawable.hotelimg6, "Family Hotel", "Orlando", "4.6", "1.5 km to Disney", "$120")
     )
 
-
+//Equipment List
+val allEquipments = listOf("Restaurant", "Tennis", "Bar", "Wifi", "Parking", "Golf", "Pool", "Handy", "Spa")
 
 
 }
