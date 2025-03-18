@@ -1,4 +1,4 @@
-package com.madhan.adamsuperapp.ui.Screens
+package com.madhan.adamsuperapp.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -20,7 +20,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.navigation.Screen
 
 
 val orange = Color(0xFFFF7D1E)
@@ -29,6 +32,7 @@ val orange = Color(0xFFFF7D1E)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
+    navController: NavController,
     onSignIn: () -> Unit = {},
     onCreateAccount: () -> Unit = {},
     onBackClick: () -> Unit = {}
@@ -144,7 +148,7 @@ fun SignInScreen(
 
                     // Create Account Link
                     TextButton(
-                        onClick = { onCreateAccount() },
+                        onClick = { navController.navigate(Screen.SignUp.route) },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text("No account? Create one!")
@@ -212,5 +216,5 @@ fun GoogleLoginButton(onClick: () -> Unit = {}) {
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen()
+    SignInScreen(rememberNavController())
 }
