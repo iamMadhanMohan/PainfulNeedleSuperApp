@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword.Companion.LogIn
 
 
 val orange = Color(0xFFFF7D1E)
@@ -119,17 +120,30 @@ fun SignInScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     // Sign In Button - Using the same color as the FloatingActionButton in SetPickup
+                    var errorMessage by remember { mutableStateOf("") }
+
                     Button(
-                        onClick = { onSignIn() },
+                        onClick = {
+                            LogIn(email, password) { user ->
+                                if (user != null) {
+                                    onSignIn()
+                                } else {
+                                    errorMessage = "Invalid email or password"
+                                }
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = orange,
-                            contentColor = Color.White
-                        )
+                        colors = ButtonDefaults.buttonColors(containerColor = orange, contentColor = Color.White)
                     ) {
                         Text("Sign In")
                     }
+
+// Display error message
+                    if (errorMessage.isNotEmpty()) {
+                        Text(text = errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+                    }
+
 
                     Spacer(modifier = Modifier.height(16.dp))
 

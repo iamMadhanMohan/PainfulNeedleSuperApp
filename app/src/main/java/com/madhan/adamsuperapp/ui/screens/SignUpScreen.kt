@@ -1,5 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
+
 @Composable
 fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
     var userName by remember { mutableStateOf("") }
@@ -151,7 +154,16 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
 
             // Confirm Button (Yellow Color)
             Button(
-                onClick = { handleSignUp() },
+                onClick = {
+                    SigninWithEmailAndPassword.signUp(email, password) { user ->
+                        if (user != null) {
+                            Log.d("Auth", "Sign-up successful")
+                            onNavigateToSignIn() // Navigate to Sign In after successful sign-up
+                        } else {
+                            Log.e("Auth", "Sign-up failed")
+                        }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
@@ -160,6 +172,7 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
             ) {
                 Text(text = "Confirm", fontSize = 18.sp, color = Color.Black)
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
