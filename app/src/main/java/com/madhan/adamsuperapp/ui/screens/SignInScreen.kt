@@ -29,10 +29,24 @@ import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword.Companion.LogIn
 import com.madhan.adamsuperapp.auth.SigninWithGithub
 import com.madhan.adamsuperapp.auth.findActivity
 import com.madhan.adamsuperapp.navigation.Screen
+import android.content.Context
+import android.content.SharedPreferences
 
 
 val orange = Color(0xFFFF7D1E)
 
+const val PREFS_NAME = "user_prefs"
+const val KEY_IS_LOGGED_IN = "is_logged_in"
+
+fun saveLoginState(context: Context, isLoggedIn: Boolean) {
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    prefs.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
+}
+
+fun isUserLoggedIn(context: Context): Boolean {
+    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    return prefs.getBoolean(KEY_IS_LOGGED_IN, false)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,6 +58,7 @@ fun SignInScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
     val activity = LocalContext.current.findActivity()
     Scaffold(
         topBar = {
@@ -133,7 +148,10 @@ fun SignInScreen(
                             LogIn(email, password) { user ->
                                 if (user != null) {
                                     Log.d("Auth", "Sign-in successful for $email")
-                                    navController.navigate(Screen.Home.route) // Navigate to Home or Dashboard
+                                    saveLoginState(context, true)
+                                    navController.navigate(Screen.Home.route){
+                                        popUpTo(Screen.SignIn.route) { inclusive = true }
+                                    } // Navigate to Home or Dashboard
                                 } else {
                                     Log.e("Auth", "Sign-in failed")
                                 }
@@ -159,6 +177,7 @@ fun SignInScreen(
                                 activity = activity!!,
                                 onSuccess = {
                                     navController.navigate("home")
+                                    saveLoginState(context, true)
                                 }
                             )
                         }

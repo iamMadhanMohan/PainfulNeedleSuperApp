@@ -31,6 +31,7 @@ import com.madhan.adamsuperapp.R
 import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.navigation.ServiceItem
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.core.ui.components.PrimaryButton
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -100,8 +101,19 @@ fun HomeScreen(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(16.dp))
+
         }
+        PrimaryButton(
+            text = "Log Out",
+            onClick = {
+                navController.navigate(Screen.SignIn.route) {
+                    popUpTo(Screen.Home.route) { inclusive = true } // Clears Home from backstack
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
+
 }
 
 @Preview(showBackground = true)
