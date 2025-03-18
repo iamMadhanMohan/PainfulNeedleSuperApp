@@ -11,6 +11,7 @@ import com.madhan.feature_bank.navigation.bankNavGraph
 import com.madhan.feature_delivery.navigation.deliveryNavGraph
 import com.madhan.feature_hotel.navigation.hotelNavGraph
 import com.madhan.feature_uber.Screens.Navigation.SetupNavGraph
+import com.madhan.feature_pet.navigation.petNavGraph
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
@@ -34,7 +35,7 @@ fun AppNavigation(navController: NavHostController) {
             }// Hotel Home Screen
 
         composable(Screen.Delivery.route) { ServiceBScreen(navController) } // Delivery Home Screen
-        composable(Screen.Pet.route) { ServiceBScreen(navController) } // Pet Home Screen
+        petNavGraph(navController) // Pet Home Screen
         composable(Screen.Tinder.route) { ServiceBScreen(navController) } // Tinder Home Screen
         bankNavGraph(navController) // IBank NavGraph
         hotelNavGraph(navController) // Hotel NavGraph
