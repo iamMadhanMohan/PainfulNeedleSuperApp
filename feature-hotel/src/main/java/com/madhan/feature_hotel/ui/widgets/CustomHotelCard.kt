@@ -1,35 +1,21 @@
 package com.madhan.feature_hotel.ui.widgets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.*
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.utils.customColors
 
@@ -86,15 +72,16 @@ fun CustomHotelCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
-                    .padding(10.dp)
             ) {
                 CustomTitleText(
+                    modifier = Modifier.padding(top = 10.dp),
                     text = hotelType,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Start
                 )
                 Spacer(Modifier.height(4.dp))
                 CustomTitleText(
+                    modifier = Modifier.padding(bottom = 5.dp),
                     text = hotelLocation,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
@@ -132,4 +119,19 @@ fun CustomHotelCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CustomHotelCardPreview(){
+    CustomHotelCard(
+        modifier = Modifier.clickable {},
+        backgroundImage = painterResource(id = R.drawable.hotelimg2),
+        hotelType = "Resort Hotel",
+        hotelLocation = "Smyrna",
+        hotelRating = "4.8",
+        hotelDistance = "3.56 km ",
+        hotelPrice = "$ 150",
+        isSelected = remember { mutableStateOf(false) }
+    )
 }
