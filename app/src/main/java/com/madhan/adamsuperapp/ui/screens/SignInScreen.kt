@@ -1,7 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
 import android.util.Log
-
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -25,7 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
@@ -51,15 +49,13 @@ fun SignInScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val activity = LocalContext.current.findActivity()
+
     // Get the ViewModel using hiltViewModel()
-//    val viewModel: SigninWithGoogleViewModel = viewModel()
     val viewModel: SigninWithGoogleViewModel = hiltViewModel()
 
-
-    //observing viewmodel states
     // Observe the login state
     val loginState by viewModel.loginState.collectAsState()
-    val logoutState by viewModel.logoutState.collectAsState()
+   // val logoutState by viewModel.logoutState.collectAsState()
 
     //context
     val context = LocalContext.current
@@ -72,16 +68,18 @@ fun SignInScreen(
         }
         is UiStatus.SUCCESS -> {
             // Navigate to next screen on success
-            val user = (loginState as UiStatus.SUCCESS).message
-            Toast.makeText(context, "Welcome,${user.displayName}, Login successful !!", Toast.LENGTH_LONG).show()
+            val user = (loginState as UiStatus.SUCCESS)
+            Toast.makeText(context, "Welcome, ${user.message.displayName} to Super App", Toast.LENGTH_LONG).show()
+            navController.navigate(Screen.Home.route)
 
         }
         is UiStatus.ERROR -> {
             // Handle login error
-            Toast.makeText(context, "Login failed: ${(loginState as UiStatus.ERROR).error}", Toast.LENGTH_LONG).show()
+            val errorMessage = (loginState as UiStatus.ERROR).error
+            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_LONG).show()
+
         }
     }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -152,7 +150,6 @@ fun SignInScreen(
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
-
                     // Password Input
                     OutlinedTextField(
                         value = password,
