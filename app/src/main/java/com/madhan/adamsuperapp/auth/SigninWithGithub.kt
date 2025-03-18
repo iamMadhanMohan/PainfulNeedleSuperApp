@@ -10,7 +10,7 @@ import com.google.firebase.auth.auth
 
 class SigninWithGithub {
     companion object {
-        fun signIn(activity: Activity) { //Pass Activity and username
+        fun signIn(activity: Activity, onSuccess: () -> Unit) { //Pass Activity and username
             Log.d("GithubAuth", "Login Running!")
             val firebaseAuth = Firebase.auth
             val provider = OAuthProvider.newBuilder("github.com")
@@ -27,6 +27,7 @@ class SigninWithGithub {
                         // Handle the authResult
                         val credential = authResult.credential
                         if(credential is com.google.firebase.auth.OAuthCredential){
+                            onSuccess()
                             val accessToken = credential.accessToken
                             val secret = credential.secret
                             Log.d("GithubAuth", "Access Token: $accessToken")
@@ -46,6 +47,7 @@ class SigninWithGithub {
                         // Handle the authResult
                         val credential = authResult.credential
                         if(credential is com.google.firebase.auth.OAuthCredential){
+                            onSuccess()
                             val accessToken = credential.accessToken
                             val secret = credential.secret
                             Log.d("GithubAuth", "Access Token: $accessToken")
