@@ -1,5 +1,7 @@
 package com.madhan.adamsuperapp.ui.screens
 
+
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,16 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.google.SigninWithGoogleViewModel
 import com.madhan.adamsuperapp.navigation.Screen
+import com.madhan.adamsuperapp.utils.UiStatus
 
 
 val orange = Color(0xFFFF7D1E)
@@ -39,6 +45,34 @@ fun SignInScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    // Get the ViewModel using hiltViewModel()
+    val viewModel: SigninWithGoogleViewModel = viewModel()
+
+    //observing viewmodel states
+    // Observe the login state
+    val loginState by viewModel.loginState.collectAsState()
+    val logoutState by viewModel.logoutState.collectAsState()
+
+    //context
+    val context = LocalContext.current
+
+    // UI elements based on login state
+    when (loginState) {
+        is UiStatus.LOADING -> {
+            // Show loading spinner while signing in
+            CircularProgressIndicator()
+        }
+        is UiStatus.SUCCESS -> {
+            // Navigate to next screen on success
+            val user = (loginState as UiStatus.SUCCESS).message
+            Toast.makeText(context, "Welcome,${user.displayName}, Login successful !!", Toast.LENGTH_LONG).show()
+
+        }
+        is UiStatus.ERROR -> {
+            // Handle login error
+            Toast.makeText(context, "Login failed: ${(loginState as UiStatus.ERROR).error}", Toast.LENGTH_LONG).show()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -142,7 +176,12 @@ fun SignInScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    GoogleLoginButton()
+                    GoogleLoginButton(
+                        onClick = {
+                            // Trigger Google sign-in
+                            viewModel.authenticate(context = context )
+                        }
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
