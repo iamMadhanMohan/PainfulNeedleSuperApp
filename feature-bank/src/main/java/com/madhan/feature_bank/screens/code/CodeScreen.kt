@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.core.ui.components.CustomButton
 import com.madhan.feature_bank.R
 import com.madhan.feature_bank.components.BackTopBar
-import com.madhan.feature_bank.components.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

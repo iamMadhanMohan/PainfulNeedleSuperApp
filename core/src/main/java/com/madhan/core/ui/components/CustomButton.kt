@@ -1,4 +1,4 @@
-package com.madhan.feature_bank.components
+package com.madhan.core.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 
 @Composable
-fun CustomButton(buttonText: String, onClick: () -> Unit){
+fun CustomButton(buttonText: String, onClick: () -> Unit = {}){
     Row (
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier.fillMaxWidth()
