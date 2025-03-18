@@ -2,7 +2,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -31,16 +30,14 @@ fun OrderDetailsScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color.White) // Set background color to white
     ) {
-        // Map Section (Top)
+        // Map Section (50% of the screen height)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(300.dp) // Adjust height as needed
+                .weight(1f) // Occupy 50% of the screen
         ) {
             // Google Map Implementation
-            // Using markerPosition parameter
-            val markerPosition = remember { mutableStateOf<LatLng?>(null) }
-
+            val markerPosition = remember { mutableStateOf(LatLng(33.7756, -84.3963)) }
             MapContent(markerPosition = markerPosition.value)
 
             CustomBackButton {
@@ -48,20 +45,21 @@ fun OrderDetailsScreen(navController: NavController) {
             }
         }
 
-
+        // Content Section (50% of the screen height)
         Column(
             modifier = Modifier
-                .fillMaxSize() // Fill the remaining space
-                .padding(6.dp),
+                .fillMaxWidth()
+                .weight(1f) // Occupy 50% of the screen
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.delivery_guy), // Replace with your profile picture
+                painter = painterResource(id = R.drawable.delivery_guy),
                 contentDescription = "Profile Picture",
                 modifier = Modifier
                     .size(100.dp)
                     .clip(CircleShape)
-                    .background(Color.LightGray) // Add a background for better visibility
+                    .background(Color.LightGray)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -70,7 +68,7 @@ fun OrderDetailsScreen(navController: NavController) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
-            // Details Section
+            Spacer(modifier = Modifier.height(4.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -79,29 +77,27 @@ fun OrderDetailsScreen(navController: NavController) {
                 Text(text = "$ 15/kg", fontSize = 16.sp)
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas. Pellentesque ultricies justo.",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lobortis sit amet odio in egestas.",
                 fontSize = 14.sp,
                 color = Color.Gray
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id =R.drawable.location), // Replace with your location icon
+                    painter = painterResource(id = R.drawable.location),
                     contentDescription = "Location",
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "28 Broad Street, Johannesburg", fontSize = 14.sp)
+                Text(text = "261 4th St NW, Atlanta", fontSize = 14.sp)
             }
 
-            Spacer(modifier = Modifier.height(180.dp)) // Push button to bottom
+            Spacer(modifier = Modifier.weight(1f))
 
-            // Button Section
             BottomOrangeButton("Confirm") {
-                // Handle confirm click
                 navController.navigate("order_summary")
             }
         }

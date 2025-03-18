@@ -4,23 +4,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -28,10 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.madhan.feature_delivery.R
-import androidx.compose.ui.graphics.Brush
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.feature_delivery.R
 import com.madhan.feature_delivery.ui.components.HomeIcon
 
 @Composable
@@ -62,12 +56,11 @@ fun DeliveryMenInfo(navController: NavController) {
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-
                 // Gradient Mask
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(353.dp) // Adjust height as needed
+                        .height(353.dp)
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(
@@ -77,7 +70,6 @@ fun DeliveryMenInfo(navController: NavController) {
                             )
                         )
                 ) {
-                    // Background Image with Mask
                     Image(
                         painter = painterResource(id = R.drawable.mask_group),
                         contentDescription = "Delivery Image",
@@ -86,23 +78,21 @@ fun DeliveryMenInfo(navController: NavController) {
                     )
                 }
 
-                // Foreground Content
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(230.dp)) // Adjust based on mask height
+                    Spacer(modifier = Modifier.height(230.dp))
 
-                    // Content Card (Scrollable)
+                    // Content Card
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.White, RoundedCornerShape(8.dp))
                     ) {
                         Column(
-                            modifier = Modifier
-                                .padding(16.dp)
+                            modifier = Modifier.padding(16.dp)
                         ) {
                             Text(
                                 text = "Marietta, 1 Park Plaza",
@@ -135,7 +125,6 @@ fun DeliveryMenInfo(navController: NavController) {
 
                             Spacer(modifier = Modifier.height(8.dp))
 
-                            // Search Bar
                             OutlinedTextField(
                                 value = "",
                                 onValueChange = {},
@@ -158,33 +147,31 @@ fun DeliveryMenInfo(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                Button(onClick = { /* Handle Favorites */ },
+                                Button(
+                                    onClick = { /* Handle Favorites */ },
                                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8000)),
-                                    modifier = Modifier.width(136.dp)) {
+                                    modifier = Modifier.width(136.dp)
+                                ) {
                                     Image(
                                         painter = painterResource(id = R.drawable.favorites),
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clip(RoundedCornerShape(8.dp)),
-                                        contentDescription = "Favourites",
+                                        modifier = Modifier.size(20.dp),
+                                        contentDescription = "Favorites",
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(text = "Favorites")
                                 }
-                                Button(onClick = { /* Handle Orders */
-                                    navController.navigate("")},
-                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8000)),
-                                    modifier = Modifier.width(136.dp)) {
 
+                                Button(
+                                    onClick = { navController.navigate("orders") },
+                                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8000)),
+                                    modifier = Modifier.width(136.dp)
+                                ) {
                                     Image(
                                         painter = painterResource(id = R.drawable.orders),
-                                        modifier = Modifier
-                                            .size(20.dp)
-                                            .clip(RoundedCornerShape(8.dp)),
-                                        contentDescription = "Favourites",
+                                        modifier = Modifier.size(20.dp),
+                                        contentDescription = "Orders",
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-
                                     Text(text = "Orders")
                                 }
                             }
@@ -192,84 +179,111 @@ fun DeliveryMenInfo(navController: NavController) {
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "Delivery men",
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 18.sp
-                            )
-                            Spacer(modifier = Modifier.width(190.dp))
-                            IconButton(onClick = {
-                                navController.navigate("filter") }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.filter),
-                                    contentDescription = "Filters",
-                                )
-                            }
 
-                            Spacer(modifier = Modifier.height(8.dp))
-                        }
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
-                            .clickable { navController.navigate("map_search") } // card clickable
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                            Column(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .verticalScroll(rememberScrollState()) // Makes the  content scrollable
-                            ) {
+                        Text(
+                            text = "Delivery men",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                        IconButton(onClick = { navController.navigate("filter") }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.filter),
+                                contentDescription = "Filters",
+                            )
+                        }
+                    }
 
-                                // delivery men image
-                                Image(
-                                    painter = painterResource(id = R.drawable.delivery_guy),
-                                    contentDescription = "Delivery Guy",
-                                    modifier = Modifier
-                                        .size(100.dp)
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop,
-                                )
-
-                                Spacer(modifier = Modifier.width(16.dp))
-
-
-                                Spacer(modifier = Modifier.height(8.dp))
-
-                                // Cleaner Details (Replace with actual data)
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    //verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-                                    Column {
-                                        Text(text = "Vander", fontWeight = FontWeight.Bold)
-                                        Text(text = "Marrieta", fontSize = 14.sp)
-                                    }
-
-                                    Spacer(modifier = Modifier.height(12.dp))
-
-                                    // Rating, Distance, and Price
-                                    Row(horizontalArrangement = Arrangement.SpaceAround) {
-                                        Text(text = "4.8 ⭐")
-                                        Spacer(modifier = Modifier.width(90.dp))
-                                        Text(text = "500 m")
-                                        Spacer(modifier = Modifier.width(90.dp))
-                                        Text(text = "$ 15/kg")
-                                    }
-                                }
+                    // Delivery men list
+                    LazyColumn(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        items(
+                            listOf(
+                                Triple("Jenny Jones", 4.8f, R.drawable.delivery_guy),
+                                Triple("Sacha Down", 4.6f, R.drawable.delivery_guy2),
+                                Triple("Johnathan James", 4.3f, R.drawable.delivery_guy3),
+                                Triple("William", 4.7f, R.drawable.delivery_guy4)
+                            )
+                        ) { (name, rating, imageRes) ->
+                            DriverCard1(name, rating, 4.5f, imageRes, navController) {
+                                navController.navigate("map_search")
                             }
                         }
+                    }
                 }
             }
         }
     }
 }
+
+@Composable
+fun DriverCard1(
+    name: String,
+    rating: Float,
+    distance: Float,
+    imageRes: Int,
+    navController: NavController,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Image fills max width of the card
+            Image(
+                painter = painterResource(id = imageRes),
+                contentDescription = name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Delivery Person's Name
+            Text(text = name, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // Rating Row
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.star),
+                    contentDescription = "Rating",
+                    tint = Color.Yellow,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(text = "$rating", fontSize = 16.sp)
+            }
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            // Distance Info
+            Text(text = "$distance Mile Nearby", fontSize = 14.sp, color = Color.Gray)
+        }
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

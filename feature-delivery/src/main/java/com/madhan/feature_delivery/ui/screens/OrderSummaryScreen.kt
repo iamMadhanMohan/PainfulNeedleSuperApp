@@ -93,16 +93,16 @@ fun OrderSummaryScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = android.R.drawable.ic_menu_mylocation), // Replace with your location icon
+                    painter = painterResource(id = android.R.drawable.ic_menu_mylocation), // location icon
                     contentDescription = "Location",
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "28 Broad Street, Johannesburg", fontSize = 14.sp, color = Color.White)
+                Text(text = "261 4th St NW, Atlanta", fontSize = 14.sp, color = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "->", fontSize = 14.sp, color = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "28 Joe Avenue, Johannesburg", fontSize = 14.sp, color = Color.White)
+                Text(text = "1211 Cumberland Rd NE, Atlanta", fontSize = 14.sp, color = Color.White)
             }
         }
 
@@ -150,7 +150,7 @@ fun OrderSummaryScreen(navController: NavController) {
                     Text(text = "Remove", fontSize = 14.sp, color = Color(0xFFFF8000))
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(text = "$ 10", fontSize = 16.sp)
+                    Text(text = "50/50/50", fontSize = 16.sp)
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = "x 1", fontSize = 16.sp, color = Color(0xFFFF8000))
                 }
@@ -165,7 +165,7 @@ fun OrderSummaryScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Subtotal", fontSize = 16.sp)
-                Text(text = "$ 85.00", fontSize = 16.sp)
+                Text(text = "$ 75.00", fontSize = 16.sp)
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -189,7 +189,7 @@ fun OrderSummaryScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = "Total amount", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Text(text = "$ 85.00", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(text = "$ 75.00", fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(160.dp))

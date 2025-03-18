@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.madhan.feature_delivery.R
 
 @Composable
-fun HomeIcon(onClick: () -> Unit) {
+fun HomeIcon(onClick: () -> Unit,modifier: Modifier = Modifier,) {
     Image(
         painter = painterResource(id =R.drawable.home_2), // Replace with your actual icon resource
         contentDescription = "Home",

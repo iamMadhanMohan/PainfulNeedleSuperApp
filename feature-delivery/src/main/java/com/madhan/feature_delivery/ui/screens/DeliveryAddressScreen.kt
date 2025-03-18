@@ -61,15 +61,15 @@ fun DeliveryAddressScreen(navController: NavController) {
                 title = { Text("Enter delivery address") },
                 navigationIcon = {
                     CustomBackButton {
-                        navController.popBackStack() // Navigate back when clicked
+                        navController.popBackStack()
                     }
                 },
                 actions = {
                     IconButton(onClick = {
-                        val latlng = LatLng(33.7490, -84.3880) // Atlanta, GA coordinates
+                        val latlng = LatLng(33.7490, -84.3880)
                         markerPosition.value = latlng
                     }) {
-                        Icon(painterResource(id = R.drawable.floating_button), contentDescription = "Current Location")
+                        Icon(painterResource(id = android.R.drawable.ic_menu_mylocation), contentDescription = "Current Location")
                     }
                 }
             )
@@ -91,7 +91,7 @@ fun DeliveryAddressScreen(navController: NavController) {
                         IconButton(onClick = {
                             searchText = ""
                             selectedAddress = ""
-                            markerPosition.value = null;
+                            markerPosition.value = null
                             selectedLatLng = null
                         }) {
                             Icon(Icons.Filled.Close, contentDescription = "Clear")
@@ -100,11 +100,10 @@ fun DeliveryAddressScreen(navController: NavController) {
                 }
             )
 
-            // Addresses List on Top of Map
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp) // Adjust height
+                    .height(200.dp)
             ) {
                 items(addresses) { (address, latLng) ->
                     Row(
@@ -125,10 +124,9 @@ fun DeliveryAddressScreen(navController: NavController) {
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Push the button to the bottom
+            Spacer(modifier = Modifier.weight(1f))
         }
 
-        // Map Content in the background
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -138,19 +136,16 @@ fun DeliveryAddressScreen(navController: NavController) {
             MapContent(markerPosition = markerPosition.value)
         }
 
-        // Confirm Button at the bottom
         if (selectedLatLng != null) {
             Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
                 Row(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
+                        .padding(4.dp)
                 ) {
                     BottomOrangeButton("Confirm") {
-
                         navController.navigate("delivery_men")
-                        // Handle confirm click
                     }
                 }
             }
@@ -164,7 +159,7 @@ private fun getAddressFromLatLng(context: Context, latLng: LatLng): String? {
         val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
         if (addresses != null && addresses.isNotEmpty()) {
             val address = addresses[0]
-            address.getAddressLine(0) // Get the complete address line
+            address.getAddressLine(0)
         } else {
             null
         }
