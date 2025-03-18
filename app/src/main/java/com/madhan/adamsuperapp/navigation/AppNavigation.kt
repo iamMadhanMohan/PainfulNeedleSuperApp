@@ -20,10 +20,6 @@ fun AppNavigation(navController: NavHostController) {
         route = "root"
     ) {
         composable(Screen.Home.route) { HomeScreen(navController) }
-        composable(Screen.Uber.route) { ServiceBScreen(navController) } // Uber Home Screen
-        composable(Screen.Delivery.route) { ServiceBScreen(navController) } // Delivery Home Screen
-        composable(Screen.Pet.route) { ServiceBScreen(navController) } // Pet Home Screen
-        composable(Screen.Tinder.route) { ServiceBScreen(navController) } // Tinder Home Screen
         bankNavGraph(navController) // IBank NavGraph
         hotelNavGraph(navController, favoriteViewModel) // Hotel NavGraph
     }
