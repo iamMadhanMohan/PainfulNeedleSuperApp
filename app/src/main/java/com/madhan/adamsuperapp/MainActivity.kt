@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.navigation.AppNavigation
 import com.madhan.adamsuperapp.ui.theme.AdamSuperAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +22,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             AdamSuperAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    AppNavigation(
+                        navController = rememberNavController()
                     )
                 }
             }

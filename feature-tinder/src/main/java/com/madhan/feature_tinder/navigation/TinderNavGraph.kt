@@ -21,23 +21,34 @@ fun NavGraphBuilder.tinderNavGraph(
     navController: NavController
 ){
     navigation(
-        startDestination = "tinder",
-        route = "tinder"
+        startDestination = "tinder_home",
+        route = "tinder",
     ) {
 
-        composable("tinder") { TinderScreen00(navController = navController) }
+        // Get the NavBackStackEntry for the "tinder" navigation graph
+//        val navBackStackEntry = navController.getBackStackEntry("tinder")
+        // Create the ProfileViewModel scoped to the "tinder" navigation graph
+//        val viewModel: ProfileViewModel = viewModel(navBackStackEntry)
+
+        composable("tinder_home") { TinderScreen00(navController = navController) }
         composable("picture_choice") { PictureChoiceScreen01(navController = navController) }
         composable("take_photo") { TakePhotoScreen02(navController = navController) }
         composable("add_profile") { AddProfileScreen03(navController = navController) }
         composable("enable_location") { EnableLocationScreen04(navController = navController) }
         composable("tutorial_screen") { TutorialScreen05(navController = navController) }
-        composable("tinder_display_screen") { TinderDisplayScreen06(
-            navController = navController,
-            viewModel = viewModel<ProfileViewModel>()
-        ) }
-        composable("profile_screen") { ProfileScreen07(
-            navController = navController,
-            viewModel =  viewModel<ProfileViewModel>()
-        ) }
+        var viewModel: ProfileViewModel? = null
+        composable("tinder_display_screen") {
+           viewModel = viewModel ?: viewModel()
+            TinderDisplayScreen06(
+                navController = navController,
+                viewModel = viewModel!! // Pass the shared viewModel
+            )
+        }
+        composable("profile_screen") {
+            viewModel = viewModel ?: viewModel()
+            ProfileScreen07(
+                navController = navController,
+                viewModel = viewModel!! // Pass the shared viewModel
+            ) }
     }
 }
