@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+
 }
 
 android {
@@ -50,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -57,4 +60,17 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //maps for compose
+    implementation("com.google.maps.android:maps-compose:4.4.0")
+
+    //Maps
+    implementation("com.google.android.gms:play-services-maps:19.1.0")
+//places Api
+//implementation (libs.places)
+//location
+    implementation("com.google.android.gms:play-services-location:21.3.0")
+//Navigation
+    implementation("androidx.navigation:navigation-compose:2.8.9")
+
 }
