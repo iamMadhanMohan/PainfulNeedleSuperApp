@@ -1,5 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword.Companion.LogIn
 import com.madhan.adamsuperapp.auth.SigninWithGithub
 import com.madhan.adamsuperapp.auth.findActivity
 import com.madhan.adamsuperapp.navigation.Screen
@@ -127,7 +129,16 @@ fun SignInScreen(
 
                     // Sign In Button - Using the same color as the FloatingActionButton in SetPickup
                     Button(
-                        onClick = { onSignIn() },
+                        onClick = {
+                            LogIn(email, password) { user ->
+                                if (user != null) {
+                                    Log.d("Auth", "Sign-in successful for $email")
+                                    navController.navigate(Screen.Home.route) // Navigate to Home or Dashboard
+                                } else {
+                                    Log.e("Auth", "Sign-in failed")
+                                }
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(16.dp),
                         colors = ButtonDefaults.buttonColors(
@@ -137,6 +148,7 @@ fun SignInScreen(
                     ) {
                         Text("Sign In")
                     }
+
 
                     Spacer(modifier = Modifier.height(16.dp))
 

@@ -1,5 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,11 +22,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
+import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
 import com.madhan.adamsuperapp.navigation.Screen
 
 @Composable
 fun SignUpScreen(
     navController: NavController,
+    onNavigateToSignIn: () -> Unit
 ) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -156,8 +159,15 @@ fun SignUpScreen(
             // Confirm Button (Yellow Color)
             Button(
                 onClick = {
-                    handleSignUp()
-                          },
+                    SigninWithEmailAndPassword.signUp(email, password) { user ->
+                        if (user != null) {
+                            Log.d("Auth", "Sign-up successful")
+                            onNavigateToSignIn() // Navigate to Sign In after successful sign-up
+                        } else {
+                            Log.e("Auth", "Sign-up failed")
+                        }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
@@ -166,6 +176,7 @@ fun SignUpScreen(
             ) {
                 Text(text = "Confirm", fontSize = 18.sp, color = Color.Black)
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -187,5 +198,8 @@ fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(rememberNavController())
+    SignUpScreen(
+        navController = rememberNavController(),
+        onNavigateToSignIn = {} // Provide a default empty function
+    )
 }

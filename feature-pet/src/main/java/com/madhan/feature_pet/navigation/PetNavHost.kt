@@ -44,7 +44,7 @@ fun NavGraphBuilder.petNavGraph(navController: NavHostController) {
             val guardName = backStackEntry.arguments?.getString("guardName") ?: "Unknown"
             val startDate = backStackEntry.arguments?.getString("startDate") ?: "Unknown"
             val endDate = backStackEntry.arguments?.getString("endDate") ?: "Unknown"
-            OrderScreen(navController, guardName, "Your Dog", startDate, endDate)
+            OrderScreen(navController, guardName, "Kobe", startDate, endDate)
         }
         composable("appointment_success") { AppointmentSuccessfulScreen(navController) }
 

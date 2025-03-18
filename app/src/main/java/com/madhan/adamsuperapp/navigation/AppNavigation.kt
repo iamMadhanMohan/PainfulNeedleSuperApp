@@ -28,7 +28,7 @@ fun AppNavigation(navController: NavHostController) {
         route = "root"
     ) {
         composable(Screen.SignIn.route) { SignInScreen(navController) }
-        composable(Screen.SignUp.route) { SignUpScreen(navController) }
+        composable(Screen.SignUp.route) { SignUpScreen(navController, onNavigateToSignIn = { navController.navigate(Screen.SignIn.route) }) }
         composable(Screen.Home.route) { HomeScreen(navController) }
         navigation(
             startDestination = "uber_main",
