@@ -44,6 +44,7 @@ import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
+import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 
 @Composable
 fun HomeScreen(navController: NavController) {
@@ -121,7 +122,9 @@ fun HomeScreen(navController: NavController) {
                         )
 
                         IconTextRow(
-                            modifier = Modifier.padding(bottom = 16.dp),
+                            modifier = Modifier
+                                .padding(bottom = 16.dp)
+                                .clickable { navController.navigate(ORDERSCREEN) },
                             icon = painterResource(id = R.drawable.file),
                             text = "Orders",
                             textSize = 16.sp,

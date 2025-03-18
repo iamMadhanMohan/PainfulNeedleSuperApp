@@ -16,7 +16,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,7 +28,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +40,6 @@ import androidx.navigation.compose.rememberNavController
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData
-import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.ui.widgets.RoomInfoRow
@@ -53,7 +50,6 @@ import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 @Composable
 fun HotelDetailScreen(navController: NavController){
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
     var showSheet by remember { mutableStateOf(false) }
     Scaffold { innerPadding ->
         Column(
@@ -378,7 +374,7 @@ fun HotelDetailScreen(navController: NavController){
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(368.dp) // Adjust for half-screen size
+                                .height(350.dp) // Adjust for half-screen size
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
@@ -426,7 +422,7 @@ fun HotelDetailScreen(navController: NavController){
                                 }
                                 //Description
                                 CustomTitleText(
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.weight(1f).padding(bottom = 10.dp),
                                     text = DummyData.hotelDescription,
                                     color = customColors.descriptionColor,
                                     fontWeight = FontWeight.Medium,
@@ -470,7 +466,7 @@ fun HotelDetailScreen(navController: NavController){
                                     )
                                 }
                                 //Spacer
-                               Spacer(Modifier.height(16.dp))
+                               Spacer(Modifier.height(10.dp))
                                 PrimaryButton(
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
                                     onClick = {navController.navigate(ORDERSCREEN)},
