@@ -1,7 +1,10 @@
 package com.madhan.feature_pet.screens
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -19,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -30,18 +34,28 @@ import java.io.File
 fun PetTakePhotoScreen(navController: NavHostController) {
     val context = LocalContext.current
     var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var showMessage by remember { mutableStateOf(false) }
-
-
-    // Camera launcher
     var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
 
+    // Camera launcher
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             imageUri = capturedImageUri
-            navController.navigate("dog_list")
+            navController.navigate("dog_list") // ✅ Navigate only after capturing image
         }
     }
+
+    // Permission launcher for CAMERA
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            if (granted) {
+                capturedImageUri = createImageFile(context) // ✅ Generate URI
+                cameraLauncher.launch(capturedImageUri!!) // ✅ Launch camera with new URI
+            } else {
+                Toast.makeText(context, "Camera permission is required", Toast.LENGTH_SHORT).show()
+            }
+        }
+    )
 
     // Gallery launcher
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -62,12 +76,12 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {navController.navigateUp() }) {
+            IconButton(onClick = { navController.navigateUp() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = "Back",
                     tint = Color(0xFFFF8C00),
-                    modifier = Modifier.size(55.dp) // Adjusted Size
+                    modifier = Modifier.size(55.dp)
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -84,7 +98,7 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                     painter = painterResource(id = R.drawable.questionmark),
                     contentDescription = "Help",
                     tint = Color(0xFFFF8C00),
-                    modifier = Modifier.size(28.dp) // Adjusted Size
+                    modifier = Modifier.size(28.dp)
                 )
             }
             IconButton(onClick = { galleryLauncher.launch("image/*") }) {
@@ -92,7 +106,7 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                     painter = painterResource(id = R.drawable.ic_gallery),
                     contentDescription = "Gallery",
                     tint = Color(0xFFFF8C00),
-                    modifier = Modifier.size(22.dp) // Adjusted Size
+                    modifier = Modifier.size(22.dp)
                 )
             }
         }
@@ -116,7 +130,7 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_camera),
                     contentDescription = "Camera Placeholder",
-                    modifier = Modifier.size(120.dp), // Adjusted size
+                    modifier = Modifier.size(120.dp),
                     tint = Color.Gray
                 )
             }
@@ -127,9 +141,14 @@ fun PetTakePhotoScreen(navController: NavHostController) {
         // Capture Button
         Button(
             onClick = {
-                val newUri = createImageFile(context) // Generate a file to store the image
-                imageUri = newUri
-                cameraLauncher.launch(imageUri!!)
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    capturedImageUri = createImageFile(context) // ✅ Generate image URI
+                    cameraLauncher.launch(capturedImageUri!!) // ✅ Launch camera
+                } else {
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA) // ✅ Request permission
+                }
             },
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8C00)),
@@ -139,7 +158,7 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                 painter = painterResource(id = R.drawable.ic_camera),
                 contentDescription = "Camera",
                 tint = Color.White,
-                modifier = Modifier.size(24.dp) // Adjusted icon size
+                modifier = Modifier.size(24.dp)
             )
         }
 
@@ -149,7 +168,10 @@ fun PetTakePhotoScreen(navController: NavHostController) {
 
 // Function to create a temporary file for the image
 fun createImageFile(context: Context): Uri {
-    val file = File(context.getExternalFilesDir("Pictures"), "photo_${System.currentTimeMillis()}.jpg")
+    val storageDir = File(context.getExternalFilesDir(null), "Pictures")
+    if (!storageDir.exists()) storageDir.mkdirs() // Ensure directory exists
+
+    val file = File(storageDir, "photo_${System.currentTimeMillis()}.jpg")
     return FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
 }
 

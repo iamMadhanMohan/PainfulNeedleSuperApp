@@ -116,7 +116,7 @@ fun DogListScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(400.dp))
 
         // Next Button
         PetButton(text = "Next"){

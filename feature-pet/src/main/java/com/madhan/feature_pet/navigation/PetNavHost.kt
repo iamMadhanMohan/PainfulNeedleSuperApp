@@ -1,7 +1,8 @@
 package com.madhan.feature_pet.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.NavHost
 import com.madhan.feature_pet.screens.*
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun NavGraphBuilder.petNavGraph(navController: NavHostController) {
     navigation(
         startDestination = "start",
@@ -19,6 +21,30 @@ fun NavGraphBuilder.petNavGraph(navController: NavHostController) {
         composable("filter") { FilterScreen(navController) }
         composable("photo") { PetTakePhotoScreen(navController) }
         composable("dog_list") { DogListScreen(navController) }
-        composable("pet_care_list") { PetCarePersonListScreen(navController) }
+        composable("choose_date") {
+            ChooseDateScreen(navController) { startDate, endDate ->
+                navController.previousBackStackEntry?.savedStateHandle?.set("startDate", startDate)
+                navController.previousBackStackEntry?.savedStateHandle?.set("endDate", endDate)
+                navController.popBackStack()
+            }
+        }
+        composable("pet_care_list") {
+            val startDate = navController.currentBackStackEntry?.savedStateHandle?.get<String>("startDate") ?: "Choose Dates"
+            val endDate = navController.currentBackStackEntry?.savedStateHandle?.get<String>("endDate") ?: ""
+            PetCarePersonListScreen(
+                navController,
+                selectedStartDate = startDate,
+                selectedEndDate = endDate,
+                onGuardSelected = { guardName ->
+                    navController.navigate("order/$guardName/$startDate/$endDate")
+                }
+            )
+        }
+        composable("order/{guardName}/{startDate}/{endDate}") { backStackEntry ->
+            val guardName = backStackEntry.arguments?.getString("guardName") ?: "Unknown"
+            val startDate = backStackEntry.arguments?.getString("startDate") ?: "Unknown"
+            val endDate = backStackEntry.arguments?.getString("endDate") ?: "Unknown"
+            OrderScreen(navController, guardName, "Your Dog", startDate, endDate)
+        }
     }
 }

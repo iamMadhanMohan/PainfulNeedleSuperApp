@@ -142,7 +142,7 @@ fun FilterScreen(navController: NavHostController) {
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(180.dp))
 
         // Apply Button
         PetButton(text = "Apply") {

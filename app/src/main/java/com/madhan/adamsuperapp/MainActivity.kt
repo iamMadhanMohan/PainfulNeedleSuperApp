@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import com.madhan.adamsuperapp.navigation.AppNavigation
+import com.madhan.adamsuperapp.ui.theme.AdamSuperAppTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
