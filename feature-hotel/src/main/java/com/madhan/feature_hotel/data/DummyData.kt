@@ -2,6 +2,8 @@ package com.madhan.feature_hotel.data
 
 import com.google.android.gms.maps.model.LatLng
 import com.madhan.feature_hotel.R
+import com.madhan.feature_hotel.data.model.Hotel
+import com.madhan.feature_hotel.data.model.HotelLocation
 
 object DummyData {
 
