@@ -76,5 +76,4 @@ class AppModule {
     ) : GoogleLoginRepository = GoogleLoginRepositoryImpl(auth, credentialRequest,credentialManager, clearCredentialStateRequest)
 
 
-
 }
