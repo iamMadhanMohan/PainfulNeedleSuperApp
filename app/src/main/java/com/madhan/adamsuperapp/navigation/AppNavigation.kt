@@ -53,7 +53,7 @@ fun AppNavigation(navController: NavHostController) {
                 )
             }
         }
-        deliveryNavGraph(navController) // Delivery NavGra
+        deliveryNavGraph(navController) // Delivery NavGraph
         petNavGraph(navController) // Pet NavGraph
         tinderNavGraph(navController) // Tinder NavGraph
         bankNavGraph(navController) // IBank NavGraph
