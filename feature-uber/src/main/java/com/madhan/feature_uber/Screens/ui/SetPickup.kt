@@ -44,10 +44,10 @@ import com.madhan.feature_uber.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PickUpScreen(
-    onProceed: () -> Unit,
+    onProceed: (Location) -> Unit,
     onBackClick: () -> Unit,
     onCalendar: () -> Unit
-) {
+)  {
     val presetLocations = listOf(
         Location("Home", "Johannesburg, 28 Orchard Road"),
         Location("Work", "Johannesburg, 20 Orchard Road"),
@@ -150,7 +150,7 @@ fun PickUpScreen(
 
                 selectedLocation?.let { location ->
                     Row(verticalAlignment = Alignment.CenterVertically , modifier = Modifier.clickable {
-                        onProceed()
+                        onProceed(Location(location.name, location.address))
                     }) {
                         Icon(Icons.Filled.LocationOn, contentDescription = "Location")
                         Spacer(modifier = Modifier.width(8.dp))
@@ -176,7 +176,7 @@ fun PickUpScreen(
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,
-                onMapClick = { /* Handle map click */ }
+                onMapClick = { onCalendar() }
             ) {
                 // Add a marker for the user's current location
                 Marker(
