@@ -39,10 +39,4 @@ class SigninWithGoogleViewModel @Inject constructor(
             }
         }
     }
-
-
-
-
-
-
 }
