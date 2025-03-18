@@ -202,6 +202,6 @@ fun ItemBox(
 @Preview(showBackground = true)
 @Composable
 fun CompleteProfileScreen03Preview() {
-    AddProfileScreen03()
+//    AddProfileScreen03()
 }
 

@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services") //firebase google service id
     id("com.google.firebase.crashlytics") //firebase crashlytics id
+    id("com.google.devtools.ksp") //ksp
+    id("dagger.hilt.android.plugin") //hilt
 }
 
 android {
@@ -12,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.madhan.adamsuperapp"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -57,7 +59,14 @@ dependencies {
     implementation(libs.firebase.analytics)
     //Firebase Crashlytics
     implementation(libs.firebase.crashlytics)
-
+    //Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.googleid)
+    implementation(libs.androidx.navigation.compose)
+    ksp(libs.hilt.android.compiler)
+    //viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -74,4 +83,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
 }

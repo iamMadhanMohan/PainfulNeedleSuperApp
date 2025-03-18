@@ -39,7 +39,7 @@ import com.madhan.feature_tinder.composable.TitleText
 import com.madhan.feature_tinder.composable.TopBar
 
 @Composable
-fun TinderScreen(
+fun TinderScreen00(
     modifier: Modifier = Modifier,
     navController: NavController? = null
 ) {
@@ -95,5 +95,5 @@ fun TinderScreen(
 @Preview(showBackground = true)
 @Composable
 fun TinderScreenPreview() {
-    TinderScreen()
+//    TinderScreen()
 }

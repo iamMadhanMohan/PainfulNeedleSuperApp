@@ -120,5 +120,5 @@ fun TakePhotoScreen02(
 @Preview(showBackground = true)
 @Composable
 fun TakePhotoScreen02Preview() {
-    TakePhotoScreen02()
+//    TakePhotoScreen02()
 }

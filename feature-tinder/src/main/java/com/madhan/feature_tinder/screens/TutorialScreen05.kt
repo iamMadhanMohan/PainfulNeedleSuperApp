@@ -165,5 +165,5 @@ fun getAnnotatedString(fullText: String, boldText: List<String>): AnnotatedStrin
 @Preview(showBackground = true)
 @Composable
 fun TutorialScreen05Review() {
-    TutorialScreen05()
+//    TutorialScreen05()
 }

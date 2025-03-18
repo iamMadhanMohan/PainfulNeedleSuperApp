@@ -10,13 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.madhan.adamsuperapp.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun PasswordRecoveryScreen() {
     Column(
@@ -74,9 +73,9 @@ fun PasswordRecoveryScreen() {
             onValueChange = { },
             label = { Text("Email", color = Color.White) },
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.White,
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White
             ),
@@ -95,9 +94,9 @@ fun PasswordRecoveryScreen() {
             onValueChange = { },
             label = { Text("Password", color = Color.White) },
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White,
-                unfocusedBorderColor = Color.White,
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.White,
+                unfocusedIndicatorColor = Color.White,
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White
             ),
@@ -122,14 +121,6 @@ fun PasswordRecoveryScreen() {
         }
     }
 }
-
-@Preview(showBackground = true, backgroundColor = 0xFF00008B) // Dark blue background
-@Composable
-fun PasswordRecoveryScreenPreview() {
-    PasswordRecoveryScreen()
-}
-
-
 
 @Composable
 fun SignInButton(onClick: () -> Unit) {
@@ -200,8 +191,5 @@ fun GoogleLoginButton(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun GitHubLoginButtonPreview() {
-    GitHubLoginButton(onClick = {
-        // Placeholder for onClick action in preview
-        println("GitHub login button clicked (preview)")
-    })
+    PasswordRecoveryScreen()
 }
