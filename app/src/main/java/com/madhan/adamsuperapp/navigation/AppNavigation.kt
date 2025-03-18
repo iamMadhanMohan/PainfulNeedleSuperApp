@@ -1,6 +1,7 @@
 package com.madhan.adamsuperapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,12 +13,15 @@ import com.madhan.adamsuperapp.ui.screens.SignUpScreen
 import com.madhan.feature_bank.navigation.bankNavGraph
 import com.madhan.feature_bank.navigation.tinderNavGraph
 import com.madhan.feature_delivery.navigation.deliveryNavGraph
+import com.madhan.feature_hotel.data.vm.FavoriteViewModel
 import com.madhan.feature_hotel.navigation.hotelNavGraph
 import com.madhan.feature_uber.Screens.Navigation.SetupNavGraph
 import com.madhan.feature_pet.navigation.petNavGraph
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
+    // Create the FavoriteViewModel for Favorites
+    val favoriteViewModel: FavoriteViewModel = viewModel()
     NavHost(
         navController,
         startDestination = Screen.SignIn.route,
@@ -53,6 +57,6 @@ fun AppNavigation(navController: NavHostController) {
         petNavGraph(navController) // Pet NavGraph
         tinderNavGraph(navController) // Tinder NavGraph
         bankNavGraph(navController) // IBank NavGraph
-        hotelNavGraph(navController) // Hotel NavGraph
+        hotelNavGraph(navController, favoriteViewModel) // Hotel NavGraph
     }
 }

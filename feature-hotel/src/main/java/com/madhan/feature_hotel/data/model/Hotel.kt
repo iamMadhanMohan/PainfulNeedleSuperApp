@@ -1,4 +1,4 @@
-package com.madhan.feature_hotel.data
+package com.madhan.feature_hotel.data.model
 
 data class Hotel(
     val imageResId: Int,

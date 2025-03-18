@@ -1,57 +1,46 @@
 package com.madhan.feature_hotel.ui.screens
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData
-import com.madhan.feature_hotel.ui.widgets.CustomHotelCard
-import com.madhan.feature_hotel.ui.widgets.CustomTitleText
-import com.madhan.feature_hotel.ui.widgets.HotelSearchCard
-import com.madhan.feature_hotel.ui.widgets.IconTextRow
+import com.madhan.feature_hotel.data.vm.FavoriteViewModel
+import com.madhan.feature_hotel.ui.widgets.*
 import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.utils.routes.FAVORITESCREEN
 import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
-import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
+import com.madhan.feature_hotel.utils.routes.ORDERSSCREEN
 import com.madhan.feature_hotel.utils.routes.PLACESCREEN
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewModel()) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         // State to control HotelSearchCard visibility
         var showSearchCard by remember { mutableStateOf(false) }
+        //state to control favorite list
+        val favoriteHotels by viewModel.favoriteHotels.collectAsState()// Observe state
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -60,7 +49,8 @@ fun HomeScreen(navController: NavController) {
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxSize(),
+                userScrollEnabled = true
             ) {
                 // Background Image with Home Icon
                 item {
@@ -113,6 +103,9 @@ fun HomeScreen(navController: NavController) {
                     ) {
 
                         IconTextRow(
+                            modifier = Modifier.clickable {
+                                navController.navigate(FAVORITESCREEN)
+                            },
                             icon = painterResource(id = R.drawable.heart),
                             text = "Favorites",
                             textSize = 16.sp,
@@ -123,7 +116,7 @@ fun HomeScreen(navController: NavController) {
 
                         IconTextRow(
                             modifier = Modifier
-                                .clickable { navController.navigate(ORDERSCREEN) },
+                                .clickable { navController.navigate(ORDERSSCREEN) },
                             icon = painterResource(id = R.drawable.file),
                             text = "Orders",
                             textSize = 16.sp,
@@ -173,6 +166,7 @@ fun HomeScreen(navController: NavController) {
 
                 // Recommended Hotels List
                 items(DummyData.hotelList) { hotel ->
+                    val isFavorite = favoriteHotels.contains(hotel)
                     CustomHotelCard(
                         modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
                         backgroundImage = painterResource(id = hotel.imageResId),
@@ -181,7 +175,8 @@ fun HomeScreen(navController: NavController) {
                         hotelRating = hotel.hotelRating,
                         hotelDistance = hotel.hotelDistance,
                         hotelPrice = hotel.hotelPrice,
-                        isSelected = remember { mutableStateOf(false) }
+                        isFavorite = isFavorite,
+                        onFavoriteClick = { viewModel.toggleFavorite(hotel) }
                     )
                 }
             }

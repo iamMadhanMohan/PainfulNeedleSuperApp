@@ -28,7 +28,9 @@ fun CustomHotelCard(
     hotelRating: String,
     hotelDistance: String,
     hotelPrice: String,
-    isSelected: MutableState<Boolean> // For like button functionality
+    isFavorite: Boolean,
+    onFavoriteClick: () -> Unit,
+
 ) {
     Card(
         modifier = modifier
@@ -53,7 +55,9 @@ fun CustomHotelCard(
             // Like Icon
             IconButton(
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = { isSelected.value = !isSelected.value },
+                onClick = {
+                    onFavoriteClick()
+                          },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color.White
@@ -61,7 +65,7 @@ fun CustomHotelCard(
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(if (isSelected.value) R.drawable.heartfill else R.drawable.heart),
+                    painter = painterResource(if (isFavorite) R.drawable.heartfill else R.drawable.heart),
                     contentDescription = "like icon",
                     tint = Color.White
                 )
@@ -132,6 +136,7 @@ fun CustomHotelCardPreview(){
         hotelRating = "4.8",
         hotelDistance = "3.56 km ",
         hotelPrice = "$ 150",
-        isSelected = remember { mutableStateOf(false) }
+        isFavorite = false,
+        onFavoriteClick = {}
     )
 }

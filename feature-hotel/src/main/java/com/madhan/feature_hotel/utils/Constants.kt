@@ -9,6 +9,8 @@ object routes {
     const val PLACESCREEN = "Place"
     const val HOTELDETAILSCREEN = "Hotel_Details"
     const val ORDERSCREEN = "Order"
+    const val FAVORITESCREEN = "Favorites"
+    const val ORDERSSCREEN = "Orders"
 
 }
 
