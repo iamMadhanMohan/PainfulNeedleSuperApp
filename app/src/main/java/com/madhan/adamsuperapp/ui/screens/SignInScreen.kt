@@ -1,4 +1,4 @@
-package com.madhan.adamsuperapp.ui.Screens
+package com.madhan.adamsuperapp.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -14,14 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
-import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword.Companion.LogIn
+import com.madhan.adamsuperapp.auth.SigninWithGithub
+import com.madhan.adamsuperapp.auth.findActivity
+import com.madhan.adamsuperapp.navigation.Screen
 
 
 val orange = Color(0xFFFF7D1E)
@@ -30,13 +35,14 @@ val orange = Color(0xFFFF7D1E)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
+    navController: NavController,
     onSignIn: () -> Unit = {},
     onCreateAccount: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-
+    val activity = LocalContext.current.findActivity()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -120,35 +126,31 @@ fun SignInScreen(
                     Spacer(modifier = Modifier.height(24.dp))
 
                     // Sign In Button - Using the same color as the FloatingActionButton in SetPickup
-                    var errorMessage by remember { mutableStateOf("") }
-
                     Button(
-                        onClick = {
-                            LogIn(email, password) { user ->
-                                if (user != null) {
-                                    onSignIn()
-                                } else {
-                                    errorMessage = "Invalid email or password"
-                                }
-                            }
-                        },
+                        onClick = { onSignIn() },
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(16.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = orange, contentColor = Color.White)
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = orange,
+                            contentColor = Color.White
+                        )
                     ) {
                         Text("Sign In")
                     }
 
-// Display error message
-                    if (errorMessage.isNotEmpty()) {
-                        Text(text = errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
-                    }
-
-
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Social Login Buttons with consistent styling
-                    GitHubLoginButton()
+                    GitHubLoginButton(
+                        onClick = {
+                            SigninWithGithub.signIn(
+                                activity = activity!!,
+                                onSuccess = {
+                                    navController.navigate("home")
+                                }
+                            )
+                        }
+                    )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
@@ -158,7 +160,7 @@ fun SignInScreen(
 
                     // Create Account Link
                     TextButton(
-                        onClick = { onCreateAccount() },
+                        onClick = { navController.navigate(Screen.SignUp.route) },
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Text("No account? Create one!")
@@ -226,5 +228,5 @@ fun GoogleLoginButton(onClick: () -> Unit = {}) {
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
-    SignInScreen()
+    SignInScreen(rememberNavController())
 }

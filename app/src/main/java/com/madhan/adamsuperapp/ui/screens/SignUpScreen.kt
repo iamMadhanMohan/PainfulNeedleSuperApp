@@ -1,8 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -20,11 +18,15 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
-import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
+import com.madhan.adamsuperapp.navigation.Screen
 
 @Composable
-fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
+fun SignUpScreen(
+    navController: NavController,
+) {
     var userName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -55,12 +57,11 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
             !doPasswordsMatch(password, confirmPassword) -> errorMessage = "Passwords do not match"
             signedUpEmails.contains(email) -> {
                 errorMessage = "Email already exists! Redirecting to Sign In..."
-                onNavigateToSignIn() // Navigate to Sign In screen
+                navController.navigate(Screen.SignIn.route)
             }
             else -> {
                 errorMessage = "Signup successful!"
-                // Handle successful signup logic here (like storing the email)
-                onNavigateToSignIn() // Navigate to Sign In screen after successful signup
+                navController.navigate(Screen.SignIn.route)
             }
         }
     }
@@ -155,15 +156,8 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
             // Confirm Button (Yellow Color)
             Button(
                 onClick = {
-                    SigninWithEmailAndPassword.signUp(email, password) { user ->
-                        if (user != null) {
-                            Log.d("Auth", "Sign-up successful")
-                            onNavigateToSignIn() // Navigate to Sign In after successful sign-up
-                        } else {
-                            Log.e("Auth", "Sign-up failed")
-                        }
-                    }
-                },
+                    handleSignUp()
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
@@ -173,7 +167,6 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
                 Text(text = "Confirm", fontSize = 18.sp, color = Color.Black)
             }
 
-
             Spacer(modifier = Modifier.height(16.dp))
 
             // Sign In Text
@@ -182,10 +175,7 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
             ) {
                 ClickableText(
                     text = androidx.compose.ui.text.AnnotatedString("Already have an account? Signin"),
-                    onClick = { offset ->
-                        if (offset >= 25) { // "Signin" starts at offset 25 in the string
-                            onNavigateToSignIn()
-                        }
+                    onClick = { navController.navigate(Screen.SignIn.route)
                     },
                     style = TextStyle(color = Color(0xFFFF8000), fontSize = 14.sp)
                 )
@@ -197,5 +187,5 @@ fun SignUpScreen(onNavigateToSignIn: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen(onNavigateToSignIn = { /* Preview Sign In Navigation */ })
+    SignUpScreen(rememberNavController())
 }

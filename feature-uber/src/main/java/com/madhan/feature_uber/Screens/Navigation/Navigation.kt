@@ -91,7 +91,7 @@ fun SetupNavGraph(navController: NavHostController, onBackToHome: () -> Unit) {
                     pickupLocation = LocationInfo(
                         name = selected.name,
                         address = selected.address,
-                        city = "Johannesburg" // Assuming city is always Johannesburg
+                        city = "Johannesburg" // Asg
                     )
                     navController.navigate(Screen.RideOptions.route)
                 },
@@ -171,7 +171,7 @@ fun SetupNavGraph(navController: NavHostController, onBackToHome: () -> Unit) {
                     ),
                     PaymentMethod.Cash
                 ),
-                onPayClick = {},
+                onPayClick = {navController.navigate(Screen.Transport.route)},
                 onHomeClick = { navController.navigate(Screen.Transport.route) }
             )
         }
