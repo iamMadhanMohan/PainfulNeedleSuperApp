@@ -78,26 +78,26 @@ fun HomeScreen(navController: NavController) {
                         IconButton(
                             onClick = { showSearchCard = !showSearchCard },
                             modifier = Modifier
-                                .align(Alignment.TopStart),
+                                .align(Alignment.TopStart)
+                                .background(if (!showSearchCard) Color.White else customColors.orange),
                            colors = IconButtonDefaults.filledIconButtonColors(
-                               // containerColor = if (!showSearchCard) customColors.orange else Color.White,
-                                contentColor = Color.Red
+                               containerColor = if (!showSearchCard) customColors.orange else Color.White,
+
                                 )
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                painter = painterResource(id = R.drawable.homeicon), // Home icon
+                                painter = painterResource(id = R.drawable.home), // Home icon
                                 contentDescription = "Home Icon",
-                                tint = Color.White
-                               // tint = if (!showSearchCard) Color.White else customColors.orange
+                              tint = if (!showSearchCard) Color.White else customColors.orange
                             )
                         }
                         // Show Hotel Search Card only when showSearchCard is true
                         if (showSearchCard) {
-                            HotelSearchCard(
-                                modifier = Modifier.align(Alignment.Center),
-                                onClick = { navController.navigate(PLACESCREEN) } //Opens map
-                            )
+                                HotelSearchCard(
+                                    modifier = Modifier,
+                                    onClick = { navController.navigate(PLACESCREEN) } //Opens map
+                                )
                         }
                     }
                 }
@@ -106,14 +106,13 @@ fun HomeScreen(navController: NavController) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(96.dp)
+                            .height(50.dp)
                             .background(customColors.orange),
                         horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.Bottom
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
 
                         IconTextRow(
-                            modifier = Modifier.padding(bottom = 16.dp),
                             icon = painterResource(id = R.drawable.heart),
                             text = "Favorites",
                             textSize = 16.sp,
@@ -124,7 +123,6 @@ fun HomeScreen(navController: NavController) {
 
                         IconTextRow(
                             modifier = Modifier
-                                .padding(bottom = 16.dp)
                                 .clickable { navController.navigate(ORDERSCREEN) },
                             icon = painterResource(id = R.drawable.file),
                             text = "Orders",
