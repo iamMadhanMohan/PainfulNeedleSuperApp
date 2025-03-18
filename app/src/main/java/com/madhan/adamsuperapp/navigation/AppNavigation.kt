@@ -30,8 +30,22 @@ fun AppNavigation(navController: NavHostController) {
             composable("uber_main") {
                 // Create a nested NavController specifically for the Uber feature
                 val uberNavController = rememberNavController()
-                SetupNavGraph(uberNavController)
-            }// Hotel Home Screen
+
+                // Pass a callback to handle back navigation to home
+                SetupNavGraph(
+                    navController = uberNavController,
+                    onBackToHome = {
+                        // Navigate to the home screen
+                        navController.navigate(Screen.Home.route) {
+                            // Clear the back stack up to home
+                            popUpTo("root") {
+                                inclusive = false
+                            }
+                        }
+                    }
+                )
+            }
+        }
 
         composable(Screen.Delivery.route) { ServiceBScreen(navController) } // Delivery Home Screen
         composable(Screen.Pet.route) { ServiceBScreen(navController) } // Pet Home Screen
@@ -39,4 +53,4 @@ fun AppNavigation(navController: NavHostController) {
         bankNavGraph(navController) // IBank NavGraph
         hotelNavGraph(navController) // Hotel NavGraph
     }
-}}
+}

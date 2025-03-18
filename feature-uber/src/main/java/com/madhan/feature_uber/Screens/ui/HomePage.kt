@@ -18,7 +18,7 @@ import com.madhan.feature_uber.R
 
 
 @Composable
-fun TransportScreen(onLoginClick: () -> Unit) {
+fun TransportScreen(onLoginClick: () -> Unit, onBackHomeClick: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -30,7 +30,7 @@ fun TransportScreen(onLoginClick: () -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Start
         ) {
-            IconButton(onClick = { /* Handle back navigation */ }) {
+            IconButton(onClick = { onBackHomeClick() }) {
                 Icon(painterResource(id = android.R.drawable.ic_menu_revert), contentDescription = "Back")
             }
         }
@@ -102,6 +102,6 @@ fun TransportScreen(onLoginClick: () -> Unit) {
 @Composable
 fun TransportScreenPreview() {
     MaterialTheme {
-        TransportScreen(onLoginClick = { /* Handle login click */ })
+//        TransportScreen(onLoginClick = { /* Handle login click */ })
     }
 }

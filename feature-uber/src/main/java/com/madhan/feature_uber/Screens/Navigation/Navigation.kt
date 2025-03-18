@@ -43,7 +43,7 @@ sealed class Screen(val route: String) {
 }
 @Composable
 @RequiresApi(Build.VERSION_CODES.O)
-fun SetupNavGraph(navController: NavHostController) {
+fun SetupNavGraph(navController: NavHostController , onBackToHome: () -> Unit) {
     NavHost(
         navController = navController,
         startDestination = Screen.Transport.route,
@@ -51,7 +51,8 @@ fun SetupNavGraph(navController: NavHostController) {
     ) {
         composable(Screen.Transport.route) {
             TransportScreen(
-                onLoginClick = { navController.navigate(Screen.Permission.route) }
+                onLoginClick = { navController.navigate(Screen.Permission.route) },
+                onBackHomeClick = { onBackToHome() } // Call the callback to navigate back to home}
             )
         }
         composable(Screen.Permission.route) {
@@ -77,7 +78,7 @@ fun SetupNavGraph(navController: NavHostController) {
         composable(Screen.DelayedTrip.route) {
             DelayedTripDateTimeScreen(
                 onBackClick = { navController.popBackStack() },
-                onDateTimeConfirmed = { _, _ -> navController.navigate(Screen.RideOptions.route) }
+                onDateTimeConfirmed = { _, _ -> navController.navigate(Screen.SetDestination.route) }
             )
         }
         composable(Screen.RideOptions.route) {

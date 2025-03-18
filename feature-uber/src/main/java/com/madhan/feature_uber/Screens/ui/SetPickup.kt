@@ -176,7 +176,7 @@ fun PickUpScreen(
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,
-                onMapClick = { /* Handle map click */ }
+                onMapClick = { onCalendar() }
             ) {
                 // Add a marker for the user's current location
                 Marker(
