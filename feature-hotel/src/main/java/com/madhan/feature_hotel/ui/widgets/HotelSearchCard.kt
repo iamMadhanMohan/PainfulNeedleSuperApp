@@ -2,10 +2,12 @@ package com.madhan.feature_hotel.ui.widgets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,88 +34,98 @@ import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.utils.customColors
 
 @Composable
-fun HotelSearchCard(modifier: Modifier) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(modifier = modifier.padding(16.dp)) {
-            // Location Row
-            Row (
-                modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Johannesburg",
-                    style = TextStyle(
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 16.sp
+fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
+    Box(modifier = Modifier.padding(16.dp)) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(226.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Column(modifier = modifier.padding(16.dp)) {
+                // Location Row
+                Row(
+                    modifier = modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Johannesburg",
+                        style = TextStyle(
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 16.sp
+                        )
+                    )
+                    //Icon Text
+                    IconTextRow(
+                        modifier = modifier.clickable { onClick() },
+                        icon = painterResource(id = R.drawable.map),
+                        text = "Places",
+                        textSize = 20.sp,
+                        textColor = customColors.descriptionColor,
+                        iconTint = customColors.orange,
+                        iconSize = 24.dp
+                    )
+                }
+                // Date and Room Selection
+                Row(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(modifier = modifier.weight(1f)) {
+                        Text(
+                            text = "CHOOSE DATES",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Gray
+                        )
+                        Text(text = "20 Mar - 22 Mar", style = MaterialTheme.typography.bodyMedium)
+                    }
+                    Spacer(modifier = modifier.width(8.dp))
+                    Column(modifier = modifier.weight(1f)) {
+                        Text(
+                            text = "NUMBERS OF ROOMS",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Gray
+                        )
+                        Text(
+                            text = "1 Room - 2 Adults",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+                // Search Bar
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = { Text("Search location / name / country") },
+                    leadingIcon = {
+                        Icon(
+                            modifier = modifier.clickable { },
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "Search"
+                        )
+                    },
+                    modifier = modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedBorderColor = Color.LightGray,
+                        focusedBorderColor = customColors.orange
                     )
                 )
-                //Icon Text
-                IconTextRow(
-                    modifier=modifier.clickable { /* Handle places selection */  },
-                    icon = painterResource(id = R.drawable.map),
-                    text = "Places",
-                    textSize = 20.sp,
-                    textColor = customColors.descriptionColor,
-                    iconTint = customColors.orange,
-                    iconSize = 24.dp
-                )
-            }
-
-            // Date and Room Selection
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(modifier = modifier.weight(1f)) {
-                    Text(text = "CHOOSE DATES", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                    Text(text = "20 Mar - 22 Mar", style = MaterialTheme.typography.bodyMedium)
+                // Search Button
+                Button(
+                    onClick = { /* Handle search action */ },
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = customColors.orange)
+                ) {
+                    Text(text = "Search hotels", color = Color.White)
                 }
-                Spacer(modifier = modifier.width(8.dp))
-                Column(modifier = modifier.weight(1f)) {
-                    Text(text = "NUMBERS OF ROOMS", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                    Text(text = "1 Room - 2 Adults", style = MaterialTheme.typography.bodyMedium)
-                }
-            }
-
-            // Search Bar
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = { Text("Search location / name / country") },
-                leadingIcon = {
-                    Icon(
-                        modifier = modifier.clickable {  },
-                        painter = painterResource(id = R.drawable.search),
-                        contentDescription = "Search"
-                    )
-                },
-                modifier = modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(8.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = Color.LightGray,
-                    focusedBorderColor = customColors.orange
-                )
-            )
-
-            // Search Button
-            Button(
-                onClick = { /* Handle search action */ },
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = customColors.orange)
-            ) {
-                Text(text = "Search hotels", color = Color.White)
             }
         }
     }
@@ -123,5 +135,5 @@ fun HotelSearchCard(modifier: Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun HotelSearchCardPreview() {
-        HotelSearchCard(modifier = Modifier)
+        HotelSearchCard(modifier = Modifier, onClick = {})
 }

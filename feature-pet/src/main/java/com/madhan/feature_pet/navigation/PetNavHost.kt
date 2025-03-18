@@ -47,5 +47,6 @@ fun NavGraphBuilder.petNavGraph(navController: NavHostController) {
             OrderScreen(navController, guardName, "Kobe", startDate, endDate)
         }
         composable("appointment_success") { AppointmentSuccessfulScreen(navController) }
+
     }
 }

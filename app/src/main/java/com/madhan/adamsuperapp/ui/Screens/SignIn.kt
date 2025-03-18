@@ -2,147 +2,168 @@ package com.madhan.adamsuperapp.ui.Screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import com.madhan.adamsuperapp.R
 
 
+val orange = Color(0xFFFF7D1E)
+
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordRecoveryScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Top Bar (Back Arrow - Placeholder)
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                painter = painterResource(id = android.R.drawable.ic_menu_revert), // Replace with your back arrow icon
-                contentDescription = "Back",
-                tint = Color.White // Assuming white icons
+fun SignInScreen(
+    onSignIn: () -> Unit = {},
+    onCreateAccount: () -> Unit = {},
+    onBackClick: () -> Unit = {}
+) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { /* Empty title to match the SetPickup screen */ },
+                navigationIcon = {
+                    IconButton(onClick = { onBackClick() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                }
             )
-            Spacer(modifier = Modifier.weight(1f)) // Push icon to the start
         }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Logo
+                Image(
+                    painter = painterResource(id = R.drawable.logo),
+                    contentDescription = "Pain Needle Logo",
+                    modifier = Modifier.size(100.dp)
+                )
 
-        Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-        // Logo
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), // Replace with your logo resource
-            contentDescription = "Pain Needle Logo",
-            modifier = Modifier.size(100.dp) // Adjust size as needed
-        )
+                // Sign In Form in a card-like container similar to SetPickup bottom sheet
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(16.dp))
+                        .border(3.dp, Color.LightGray, RoundedCornerShape(16.dp))
+                        .background(Color.White)
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Sign In",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-        // Title
-        Text(
-            text = "Password recovery",
-            fontSize = 24.sp,
-            color = Color.White // Assuming white text
-        )
+                    Text(
+                        text = "Welcome to Pain Needle!",
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-        // Instruction Text
-        Text(
-            text = " Welcome to Pain Needle!",
-            fontSize = 16.sp,
-            color = Color.White, // Assuming white text
-            textAlign = TextAlign.Center
-        )
+                    // Email Input - Styled like the search field in SetPickup
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Email") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
 
-        Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-        // Phone Number Input
-        OutlinedTextField(
-            value = "",
-            onValueChange = { },
-            label = { Text("Email", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.White,
-                unfocusedIndicatorColor = Color.White,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.White
-            ),
-            textStyle = LocalTextStyle.current.copy(color = Color.White) // Correct way to set text color
-        )
+                    // Password Input
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
 
-        Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
+                    // Sign In Button - Using the same color as the FloatingActionButton in SetPickup
+                    Button(
+                        onClick = { onSignIn() },
+                        modifier = Modifier.fillMaxWidth(),
+                        contentPadding = PaddingValues(16.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = orange,
+                            contentColor = Color.White
+                        )
+                    ) {
+                        Text("Sign In")
+                    }
 
+                    Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(8.dp))
+                    // Social Login Buttons with consistent styling
+                    GitHubLoginButton()
 
-        // Email Input
-        OutlinedTextField(
-            value = "",
-            onValueChange = { },
-            label = { Text("Password", color = Color.White) },
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.White,
-                unfocusedIndicatorColor = Color.White,
-                focusedLabelColor = Color.White,
-                unfocusedLabelColor = Color.White
-            ),
-            textStyle = LocalTextStyle.current.copy(color = Color.White) // Correct way to set text color
-        )
+                    Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(24.dp))
+                    GoogleLoginButton()
 
-        // Send Button
-        SignInButton() {}
+                    Spacer(modifier = Modifier.height(16.dp))
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        GitHubLoginButton (){
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        GoogleLoginButton (){}
-
-        // Create Account Link
-        TextButton(onClick = { }) {
-            Text("No account? Create one!", color = Color.White)
+                    // Create Account Link
+                    TextButton(
+                        onClick = { onCreateAccount() },
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
+                        Text("No account? Create one!")
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun SignInButton(onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(16.dp) // Same padding as GitHub button
-    ) {
-        Text("Sign In")
-    }
-}
-
-
-@Composable
-fun GitHubLoginButton(onClick: () -> Unit) {
+fun GitHubLoginButton(onClick: () -> Unit = {}) {
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        border = BorderStroke(1.dp, Color.LightGray),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            containerColor = MaterialTheme.colorScheme.surface
+            contentColor = Color.Black,
+            containerColor = Color.White
         ),
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -151,7 +172,7 @@ fun GitHubLoginButton(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.github), // Replace with your GitHub logo resource
+                painter = painterResource(id = R.drawable.github),
                 contentDescription = "GitHub Logo",
                 modifier = Modifier.size(24.dp)
             )
@@ -162,14 +183,14 @@ fun GitHubLoginButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun GoogleLoginButton(onClick: () -> Unit) {
+fun GoogleLoginButton(onClick: () -> Unit = {}) {
     OutlinedButton(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+        border = BorderStroke(1.dp, Color.LightGray),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            containerColor = MaterialTheme.colorScheme.surface
+            contentColor = Color.Black,
+            containerColor = Color.White
         ),
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -178,18 +199,18 @@ fun GoogleLoginButton(onClick: () -> Unit) {
             horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.google), // Replace with your GitHub logo resource
-                contentDescription = "GitHub Logo",
+                painter = painterResource(id = R.drawable.google),
+                contentDescription = "Google Logo",
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Login with GitHub")
+            Text("Login with Google")
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GitHubLoginButtonPreview() {
-    PasswordRecoveryScreen()
+fun SignInScreenPreview() {
+    SignInScreen()
 }
