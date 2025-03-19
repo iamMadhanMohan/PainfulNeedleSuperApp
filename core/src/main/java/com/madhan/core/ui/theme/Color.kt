@@ -21,7 +21,6 @@ val GradientColorTwo = Color(0xFF1C19A6)
 val hotelTextColor = Color(0xFF171D33)
 val descriptionColor = Color(0xFFA6AAB4)
 val cardColor = Color(0xFFE8E9EC)
-val buttonColorGreen = Color(0xFF10C971)
 val dividerColor = Color(0xFFE8E9EC)
 
 
