@@ -101,7 +101,7 @@ fun ChooseDateScreen(navController: NavHostController, onDateSelected: (String, 
             onClick = {
                 if (startDate != null && endDate != null) {
                     onDateSelected(startDate.toString(), endDate.toString())
-                    navController.navigateUp()
+                    navController.navigate("pet_care_list")
                 }
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8C00)),
