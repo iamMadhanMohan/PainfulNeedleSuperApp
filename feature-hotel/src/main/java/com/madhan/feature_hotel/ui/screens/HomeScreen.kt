@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.core.ui.components.CustomDataCard
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.data.vm.FavoriteViewModel
@@ -167,7 +168,7 @@ fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewM
                 // Recommended Hotels List
                 items(DummyData.hotelList) { hotel ->
                     val isFavorite = favoriteHotels.contains(hotel)
-                    CustomHotelCard(
+                    CustomDataCard(
                         modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
                         backgroundImage = painterResource(id = hotel.imageResId),
                         hotelType = hotel.hotelType,

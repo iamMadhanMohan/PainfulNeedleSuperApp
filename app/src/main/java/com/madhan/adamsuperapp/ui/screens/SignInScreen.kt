@@ -35,6 +35,7 @@ import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.utils.UiStatus
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.firebase.auth.FirebaseUser
 
 
 val orange = Color(0xFFFF7D1E)
@@ -78,9 +79,13 @@ fun SignInScreen(
     when (loginState) {
         is UiStatus.LOADING -> {
             // Show loading spinner while signing in
-            CircularProgressIndicator()
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+               // CircularProgressIndicator()
+            }
         }
-
         is UiStatus.SUCCESS -> {
             // Navigate to next screen on success
             val user = (loginState as UiStatus.SUCCESS)
@@ -92,11 +97,10 @@ fun SignInScreen(
             navController.navigate(Screen.Home.route)
 
         }
-
         is UiStatus.ERROR -> {
             // Handle login error
             val errorMessage = (loginState as UiStatus.ERROR).error
-            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -228,6 +232,9 @@ fun SignInScreen(
                         onClick = {
                             // Trigger Google sign-in
                             viewModel.authenticate(context = context)
+                            navController.navigate(Screen.Home.route) {
+                                popUpTo(Screen.SignIn.route) { inclusive = true } // Remove SigninScreen from back stack
+                            }
                         }
                     )
 

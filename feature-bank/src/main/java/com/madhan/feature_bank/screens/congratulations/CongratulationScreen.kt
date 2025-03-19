@@ -24,10 +24,11 @@ import com.madhan.feature_bank.R
 
 
 @Composable
-fun CongratulationScreen(navController: NavController){
+fun CongratulationScreen(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(16.dp)
     ) {
 
@@ -36,7 +37,8 @@ fun CongratulationScreen(navController: NavController){
         Image(
             painter = painterResource(id = R.drawable.congratulation_screen_image),
             contentDescription = "loading screen image",
-            modifier = Modifier.width(284.dp)
+            modifier = Modifier
+                .width(284.dp)
                 .height(218.dp)
         )
 
@@ -58,8 +60,12 @@ fun CongratulationScreen(navController: NavController){
 
         Spacer(modifier = Modifier.weight(1f))
 
-        CustomButton("Next"){
-            navController.navigate("services")
+        CustomButton("Next") {
+            navController.navigate("services") {
+                popUpTo("ibank_home") {
+                    inclusive = true
+                } // Remove Loading Screen from backstack
+            }
         }
     }
 }
@@ -67,6 +73,6 @@ fun CongratulationScreen(navController: NavController){
 
 @Preview(showBackground = true)
 @Composable
-fun CongratulationScreenPreview(){
+fun CongratulationScreenPreview() {
     CongratulationScreen(rememberNavController())
 }
