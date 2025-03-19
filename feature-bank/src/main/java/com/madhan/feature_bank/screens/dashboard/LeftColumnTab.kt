@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
@@ -60,15 +61,13 @@ fun LeftColumnTab(
                             modifier = Modifier.padding(8.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            tabItems[index].reversed().forEach { letter ->
-                                Text(
-                                    text = letter.toString(),
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (index == selectedTabIndex) Color.Black else Color.Gray,
-                                    modifier = Modifier
-                                        .rotate(270f)
-                                )
-                            }
+                            Text(
+                                modifier = Modifier
+                                    .vertical()
+                                    .rotate(-90f)
+                                    .padding(4.dp),
+                                text = tabItems[index]
+                            )
                         }
 
                     }
@@ -96,5 +95,14 @@ fun LeftColumnTab(
     }
 }
 
-
+fun Modifier.vertical() =
+    layout { measurable, constraints ->
+        val placeable = measurable.measure(constraints)
+        layout(placeable.height, placeable.width) {
+            placeable.place(
+                x = -(placeable.width / 2 - placeable.height / 2),
+                y = -(placeable.height / 2 - placeable.width / 2)
+            )
+        }
+    }
 
