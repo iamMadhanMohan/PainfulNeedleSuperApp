@@ -24,18 +24,19 @@ import com.madhan.feature_bank.R
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoadingScreen(navController: NavController){
+fun LoadingScreen(navController: NavController) {
 
     LaunchedEffect(Unit) {
         delay(2000)
         navController.navigate("congratulation") {
-            popUpTo("loading_screen") { inclusive = true }
+            popUpTo("add_account") { inclusive = true } // Remove Loading Screen from backstack
         }
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(16.dp)
     ) {
 
@@ -44,7 +45,8 @@ fun LoadingScreen(navController: NavController){
         Image(
             painter = painterResource(id = R.drawable.loading_screen_image),
             contentDescription = "loading screen image",
-            modifier = Modifier.width(284.dp)
+            modifier = Modifier
+                .width(284.dp)
                 .height(218.dp)
         )
 
@@ -69,6 +71,6 @@ fun LoadingScreen(navController: NavController){
 
 @Preview(showBackground = true)
 @Composable
-fun LoadingScreenPreview(){
+fun LoadingScreenPreview() {
     LoadingScreen(rememberNavController())
 }

@@ -50,6 +50,7 @@ fun HomeScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
             .padding(16.dp)
+            .background(Color.White)
     ) {
 
         Text(
