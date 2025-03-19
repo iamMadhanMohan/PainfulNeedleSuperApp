@@ -70,10 +70,9 @@ fun SignInScreen(
 
     // Observe the login state
     val loginState by viewModel.loginState.collectAsState()
-   // val logoutState by viewModel.logoutState.collectAsState()
+    // val logoutState by viewModel.logoutState.collectAsState()
 
     //context
-    val context = LocalContext.current
 
     // UI elements based on login state
     when (loginState) {
@@ -81,13 +80,19 @@ fun SignInScreen(
             // Show loading spinner while signing in
             CircularProgressIndicator()
         }
+
         is UiStatus.SUCCESS -> {
             // Navigate to next screen on success
             val user = (loginState as UiStatus.SUCCESS)
-            Toast.makeText(context, "Welcome, ${user.message.displayName} to Super App", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                context,
+                "Welcome, ${user.message.displayName} to Super App",
+                Toast.LENGTH_LONG
+            ).show()
             navController.navigate(Screen.Home.route)
 
         }
+
         is UiStatus.ERROR -> {
             // Handle login error
             val errorMessage = (loginState as UiStatus.ERROR).error
@@ -183,7 +188,7 @@ fun SignInScreen(
                                 if (user != null) {
                                     Log.d("Auth", "Sign-in successful for $email")
                                     saveLoginState(context, true)
-                                    navController.navigate(Screen.Home.route){
+                                    navController.navigate(Screen.Home.route) {
                                         popUpTo(Screen.SignIn.route) { inclusive = true }
                                     } // Navigate to Home or Dashboard
                                 } else {
@@ -222,7 +227,7 @@ fun SignInScreen(
                     GoogleLoginButton(
                         onClick = {
                             // Trigger Google sign-in
-                            viewModel.authenticate(context = context )
+                            viewModel.authenticate(context = context)
                         }
                     )
 
