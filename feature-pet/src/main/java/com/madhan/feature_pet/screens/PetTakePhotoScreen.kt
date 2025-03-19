@@ -40,7 +40,7 @@ fun PetTakePhotoScreen(navController: NavHostController) {
     val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             imageUri = capturedImageUri
-            navController.navigate("dog_list") // ✅ Navigate only after capturing image
+            navController.navigate("dog_list") // Navigate only after capturing image
         }
     }
 
@@ -49,8 +49,8 @@ fun PetTakePhotoScreen(navController: NavHostController) {
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { granted ->
             if (granted) {
-                capturedImageUri = createImageFile(context) // ✅ Generate URI
-                cameraLauncher.launch(capturedImageUri!!) // ✅ Launch camera with new URI
+                capturedImageUri = createImageFile(context) // Generate URI
+                cameraLauncher.launch(capturedImageUri!!) // Launch camera with new URI
             } else {
                 Toast.makeText(context, "Camera permission is required", Toast.LENGTH_SHORT).show()
             }
@@ -144,10 +144,10 @@ fun PetTakePhotoScreen(navController: NavHostController) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
                     == PackageManager.PERMISSION_GRANTED
                 ) {
-                    capturedImageUri = createImageFile(context) // ✅ Generate image URI
-                    cameraLauncher.launch(capturedImageUri!!) // ✅ Launch camera
+                    capturedImageUri = createImageFile(context) // Generate image URI
+                    cameraLauncher.launch(capturedImageUri!!) //Launch camera
                 } else {
-                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA) // ✅ Request permission
+                    cameraPermissionLauncher.launch(Manifest.permission.CAMERA) // Request permission
                 }
             },
             shape = RoundedCornerShape(12.dp),
