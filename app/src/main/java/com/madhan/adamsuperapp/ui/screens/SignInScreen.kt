@@ -1,7 +1,6 @@
 package com.madhan.adamsuperapp.ui.screens
 
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -38,6 +37,7 @@ import com.madhan.adamsuperapp.auth.google.SigninWithGoogleViewModel
 import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.utils.UiStatus
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,52 +53,47 @@ fun SignInScreen(
     val activity = LocalContext.current.findActivity()
     var passwordVisible by remember { mutableStateOf(false) }
 
-    // Get the ViewModel using hiltViewModel()
     val viewModel: SigninWithGoogleViewModel = hiltViewModel()
-
-    // Observe the login state
     val loginState by viewModel.loginState.collectAsState()
 
-    // UI elements based on login state
-    when (loginState) {
-        is UiStatus.LOADING -> {
-            // Show loading spinner while signing in
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-               CircularProgressIndicator()
+    // Snackbar State
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    // Observe login state changes
+    LaunchedEffect(loginState) {
+        when (loginState) {
+            is UiStatus.SUCCESS -> {
+                val user = (loginState as UiStatus.SUCCESS)
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Welcome, ${user.message.displayName} to Super App")
+                }
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.SignIn.route) { inclusive = true }
+                }
             }
-        }
-        is UiStatus.SUCCESS -> {
-            // Navigate to next screen on success
-            val user = (loginState as UiStatus.SUCCESS)
-            Toast.makeText(
-                context,
-                "Welcome, ${user.message.displayName} to Super App",
-                Toast.LENGTH_LONG
-            ).show()
-            navController.navigate(Screen.Home.route){
-                popUpTo(Screen.SignIn.route){inclusive=true}
+            is UiStatus.ERROR -> {
+                val errorMessage = (loginState as UiStatus.ERROR).error
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Login failed: $errorMessage")
+                }
             }
-        }
-        is UiStatus.ERROR -> {
-            // Handle login error
-            val errorMessage = (loginState as UiStatus.ERROR).error
-            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
+            else -> {}
         }
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { /* Empty title to match the SetPickup screen */ },
+                title = { /* Empty title */ },
                 navigationIcon = {
                     IconButton(onClick = { onBackClick() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) } // Attach SnackbarHost
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -111,7 +106,6 @@ fun SignInScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Logo
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = "Pain Needle Logo",
@@ -119,7 +113,6 @@ fun SignInScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Sign In Form in a card-like container similar to SetPickup bottom sheet
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -129,21 +122,11 @@ fun SignInScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Sign In",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Text("Sign In", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
                     Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Welcome to Pain Needle!",
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    Text("Welcome to Pain Needle!", fontSize = 16.sp, textAlign = TextAlign.Center)
                     Spacer(modifier = Modifier.height(24.dp))
-                    // Email Input - Styled like the search field in SetPickup
+
                     OutlinedTextField(
                         value = email,
                         keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
@@ -153,7 +136,7 @@ fun SignInScreen(
                         singleLine = true
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    // Password Input
+
                     OutlinedTextField(
                         value = password,
                         onValueChange = { password = it },
@@ -164,59 +147,51 @@ fun SignInScreen(
                         modifier = Modifier.fillMaxWidth(),
                         singleLine = true
                     )
-
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // Sign In Button - Using the same color as the FloatingActionButton in SetPickup
                     Button(
                         onClick = {
                             LogIn(email, password) { user ->
-                                if (user != null) {
-                                    Toast.makeText(context, "Login Successful" , Toast.LENGTH_SHORT).show()
-                                    navController.navigate(Screen.Home.route) {
-                                        popUpTo(Screen.SignIn.route) { inclusive = true }
-                                    } // Navigate to Home
-                                } else {
-                                    Toast.makeText(context, "Login failed, Check credentials and try again!" , Toast.LENGTH_SHORT).show()
+                                coroutineScope.launch {
+                                    if (user != null) {
+                                        snackbarHostState.showSnackbar("Login Successful")
+                                        navController.navigate(Screen.Home.route) {
+                                            popUpTo(Screen.SignIn.route) { inclusive = true }
+                                        }
+                                    } else {
+                                        snackbarHostState.showSnackbar("Login failed, Check credentials and try again!")
+                                    }
                                 }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(16.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = PrimaryColor,
-                            contentColor = Color.White
-                        )
+                        colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor, contentColor = Color.White)
                     ) {
                         Text("Sign In")
                     }
-                    //Space
+
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Social Login Buttons with consistent styling
                     GitHubLoginButton(
                         onClick = {
-                            SigninWithGithub.signIn(
-                                activity = activity!!,
-                                onSuccess = {
-                                    navController.navigate("home")
-                                }
-                            )
+                            SigninWithGithub.signIn(activity = activity!!) {
+                                navController.navigate("home")
+                            }
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     GoogleLoginButton(
-                        onClick = {
-                            // Trigger Google sign-in
-                            viewModel.authenticate(context = context)
-                        }
+                        onClick = { viewModel.authenticate(context = context) }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // Create Account Link
                     TextButton(
-                        onClick = { navController.navigate(Screen.SignUp.route) },
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        onClick = {
+                            navController.navigate(Screen.SignUp.route){
+                                popUpTo(Screen.SignIn.route){inclusive=true}
+                            }
+                        }
                     ) {
                         Text("No account? Create one!")
                     }
@@ -225,6 +200,7 @@ fun SignInScreen(
         }
     }
 }
+
 
 @Composable
 fun GitHubLoginButton(onClick: () -> Unit = {}) {

@@ -1,6 +1,5 @@
 package com.madhan.adamsuperapp.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,8 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -26,13 +23,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,7 +47,8 @@ import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.navigation.ServiceItem
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.adamsuperapp.utils.UiStatus
-import com.madhan.core.ui.components.PrimaryButton
+import com.madhan.core.ui.components.CustomSnackbar
+import com.madhan.core.ui.components.SnackType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -62,25 +63,29 @@ fun HomeScreen(navController: NavController) {
         ServiceItem("Pet", R.drawable.pet, Screen.Pet.route),
     )
 
-    val context = LocalContext.current
     val viewModel: SigninWithGoogleViewModel = hiltViewModel()
     val logoutState by viewModel.logoutState.collectAsState()
 
-    when (logoutState) {
-        is UiStatus.LOADING -> {}
-        is UiStatus.SUCCESS -> {
-            Toast.makeText(context, "Logout Successful", Toast.LENGTH_LONG).show()
-            navController.navigate(Screen.SignIn.route) {
-                popUpTo(Screen.Home.route) { inclusive = true }
+    var snackbarMessage by remember { mutableStateOf<String?>(null) }
+    var snackType by remember { mutableStateOf(SnackType.SUCCESS) }
+
+    // Handle logout states
+    LaunchedEffect(logoutState) {
+        when (logoutState) {
+            is UiStatus.SUCCESS -> {
+                snackbarMessage = "Logout Successful"
+                navController.navigate(Screen.SignIn.route) {
+                    popUpTo(Screen.Home.route) { inclusive = true }
+                }
             }
-        }
-        is UiStatus.ERROR -> {
-            val errorMessage = (logoutState as UiStatus.ERROR).error
-            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
+            is UiStatus.ERROR -> {
+                snackbarMessage = "Login failed: ${(logoutState as UiStatus.ERROR).error}"
+            }
+            else -> {} // No action needed
         }
     }
 
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(
                 modifier = Modifier.background(PrimaryColor),
@@ -155,7 +160,21 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
+
+    // Show CustomSnackbar when a message exists
+    snackbarMessage?.let { message ->
+        CustomSnackbar(
+            modifier = Modifier.padding(16.dp),
+            message = message,
+            onDismiss = { snackbarMessage = null },
+            snackType = snackType
+        )
+    }
+
 }
+
+
+
 
 @Preview(showBackground = true)
 @Composable

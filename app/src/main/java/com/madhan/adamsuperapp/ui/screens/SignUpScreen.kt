@@ -29,6 +29,7 @@ import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
 import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.core.ui.components.PrimaryButton
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpScreen(
@@ -43,6 +44,9 @@ fun SignUpScreen(
     var errorMessage by remember { mutableStateOf("") }
     var isFocused by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val coroutineScope = rememberCoroutineScope()
 
     // Dummy list of already signed-up emails (for demonstration)
     val signedUpEmails = listOf("john@example.com", "mike@domain.com", "jane@company.com")
@@ -62,12 +66,22 @@ fun SignUpScreen(
     //Handle Sign up
     fun handleSignUp() {
         when {
-            userName.isEmpty() -> errorMessage = "Username cannot be empty"
-            !isValidEmail(email) -> errorMessage = "Invalid email format"
-            !isValidPassword(password) -> errorMessage = "Password must have at least 6 characters, 1 capital, 1 number, and 1 special character"
-            !doPasswordsMatch(password, confirmPassword) -> errorMessage = "Passwords do not match"
+            userName.isEmpty() -> coroutineScope.launch {
+                snackbarHostState.showSnackbar("Username cannot be empty")
+            }
+            !isValidEmail(email) -> coroutineScope.launch {
+                snackbarHostState.showSnackbar("Invalid email format")
+            }
+            !isValidPassword(password) -> coroutineScope.launch {
+                snackbarHostState.showSnackbar("Password must have at least 6 characters, 1 capital, 1 number, and 1 special character")
+            }
+            !doPasswordsMatch(password, confirmPassword) -> coroutineScope.launch {
+                snackbarHostState.showSnackbar("Passwords do not match")
+            }
             signedUpEmails.contains(email) -> {
-                errorMessage = "Email already exists! Redirecting to Sign In..."
+                coroutineScope.launch {
+                    snackbarHostState.showSnackbar("Email already exists! Redirecting to Sign In...")
+                }
                 navController.navigate(Screen.SignIn.route)
             }
             else -> {
@@ -75,20 +89,27 @@ fun SignUpScreen(
                     SigninWithEmailAndPassword.signUp(
                         email, password,
                         onResult = {
-                            navController.navigate(Screen.SignIn.route){
-                                popUpTo(Screen.SignUp.route){inclusive=true}
+                            coroutineScope.launch {
+                                snackbarHostState.showSnackbar("Account Created Successfully")
+                            }
+                            navController.navigate(Screen.SignIn.route) {
+                                popUpTo(Screen.SignUp.route) { inclusive = true }
                             }
                         }
                     )
-                    Toast.makeText(context, "Account Created Successfully", Toast.LENGTH_SHORT).show()
-                }catch (e:Exception){
-                    Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    coroutineScope.launch {
+                        snackbarHostState.showSnackbar("Error: ${e.message}")
+                    }
                 }
             }
         }
     }
 
-    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        snackbarHost = { SnackbarHost(snackbarHostState) } // Attach SnackbarHost
+    ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             Box(
                 modifier = Modifier
@@ -109,7 +130,6 @@ fun SignUpScreen(
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    //Signup logo
                     Image(
                         painter = painterResource(id = R.drawable.signuplogo),
                         contentDescription = "Signup Image",
@@ -118,14 +138,7 @@ fun SignUpScreen(
                             .aspectRatio(1f)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    // Display error message
-                    if (errorMessage.isNotEmpty()) {
-                        Text(
-                            text = errorMessage,
-                            color = Color.Red,
-                            modifier = Modifier.padding(8.dp)
-                        )
-                    }
+
                     // User Name Field
                     OutlinedTextField(
                         value = userName,
@@ -134,13 +147,14 @@ fun SignUpScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                            .onFocusChanged { isFocused = it.isFocused },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryColor,
-                            unfocusedBorderColor = Color.Gray // Default border color
+                            unfocusedBorderColor = Color.Gray
                         )
                     )
                     Spacer(modifier = Modifier.height(12.dp))
+
                     // Email Field
                     OutlinedTextField(
                         value = email,
@@ -150,10 +164,10 @@ fun SignUpScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                            .onFocusChanged { isFocused = it.isFocused },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryColor,
-                            unfocusedBorderColor = Color.Gray // Default border color
+                            unfocusedBorderColor = Color.Gray
                         )
                     )
                     Spacer(modifier = Modifier.height(12.dp))
@@ -168,10 +182,10 @@ fun SignUpScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                            .onFocusChanged { isFocused = it.isFocused },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryColor,
-                            unfocusedBorderColor = Color.Gray // Default border color
+                            unfocusedBorderColor = Color.Gray
                         )
                     )
 
@@ -187,34 +201,34 @@ fun SignUpScreen(
                         singleLine = true,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                            .onFocusChanged { isFocused = it.isFocused },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = PrimaryColor,
-                            unfocusedBorderColor = Color.Gray // Default border color
+                            unfocusedBorderColor = Color.Gray
                         )
                     )
 
                     Spacer(modifier = Modifier.height(34.dp))
 
-                    //Create Account Button
+                    // Create Account Button
                     PrimaryButton(
-                        text="Create Account",
+                        text = "Create Account",
                         onClick = {
                             handleSignUp()
                         }
                     )
-                    //Space
+
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Sign In Text
-                    Row(
-                        horizontalArrangement = Arrangement.Center
-                    ) {
+                    Row(horizontalArrangement = Arrangement.Center) {
                         Text(
                             modifier = Modifier.clickable {
-                                navController.navigate(Screen.SignIn.route)
+                                navController.navigate(Screen.SignIn.route){
+                                    popUpTo(Screen.SignUp.route){inclusive=true}
+                                }
                             },
-                            text = AnnotatedString("Already have an account? Signin"),
+                            text = AnnotatedString("Already have an account? Sign in"),
                             style = TextStyle(color = Color(0xFFFF8000), fontSize = 14.sp)
                         )
                     }
