@@ -1,6 +1,7 @@
 package com.madhan.feature_tinder.screens
 
 import android.icu.text.CaseMap.Title
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
@@ -50,11 +52,15 @@ fun TutorialScreen05(
                     contentDescription = "",
                     modifier = Modifier
                         .clickable {
-                            navController!!.navigate(TinderRoute.EnableLocation.route)
+                            navController!!.navigate(TinderRoute.EnableLocation.route)  {
+                                popUpTo(TinderRoute.TutorialScreen.route) {
+                                    inclusive = true
+                                }
+                            }
                         }
                         .scale(2f)
                         .size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PrimaryColor
                 )
             }
         )
@@ -111,7 +117,11 @@ fun TutorialScreen05(
             CustomButton(
                 text = "Discover the profiles",
                 onClick = {
-                    navController!!.navigate(TinderRoute.ProfileScreen.route)
+                    navController!!.navigate(TinderRoute.TinderDisplayScreen.route)  {
+                        popUpTo(TinderRoute.TinderScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 
 @Composable
 fun CustomTitleText(
@@ -19,7 +19,7 @@ fun CustomTitleText(
     fontSize: TextUnit = 32.sp,
     textAlign: TextAlign = TextAlign.Center,
     fontWeight: FontWeight = FontWeight.SemiBold,
-    color: Color = customColors.hotelTextColor
+    color: Color = hotelTextColor
 ) {
     Text(
         modifier = modifier.fillMaxWidth(),

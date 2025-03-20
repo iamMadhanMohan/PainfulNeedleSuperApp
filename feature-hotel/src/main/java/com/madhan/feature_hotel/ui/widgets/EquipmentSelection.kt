@@ -1,5 +1,6 @@
 package com.madhan.feature_hotel.ui.widgets
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +29,8 @@ fun EquipmentSelection(
                 rowItems.forEach { equipment ->
                     Row(
                         modifier = Modifier.weight(1f),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Absolute.SpaceBetween
                     ) {
                         Text(
                             text = equipment,

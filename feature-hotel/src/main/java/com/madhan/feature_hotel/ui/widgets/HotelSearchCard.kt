@@ -30,8 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
 import com.madhan.feature_hotel.R
-import com.madhan.feature_hotel.utils.customColors
 
 @Composable
 fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
@@ -64,8 +65,8 @@ fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
                         icon = painterResource(id = R.drawable.map),
                         text = "Places",
                         textSize = 20.sp,
-                        textColor = customColors.descriptionColor,
-                        iconTint = customColors.orange,
+                        textColor = descriptionColor,
+                        iconTint = PrimaryColor,
                         iconSize = 24.dp
                     )
                 }
@@ -113,7 +114,7 @@ fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
                     shape = RoundedCornerShape(8.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Color.LightGray,
-                        focusedBorderColor = customColors.orange
+                        focusedBorderColor = PrimaryColor
                     )
                 )
                 // Search Button
@@ -122,7 +123,7 @@ fun HotelSearchCard(modifier: Modifier, onClick: () -> Unit ) {
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(top = 8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = customColors.orange)
+                    colors = ButtonDefaults.buttonColors(containerColor = PrimaryColor)
                 ) {
                     Text(text = "Search hotels", color = Color.White)
                 }

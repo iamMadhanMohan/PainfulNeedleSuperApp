@@ -17,11 +17,14 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.compose.*
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData.hotelLocationList
 import com.madhan.feature_hotel.ui.widgets.HotelCard
-import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
+import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
+import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
+import com.madhan.feature_hotel.utils.routes.PLACESCREEN
 
 @Composable
 fun PlaceScreen(navController: NavController) {
@@ -94,7 +97,11 @@ fun PlaceScreen(navController: NavController) {
                     ) {
                     //close map
                     FloatingActionButton(
-                        onClick = { navController.navigate(HOMESCREEN) },
+                        onClick = {
+                            navController.navigate(HOMESCREEN){
+                                popUpTo(PLACESCREEN){inclusive=true}
+                            }
+                                  },
                         containerColor = Color.White
                     ) {
                         Icon(
@@ -102,7 +109,7 @@ fun PlaceScreen(navController: NavController) {
                                 .size(24.dp),
                             painter = painterResource(id = R.drawable.close),
                             contentDescription = "close map",
-                            tint = customColors.orange
+                            tint = PrimaryColor
                         )
                     }
                 }
@@ -114,7 +121,14 @@ fun PlaceScreen(navController: NavController) {
                     .padding(16.dp)
             ) {
                 items(filteredHotels) { hotel ->
-                    HotelCard(hotel)
+                    HotelCard(
+                        hotel=hotel,
+                        onClick = {
+                            navController.navigate(HOTELDETAILSCREEN){
+                                popUpTo(PLACESCREEN){inclusive=true}
+                            }
+                        }
+                    )
                 }
             }
         }

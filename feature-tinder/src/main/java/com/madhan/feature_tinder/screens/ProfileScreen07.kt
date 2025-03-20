@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.BottomButtonRow
+import com.madhan.feature_tinder.composable.SwipeableCard
 import com.madhan.feature_tinder.composable.TopBar
 import com.madhan.feature_tinder.dummydata.getProfiles
 import com.madhan.feature_tinder.viewmodel.ProfileViewModel
@@ -70,63 +71,9 @@ fun ProfileScreen07(
                     )
                 }
             )
-            Column(
-                modifier = modifier
-                    .clickable {
-                        navController!!.navigate(TinderRoute.TinderDisplayScreen.route)
-                    }
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                Box {
-                    Image(
-                        painter =  painterResource(profile.photo),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f/1f),
-                        contentScale = ContentScale.FillWidth
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Row {
-                            Text(
-                                text = "${profile.firstName}, ${profile.age}",
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
-                        Text(
-                            text = profile.city,
-                            color = Color(0x00000000).copy(alpha = 0.3f)
-                        )
-                        Text(
-                            text = "${profile.milesAway} miles away",
-                            color = Color(0x00000000).copy(alpha = 0.3f)
-                        )
-                    }
-                    Row {
-                        Text(text = profile.photoViews)
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Icon(
-                            painter = painterResource(R.drawable.ic_picture),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .size(18.dp)
-                        )
-                    }
-                }
-            Text(
-                text = profile.description,
-                color = Color(0x00000000).copy(alpha = 0.3f)
+            SwipeableCard(
+                profile = profile
             )
-            }
         }
         BottomButtonRow(
             showBack = false,
@@ -172,3 +119,8 @@ fun ProfileScreen07(
 fun ProfileScreen07Preview() {
 //    ProfileScreen07()
 }
+
+
+//                    .clickable {
+//                        navController!!.navigate(TinderRoute.TinderDisplayScreen.route)
+//                    }

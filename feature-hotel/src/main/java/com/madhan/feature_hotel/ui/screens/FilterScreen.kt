@@ -21,12 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.ui.widgets.FilterOptions
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
+import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 
 @Composable
 fun FilterScreen(navController: NavController) {
@@ -50,7 +52,11 @@ fun FilterScreen(navController: NavController) {
             ) {
                 CustomIconButton(
                     icon = painterResource(id = R.drawable.back_arrow),
-                    onClick = { navController.navigate(HOMESCREEN) },
+                    onClick = {
+                        navController.navigate(HOMESCREEN){
+                            popUpTo(FILTERSCREEN){inclusive=true}
+                        }
+                              },
                     contentDescription = "back arrow",
                     iconSize = 20.dp
                 )
@@ -65,7 +71,7 @@ fun FilterScreen(navController: NavController) {
                     selectedStars.intValue = 3
                     selectedEquipments.clear()
                 }) {
-                    Text("Clear", color = customColors.orange)
+                    Text("Clear", color = PrimaryColor)
                 }
             }
 
@@ -80,7 +86,9 @@ fun FilterScreen(navController: NavController) {
             PrimaryButton(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = {
-                    navController.navigate(HOTELDETAILSCREEN)
+                    navController.navigate(HOTELDETAILSCREEN){
+                        popUpTo(FILTERSCREEN){inclusive=true}
+                    }
                 },
                 text = "Apply"
             )

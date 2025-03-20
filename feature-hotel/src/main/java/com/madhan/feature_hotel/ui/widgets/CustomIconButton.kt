@@ -10,7 +10,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+
 
 @Composable
 fun CustomIconButton(
@@ -20,7 +21,7 @@ fun CustomIconButton(
     contentDescription: String?,
     enabled: Boolean = true,
     containerColor: Color = Color.Transparent,
-    contentColor: Color = customColors.orange,
+    contentColor: Color = PrimaryColor,
     iconSize: Dp = 24.dp
 ) {
     IconButton(

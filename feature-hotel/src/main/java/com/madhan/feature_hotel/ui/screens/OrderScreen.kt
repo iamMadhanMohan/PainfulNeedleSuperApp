@@ -37,14 +37,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.SecondaryColor
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
-import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
+import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 import kotlinx.coroutines.launch
 
 @Composable
@@ -57,7 +61,7 @@ fun OrderScreen(navController: NavController) {
             SnackbarHost(snackbarHostState) { snackbarData ->
                 Snackbar(
                     snackbarData = snackbarData,
-                    containerColor = customColors.buttonColorGreen, // Green background
+                    containerColor = SecondaryColor, // Green background
                     contentColor = Color.White, // White text color
                     actionContentColor = Color.White // Action button color
                 )
@@ -75,7 +79,7 @@ fun OrderScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(260.dp)
-                    .background(customColors.orange)
+                    .background(PrimaryColor)
                     .padding(horizontal = 16.dp, vertical = 12.dp), // Adds padding for better layout
                 horizontalAlignment = Alignment.Start
             ) {
@@ -87,7 +91,11 @@ fun OrderScreen(navController: NavController) {
                 ) {
                     CustomIconButton(
                         icon = painterResource(id = R.drawable.back_arrow),
-                        onClick = { navController.navigate(HOMESCREEN) },
+                        onClick = {
+                            navController.navigate(HOMESCREEN){
+                                popUpTo(ORDERSCREEN){inclusive=true}
+                            }
+                                  },
                         contentDescription = "Back arrow",
                         enabled = true,
                         contentColor = Color.White,
@@ -102,7 +110,9 @@ fun OrderScreen(navController: NavController) {
                         textAlign = TextAlign.Center
                     )
                     TextButton(onClick = {
-                        navController.navigate(HOTELDETAILSCREEN)
+                        navController.navigate(HOTELDETAILSCREEN){
+                            popUpTo(ORDERSCREEN){inclusive=true}
+                        }
                     }) {
                         Text(
                             text="Cancel",
@@ -140,7 +150,7 @@ fun OrderScreen(navController: NavController) {
                     }
                     Box(
                         modifier = Modifier
-                            .background(customColors.buttonColorGreen, shape = RoundedCornerShape(50))//oval shape
+                            .background(SecondaryColor, shape = RoundedCornerShape(50))//oval shape
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
                         Text(
@@ -208,7 +218,7 @@ fun OrderScreen(navController: NavController) {
                         "Junior Suite",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = customColors.hotelTextColor
+                        color = hotelTextColor
                     )
                     Image(
                         painter = painterResource(id = R.drawable.hotelimg2),
@@ -230,12 +240,12 @@ fun OrderScreen(navController: NavController) {
                             "Standard",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = customColors.hotelTextColor
+                            color = hotelTextColor
                         )
                         TextButton(onClick = {}) {
                             Text(
                                 "Remove",
-                                color = customColors.orange,
+                                color = PrimaryColor,
                                 fontSize = 14.sp
                             )
                         }
@@ -244,20 +254,20 @@ fun OrderScreen(navController: NavController) {
                         IconTextRow(
                             icon = painterResource(id = R.drawable.moon),
                             text = "$150",
-                            iconTint = customColors.descriptionColor
+                            iconTint = descriptionColor
                         )
                         Spacer(Modifier.height(10.dp))
                         Text(
                             "x2",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = customColors.orange
+                            color = PrimaryColor
                         )
                     }
                 }
                 // Divider
                 Spacer(Modifier.height(10.dp))
-                HorizontalDivider(thickness = 0.5.dp, color = customColors.descriptionColor)
+                HorizontalDivider(thickness = 0.5.dp, color = descriptionColor)
                 Spacer(Modifier.height(10.dp))
 
                 // Subtotal & Delivery Fees
@@ -266,7 +276,7 @@ fun OrderScreen(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Subtotal", fontSize = 16.sp, color = customColors.hotelTextColor)
+                        Text("Subtotal", fontSize = 16.sp, color = hotelTextColor)
                         Text("$300.00", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     }
                     Spacer(Modifier.height(15.dp))
@@ -274,7 +284,7 @@ fun OrderScreen(navController: NavController) {
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text("Delivery Fees", fontSize = 16.sp, color = customColors.hotelTextColor)
+                        Text("Delivery Fees", fontSize = 16.sp, color = hotelTextColor)
                         Text("$2.50", fontSize = 16.sp, fontWeight = FontWeight.Bold)
                     }
                 }
@@ -289,14 +299,14 @@ fun OrderScreen(navController: NavController) {
                         "Total Amount",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        color = customColors.descriptionColor
+                        color = descriptionColor
                     )
                     Spacer(Modifier.height(10.dp))
                     Text(
                         "$302.50",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
-                        color = customColors.orange
+                        color = PrimaryColor
                     )
                 }
                 Spacer(Modifier.height(30.dp))
@@ -311,7 +321,9 @@ fun OrderScreen(navController: NavController) {
                                 duration = SnackbarDuration.Long
                             )
                             //Go to home
-                            navController.navigate(HOMESCREEN)
+                            navController.navigate(HOMESCREEN){
+                                popUpTo(ORDERSCREEN){inclusive=true}
+                            }
                         }
                     },
                     text = "Place Order"
