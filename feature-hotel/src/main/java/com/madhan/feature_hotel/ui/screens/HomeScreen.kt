@@ -4,6 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.collectAsState
@@ -22,11 +25,13 @@ import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
+import com.madhan.core.ui.components.CustomDataCard
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.data.vm.FavoriteViewModel
 import com.madhan.feature_hotel.ui.widgets.*
-import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.FAVORITESCREEN
 import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
@@ -65,21 +70,19 @@ fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewM
                             modifier = Modifier.fillMaxSize(),
                             contentScale = ContentScale.Crop
                         )
+                   //Back button
                         IconButton(
                             onClick = { showSearchCard = !showSearchCard },
                             modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .background(if (!showSearchCard) Color.White else customColors.orange),
-                           colors = IconButtonDefaults.filledIconButtonColors(
-                               containerColor = if (!showSearchCard) customColors.orange else Color.White,
-
-                                )
+                                .padding(16.dp)
+                                .size(40.dp)
+                                .background( if(!showSearchCard) Color.Black.copy(alpha = 0.5f) else PrimaryColor, CircleShape) // Semi-transparent background
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                painter = painterResource(id = R.drawable.home), // Home icon
-                                contentDescription = "Home Icon",
-                              tint = if (!showSearchCard) Color.White else customColors.orange
+                                imageVector = Icons.Filled.Home,
+                                contentDescription = "Back",
+                                tint = if (!showSearchCard) Color.White else PrimaryColor
                             )
                         }
                         // Show Hotel Search Card only when showSearchCard is true
@@ -97,7 +100,7 @@ fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewM
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp)
-                            .background(customColors.orange),
+                            .background(PrimaryColor),
                         horizontalArrangement = Arrangement.SpaceEvenly,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -150,15 +153,14 @@ fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewM
                             enabled = true,
                             colors = IconButtonDefaults.filledIconButtonColors (
                                containerColor =  Color.Transparent,
-                                contentColor = customColors.orange
+                                contentColor = PrimaryColor
                             )
                         ) {
                             Icon(
                                 modifier = Modifier.size(24.dp),
-                                painter = painterResource(R.drawable.filter),
+                                painter = painterResource(R.drawable.options),
                                 contentDescription = "filter",
-                                tint =  customColors.orange
-
+                                tint =  PrimaryColor
                             )
                         }
                     }
@@ -167,7 +169,7 @@ fun HomeScreen(navController: NavController,viewModel: FavoriteViewModel = viewM
                 // Recommended Hotels List
                 items(DummyData.hotelList) { hotel ->
                     val isFavorite = favoriteHotels.contains(hotel)
-                    CustomHotelCard(
+                    CustomDataCard(
                         modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
                         backgroundImage = painterResource(id = hotel.imageResId),
                         hotelType = hotel.hotelType,

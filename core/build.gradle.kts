@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -57,4 +58,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("com.google.maps.android:maps-compose:4.4.0")
+
+    implementation("io.coil-kt.coil3:coil-compose:3.1.0")
+
 }

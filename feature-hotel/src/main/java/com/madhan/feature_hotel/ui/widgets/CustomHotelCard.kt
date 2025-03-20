@@ -16,8 +16,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.cardColor
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 import com.madhan.feature_hotel.R
-import com.madhan.feature_hotel.utils.customColors
+
 
 @Composable
 fun CustomHotelCard(
@@ -38,8 +42,8 @@ fun CustomHotelCard(
             .height(240.dp)
             .padding(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = customColors.cardColor,
-            contentColor = customColors.hotelTextColor
+            containerColor = cardColor,
+            contentColor = hotelTextColor
         ),
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -105,19 +109,19 @@ fun CustomHotelCard(
                     IconTextRow(
                         icon = painterResource(R.drawable.rate),
                         text = hotelRating,
-                        iconTint = customColors.orange
+                        iconTint = PrimaryColor
                     )
                     // Distance
                     IconTextRow(
                         icon = painterResource(R.drawable.nav),
                         text = hotelDistance,
-                        iconTint = customColors.descriptionColor
+                        iconTint = descriptionColor
                     )
                     // Price
                     IconTextRow(
                         icon = painterResource(R.drawable.moon),
                         text = hotelPrice,
-                        iconTint = customColors.descriptionColor
+                        iconTint = descriptionColor
                     )
                 }
             }

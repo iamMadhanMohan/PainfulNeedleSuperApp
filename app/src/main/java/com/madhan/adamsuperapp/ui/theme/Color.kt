@@ -14,6 +14,8 @@ val PrimaryColor = Color(0xFFFF7A1A)
 val SecondaryColor = Color(0xFF10C971)
 val TertiaryColor = Color(0xFF017DFF)
 val BackgroundWhite = Color(0xFFF9FAFB)
+val hotelTextColor = Color(0xFF171D33)
+
 
 val GradientColorOne = Color(0xFF017DFF)
 val GradientColorTwo = Color(0xFF1C19A6)

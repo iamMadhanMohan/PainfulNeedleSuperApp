@@ -33,24 +33,7 @@ import com.madhan.adamsuperapp.auth.findActivity
 import com.madhan.adamsuperapp.auth.google.SigninWithGoogleViewModel
 import com.madhan.adamsuperapp.navigation.Screen
 import com.madhan.adamsuperapp.utils.UiStatus
-import android.content.Context
-import android.content.SharedPreferences
-
-
-val orange = Color(0xFFFF7D1E)
-
-const val PREFS_NAME = "user_prefs"
-const val KEY_IS_LOGGED_IN = "is_logged_in"
-
-fun saveLoginState(context: Context, isLoggedIn: Boolean) {
-    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    prefs.edit().putBoolean(KEY_IS_LOGGED_IN, isLoggedIn).apply()
-}
-
-fun isUserLoggedIn(context: Context): Boolean {
-    val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    return prefs.getBoolean(KEY_IS_LOGGED_IN, false)
-}
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,17 +53,18 @@ fun SignInScreen(
 
     // Observe the login state
     val loginState by viewModel.loginState.collectAsState()
-    // val logoutState by viewModel.logoutState.collectAsState()
-
-    //context
 
     // UI elements based on login state
     when (loginState) {
         is UiStatus.LOADING -> {
             // Show loading spinner while signing in
-            CircularProgressIndicator()
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+               CircularProgressIndicator()
+            }
         }
-
         is UiStatus.SUCCESS -> {
             // Navigate to next screen on success
             val user = (loginState as UiStatus.SUCCESS)
@@ -89,15 +73,14 @@ fun SignInScreen(
                 "Welcome, ${user.message.displayName} to Super App",
                 Toast.LENGTH_LONG
             ).show()
-            navController.navigate(Screen.Home.route)
-
+            navController.navigate(Screen.Home.route){
+                popUpTo(Screen.SignIn.route){inclusive=true}
+            }
         }
-
         is UiStatus.ERROR -> {
             // Handle login error
             val errorMessage = (loginState as UiStatus.ERROR).error
-            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
         }
     }
     Scaffold(
@@ -186,27 +169,25 @@ fun SignInScreen(
                         onClick = {
                             LogIn(email, password) { user ->
                                 if (user != null) {
-                                    Log.d("Auth", "Sign-in successful for $email")
-                                    saveLoginState(context, true)
+                                    Toast.makeText(context, "Login Successful" , Toast.LENGTH_SHORT).show()
                                     navController.navigate(Screen.Home.route) {
                                         popUpTo(Screen.SignIn.route) { inclusive = true }
-                                    } // Navigate to Home or Dashboard
+                                    } // Navigate to Home
                                 } else {
-                                    Log.e("Auth", "Sign-in failed")
+                                    Toast.makeText(context, "Login failed, Check credentials and try again!" , Toast.LENGTH_SHORT).show()
                                 }
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),
                         contentPadding = PaddingValues(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = orange,
+                            containerColor = PrimaryColor,
                             contentColor = Color.White
                         )
                     ) {
                         Text("Sign In")
                     }
-
-
+                    //Space
                     Spacer(modifier = Modifier.height(16.dp))
 
                     // Social Login Buttons with consistent styling
@@ -216,7 +197,6 @@ fun SignInScreen(
                                 activity = activity!!,
                                 onSuccess = {
                                     navController.navigate("home")
-                                    saveLoginState(context, true)
                                 }
                             )
                         }

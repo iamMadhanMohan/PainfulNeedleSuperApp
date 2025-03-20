@@ -7,6 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.madhan.adamsuperapp.ui.screens.HomeScreen
 import com.madhan.adamsuperapp.ui.screens.SignInScreen
 import com.madhan.adamsuperapp.ui.screens.SignUpScreen
@@ -20,15 +23,22 @@ import com.madhan.feature_pet.navigation.petNavGraph
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
+
+    val isLoggedIn = Firebase.auth.currentUser
+
     // Create the FavoriteViewModel for Favorites
     val favoriteViewModel: FavoriteViewModel = viewModel()
     NavHost(
         navController,
-        startDestination = Screen.SignIn.route,
+        startDestination = if (isLoggedIn == null) Screen.SignIn.route else Screen.Home.route,
         route = "root"
     ) {
         composable(Screen.SignIn.route) { SignInScreen(navController) }
-        composable(Screen.SignUp.route) { SignUpScreen(navController, onNavigateToSignIn = { navController.navigate(Screen.SignIn.route) }) }
+        composable(Screen.SignUp.route) {
+            SignUpScreen(
+                navController,
+                onNavigateToSignIn = { navController.navigate(Screen.SignIn.route) })
+        }
         composable(Screen.Home.route) { HomeScreen(navController) }
         navigation(
             startDestination = "uber_main",

@@ -36,7 +36,11 @@ fun IBankServices(navController: NavController) {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        BackTopBar("Services", navController)
+        BackTopBar("Services", navController) {
+            navController.navigate("ibank_home") {
+                popUpTo(0) { inclusive = true }
+            }
+        }
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -85,6 +89,6 @@ fun ServiceItem(serviceName: String, route: String, navController: NavController
 
 @Preview(showBackground = true)
 @Composable
-fun IBankServicesPreview(){
+fun IBankServicesPreview() {
     IBankServices(rememberNavController())
 }

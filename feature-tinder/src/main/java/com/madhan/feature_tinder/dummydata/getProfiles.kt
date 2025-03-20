@@ -32,47 +32,47 @@ fun getProfiles(): List<Profile> {
             haveLiked = false,
             haveSuperLiked = false
         ),
-        Profile(
-            photo = R.drawable.profile_3,
-            firstName = "Olivia",
-            lastName = "Williams",
-            age = "27",
-            city = "Chicago",
-            description = "Artist and musician, enjoys live music and art galleries.",
-            milesAway = "8",
-            photoViews = "1500",
-            haveInteracted = false,
-            haveRejected = false,
-            haveLiked = false,
-            haveSuperLiked = false
-        ),
-        Profile(
-            photo = R.drawable.profile_4,
-            firstName = "Ava",
-            lastName = "Brown",
-            age = "35",
-            city = "Houston",
-            description = "Fitness enthusiast and animal lover, always up for a good workout.",
-            milesAway = "28",
-            photoViews = "800",
-            haveInteracted = false,
-            haveRejected = false,
-            haveLiked = false,
-            haveSuperLiked = false
-        ),
-        Profile(
-            photo = R.drawable.profile_5,
-            firstName = "Isabella",
-            lastName = "Davis",
-            age = "31",
-            city = "Phoenix",
-            description = "Tech-savvy and loves coding, also enjoys outdoor activities.",
-            milesAway = "5",
-            photoViews = "1100",
-            haveInteracted = false,
-            haveRejected = false,
-            haveLiked = false,
-            haveSuperLiked = false
-        )
+//        Profile(
+//            photo = R.drawable.profile_3,
+//            firstName = "Olivia",
+//            lastName = "Williams",
+//            age = "27",
+//            city = "Chicago",
+//            description = "Artist and musician, enjoys live music and art galleries.",
+//            milesAway = "8",
+//            photoViews = "1500",
+//            haveInteracted = false,
+//            haveRejected = false,
+//            haveLiked = false,
+//            haveSuperLiked = false
+//        ),
+//        Profile(
+//            photo = R.drawable.profile_4,
+//            firstName = "Ava",
+//            lastName = "Brown",
+//            age = "35",
+//            city = "Houston",
+//            description = "Fitness enthusiast and animal lover, always up for a good workout.",
+//            milesAway = "28",
+//            photoViews = "800",
+//            haveInteracted = false,
+//            haveRejected = false,
+//            haveLiked = false,
+//            haveSuperLiked = false
+//        ),
+//        Profile(
+//            photo = R.drawable.profile_5,
+//            firstName = "Isabella",
+//            lastName = "Davis",
+//            age = "31",
+//            city = "Phoenix",
+//            description = "Tech-savvy and loves coding, also enjoys outdoor activities.",
+//            milesAway = "5",
+//            photoViews = "1100",
+//            haveInteracted = false,
+//            haveRejected = false,
+//            haveLiked = false,
+//            haveSuperLiked = false
+//        )
     )
 }

@@ -1,22 +1,14 @@
 package com.madhan.feature_hotel.ui.screens
 
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,19 +21,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.madhan.feature_hotel.data.DummyData.allEquipments
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.ui.widgets.FilterOptions
+import com.madhan.feature_hotel.utils.routes.FILTERSCREEN
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
-
+import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 
 @Composable
 fun FilterScreen(navController: NavController) {
-    val priceRange = remember { mutableStateOf(300f) }
-    val selectedStars = remember { mutableStateOf(3) }
+    val priceRange = remember { mutableFloatStateOf(300f) }
+    val selectedStars = remember { mutableIntStateOf(3) }
     val selectedEquipments = remember { mutableStateListOf("Tennis") }
-
+    val allEquipments = listOf("Tennis", "Soccer", "Basketball", "Badminton", "Golf", "Baseball")
 
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
@@ -58,7 +52,11 @@ fun FilterScreen(navController: NavController) {
             ) {
                 CustomIconButton(
                     icon = painterResource(id = R.drawable.back_arrow),
-                    onClick = { navController.navigate(HOMESCREEN) },
+                    onClick = {
+                        navController.navigate(HOMESCREEN){
+                            popUpTo(FILTERSCREEN){inclusive=true}
+                        }
+                              },
                     contentDescription = "back arrow",
                     iconSize = 20.dp
                 )
@@ -68,92 +66,32 @@ fun FilterScreen(navController: NavController) {
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-                TextButton(onClick = { selectedEquipments.clear() }) {
-                    Text("Clear", color = customColors.orange) // Orange color
+                TextButton(onClick = {
+                    priceRange.floatValue = 300f
+                    selectedStars.intValue = 3
+                    selectedEquipments.clear()
+                }) {
+                    Text("Clear", color = PrimaryColor)
                 }
             }
 
             Spacer(Modifier.height(20.dp))
 
-            // Price Section
-            Text("Price", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Slider(
-                value = priceRange.value,
-                onValueChange = { priceRange.value = it },
-                valueRange = 0f..600f,
-                colors = SliderDefaults.colors(
-                    thumbColor = customColors.orange,
-                    activeTrackColor = customColors.orange
-                )
-            )
-            Text("$${priceRange.value.toInt()}", fontSize = 16.sp)
-
-            Spacer(Modifier.height(20.dp))
-
-            // Rating Section
-            Text("Rate", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                repeat(5) { index ->
-                    Icon(
-                        painter = painterResource(id = if (index < selectedStars.value) R.drawable.rate else R.drawable.unrate),
-                        contentDescription = "Star Rating",
-                        tint = if (index < selectedStars.value) customColors.orange else Color.Gray,
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clickable { selectedStars.value = index + 1 }
-                    )
-                }
-            }
-
-            Spacer(Modifier.height(20.dp))
-
-            // Equipments Section
-            Text("Equipments", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Column {
-                allEquipments.chunked(2).forEach { rowItems ->
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        rowItems.forEach { equipment ->
-                            Row(
-                                modifier = Modifier.weight(1f),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = equipment,
-                                    fontWeight = if (selectedEquipments.contains(equipment)) FontWeight.Bold else FontWeight.Normal,
-                                    color = if (selectedEquipments.contains(equipment)) customColors.orange else customColors.hotelTextColor
-                                )
-                                Checkbox(
-                                    checked = selectedEquipments.contains(equipment),
-                                    onCheckedChange = {
-                                        if (it) selectedEquipments.add(equipment) else selectedEquipments.remove(equipment)
-                                    },
-                                    colors = CheckboxDefaults.colors(
-                                        checkedColor = customColors.orange,
-                                        uncheckedColor = Color.Gray
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }
-            }
+            // Use reusable composable for Price, Rate & Equipments
+            FilterOptions(priceRange, selectedStars, selectedEquipments, allEquipments)
 
             Spacer(Modifier.height(30.dp))
 
             // Apply Button
-            Button (
-                onClick = { navController.navigate(HOTELDETAILSCREEN) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor  = Color(0xFFFF6600)),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Text("Apply", fontSize = 18.sp, color = Color.White, fontWeight = FontWeight.Bold)
-            }
+            PrimaryButton(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onClick = {
+                    navController.navigate(HOTELDETAILSCREEN){
+                        popUpTo(FILTERSCREEN){inclusive=true}
+                    }
+                },
+                text = "Apply"
+            )
         }
     }
 }
@@ -161,7 +99,7 @@ fun FilterScreen(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun FilterScreenPreview(){
+fun FilterScreenPreview() {
     val navController = rememberNavController()
     FilterScreen(navController = navController)
 }
