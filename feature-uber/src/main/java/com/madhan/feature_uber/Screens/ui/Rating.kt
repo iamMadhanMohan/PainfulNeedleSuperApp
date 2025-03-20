@@ -23,12 +23,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.madhan.feature_uber.Screens.vm.SharedViewModel
 
 @Composable
 fun RideRatingScreen(
+    viewModel: SharedViewModel, // Add viewModel parameter
     onBackClick: () -> Unit = {},
     onProceed: () -> Unit = {}
-) {
+){
+    var selectedTip by remember { mutableStateOf("") }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -134,7 +138,7 @@ fun RideRatingScreen(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .size(24.dp)
-                        .clickable { /* Close action */ }
+                        .clickable { /* close the  droable  */ }
                 )
 
                 Column(
@@ -170,12 +174,13 @@ fun RideRatingScreen(
                     // Star rating
                     ClickableRating()
 
-                    var text by remember { mutableStateOf("") } // State to hold text input
-
                     // Comment field
+                    // Add this state declaration at the top of your composable
+                    var text by remember { mutableStateOf("") }
+
                     TextField(
-                        value = "",
-                        onValueChange = { },
+                        value = text,  // Use the state variable here
+                        onValueChange = { newText -> text = newText },
                         placeholder = { Text("Tell us about your experience") },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -194,7 +199,7 @@ fun RideRatingScreen(
 
                     // Tip question
                     Text(
-                        text = "Do you want to tip Gabriel?",
+                        text = "Do you want to tip?",
                         fontSize = 16.sp,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -209,30 +214,37 @@ fun RideRatingScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         TipButton(
-                            amount = "$2",
-                            isSelected = selectedTip == "$2",
-                            onSelect = { selectedTip = "$2" },
-                            color = Color(0xFF2196F3)
-                        )
-                        TipButton(
-                            amount = "$5",
-                            isSelected = selectedTip == "$5",
-                            onSelect = { selectedTip = "$5" },
-                            color = Color(0xFF4CAF50)
+                            amount = "$4",
+                            isSelected = selectedTip == "$4",
+                            onSelect = {
+                                selectedTip = "$4"
+                                viewModel.selectedTip = 4.0},
+                                color = Color(0xFF2196F3)
                         )
                         TipButton(
                             amount = "$10",
                             isSelected = selectedTip == "$10",
-                            onSelect = { selectedTip = "$10" },
-                            color = Color(0xFFFF9800)
+                            onSelect = {
+                                selectedTip = "$10"
+                                viewModel.selectedTip = 10.0},
+                            color = Color(0xFF2196F3)
                         )
                         TipButton(
-                            amount = "Other",
-                            isSelected = selectedTip == "Other",
-                            onSelect = { selectedTip = "Other" },
-                            color = Color.White,
-                            textColor = Color.Black,
-                            hasBorder = true
+                            amount = "$20",
+                            isSelected = selectedTip == "$20",
+                            onSelect = {
+                                selectedTip = "$20"
+                                viewModel.selectedTip = 20.0},
+                            color = Color(0xFF2196F3)
+                        )
+                        TipButton(
+                            amount = "$200",
+                            isSelected = selectedTip == "$200",
+                            onSelect = {
+                                selectedTip = "$200"
+                                viewModel.selectedTip = 200.0},
+                            color = Color(0xFF2196F3)
+
                         )
                     }
 
@@ -311,10 +323,3 @@ fun ClickableRating() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun RideRatingScreenPreview() {
-    MaterialTheme {
-        RideRatingScreen()
-    }
-}

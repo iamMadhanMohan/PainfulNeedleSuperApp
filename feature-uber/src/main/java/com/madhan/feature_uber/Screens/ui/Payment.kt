@@ -47,12 +47,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.composed
+import com.madhan.feature_uber.Screens.vm.SharedViewModel
 
 sealed class PaymentMethod {
     data class Card(
         val cardNumber: String,
         val cardHolderName: String,
-        val color: Color
+        val color: Color,
+        val id: String
     ) : PaymentMethod()
 
     object Cash : PaymentMethod()
@@ -64,7 +66,9 @@ fun PaymentScreen(
     paymentAmount: Double,
     paymentMethods: List<PaymentMethod>,
     onPayClick: (PaymentMethod) -> Unit,
-    onHomeClick: () -> Unit
+    onHomeClick: () -> Unit,
+    viewModel: SharedViewModel, // Add viewModel parameter
+
 ) {
     val orange = Color(0xFFFF7D1E)
     val lightGray = Color(0xFFF5F5F5)
@@ -84,9 +88,12 @@ fun PaymentScreen(
         }
     }
 
-    val transactionFee = 0.00 // No transaction fee
-    val totalAmount = paymentAmount + transactionFee
-    val balanceAfterPayment = balance - totalAmount
+    val transactionFee = 0.00
+
+
+    val selectedTip = viewModel.selectedTip
+    val totalAmount = viewModel.ridePrice + transactionFee + viewModel.selectedTip
+    val balanceAfterPayment = viewModel.userBalance - totalAmount
 
     Scaffold(
         modifier = Modifier.background(lightGray)
@@ -141,11 +148,15 @@ fun PaymentScreen(
             // Payment methods carousel
             LazyRow(
                 state = lazyListState,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.height(220.dp) // Add fixed height
             ) {
                 itemsIndexed(paymentMethods) { index, paymentMethod ->
                     Box(
-                        modifier = Modifier.clickable { selectedPaymentIndex = index }
+                        modifier = Modifier
+                            .width(300.dp) // Add item width
+                            .height(180.dp) // Add item height
+                            .clickable { selectedPaymentIndex = index }
                     ) {
                         when (paymentMethod) {
                             is PaymentMethod.Card -> {
@@ -265,8 +276,7 @@ fun CreditCardItem(
 ) {
     Card(
         modifier = Modifier
-            .width(300.dp)
-            .height(180.dp),
+            .fillMaxSize(), // Fill the Box dimensions
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = color),
         elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 8.dp else 2.dp)
@@ -325,13 +335,11 @@ fun CashPaymentItem(
     isSelected: Boolean
 ) {
     Card(
-        modifier = Modifier
-            .width(300.dp)
-            .height(180.dp),
+        modifier = Modifier.fillMaxSize(), // Fill the Box dimensions
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF00C853)),
         elevation = CardDefaults.cardElevation(defaultElevation = if (isSelected) 8.dp else 2.dp)
-    ) {
+    ){
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -375,25 +383,3 @@ fun Modifier.noRippleClickable(onClick: () -> Unit): Modifier = composed {
     )
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PaymentScreenPreview() {
-    MaterialTheme {
-        val paymentMethods = listOf(
-            PaymentMethod.Card(
-                cardNumber = "777777777777777777777",
-                cardHolderName = "Adam Adamian",
-                color = Color(0xFFDAA520) // Gold color
-            ),
-            PaymentMethod.Cash
-        )
-
-        PaymentScreen(
-            balance = 5523.26,
-            paymentAmount = 9.50,
-            paymentMethods = paymentMethods,
-            onPayClick = {},
-            onHomeClick = {}
-        )
-    }
-}

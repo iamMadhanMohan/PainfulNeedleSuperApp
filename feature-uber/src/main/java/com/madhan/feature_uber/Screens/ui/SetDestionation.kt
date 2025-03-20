@@ -40,8 +40,9 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.madhan.feature_uber.Screens.Model.AppConstants
+import com.madhan.feature_uber.Screens.Model.Location
 
-data class Location(val name: String, val address: String)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,13 +51,8 @@ fun DestinationScreen(
     onBackClick: () -> Unit,
     onCalendar: () -> Unit
 ) {
-    val presetLocations = listOf(
-        Location("Home", "Johannesburg, 28 Orchard Road"),
-        Location("Work", "Johannesburg, 20 Orchard Road"),
-        Location("Gym", "Johannesburg, 15 Fitness Road"),
-        Location("Bar", "Johannesburg, 10 Party Street")
-    )
 
+    val presetLocations = AppConstants.presetLocations
     var searchQuery by remember { mutableStateOf("") }
     var showSearchResults by remember { mutableStateOf(false) }
     var selectedLocation by remember { mutableStateOf<Location?>(null) }
