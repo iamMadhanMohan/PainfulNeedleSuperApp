@@ -31,9 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.core.ui.components.CustomButton
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
-import com.madhan.feature_tinder.composable.CustomButton
 import com.madhan.feature_tinder.composable.HeroImage
 import com.madhan.feature_tinder.composable.TitleText
 import com.madhan.feature_tinder.composable.TopBar
@@ -50,10 +51,16 @@ fun TinderScreen00(
                     painter = painterResource(R.drawable.ic_return),
                     contentDescription = "",
                     modifier = Modifier
-                        .clickable {}
+                        .clickable {
+                            navController!!.navigate("home") {
+                                popUpTo(TinderRoute.TinderScreen.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                         .scale(2f)
                         .size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PrimaryColor
                 )
             }
         )
@@ -80,13 +87,10 @@ fun TinderScreen00(
                 )
             }
             CustomButton(
-                text = "Let's go",
+                buttonText = "Let's go",
                 onClick = {
                     navController!!.navigate(TinderRoute.PictureChoice.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 64.dp)
+                }
             )
         }
     }

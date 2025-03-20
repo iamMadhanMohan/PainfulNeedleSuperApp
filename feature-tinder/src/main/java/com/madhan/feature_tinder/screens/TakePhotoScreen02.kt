@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
@@ -48,11 +49,15 @@ fun TakePhotoScreen02(
                     contentDescription = "",
                     modifier = Modifier
                         .clickable {
-                            navController!!.navigate(TinderRoute.TinderScreen.route)
+                            navController!!.navigate(TinderRoute.PictureChoice.route) {
+                                popUpTo(TinderRoute.TakePhoto.route) {
+                                    inclusive = true
+                                }
+                            }
                         }
                         .scale(2f)
                         .size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PrimaryColor
                 )
             },
             middleSlot = {
@@ -71,7 +76,7 @@ fun TakePhotoScreen02(
                         contentDescription = "",
                         modifier = Modifier
                             .size(16.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = PrimaryColor
                     )
 
                     Icon(
@@ -79,7 +84,7 @@ fun TakePhotoScreen02(
                         contentDescription = "",
                         modifier = Modifier
                             .size(32.dp),
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = PrimaryColor
                     )
                 }
             }

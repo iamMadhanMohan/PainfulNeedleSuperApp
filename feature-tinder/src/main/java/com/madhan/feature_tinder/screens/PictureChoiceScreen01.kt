@@ -1,6 +1,7 @@
 package com.madhan.feature_tinder.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
@@ -43,8 +45,15 @@ fun PictureChoiceScreen01(
                     contentDescription = "",
                     modifier = Modifier
                         .scale(2f)
+                        .clickable {
+                            navController!!.navigate(TinderRoute.TinderScreen.route) {
+                                popUpTo(TinderRoute.PictureChoice.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                         .size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PrimaryColor
                 )
             }
         )

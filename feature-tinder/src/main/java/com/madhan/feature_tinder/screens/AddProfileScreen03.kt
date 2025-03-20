@@ -42,6 +42,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.navigation.NavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
@@ -68,11 +69,15 @@ fun AddProfileScreen03(
                     contentDescription = "",
                     modifier = Modifier
                         .clickable {
-                            navController!!.navigate(TinderRoute.TakePhoto.route)
+                            navController!!.navigate(TinderRoute.TakePhoto.route)  {
+                                popUpTo(TinderRoute.AddProfile.route) {
+                                    inclusive = true
+                                }
+                            }
                         }
                         .scale(2f)
                         .size(32.dp),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PrimaryColor
                 )
             },
             middleSlot = {
