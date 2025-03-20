@@ -9,7 +9,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
 
 @Composable
 fun RoomInfoRow(
@@ -38,7 +38,7 @@ fun RoomInfoRow(
             modifier = Modifier.weight(0.4f),
             icon = stayIcon,
             iconSize = 16.dp,
-            iconTint = customColors.descriptionColor,
+            iconTint = descriptionColor,
             textSize = 16.sp,
             text = price
         )

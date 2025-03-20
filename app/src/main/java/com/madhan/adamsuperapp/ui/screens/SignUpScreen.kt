@@ -1,7 +1,10 @@
 package com.madhan.adamsuperapp.ui.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -10,8 +13,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -24,6 +30,10 @@ import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
 import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
 import com.madhan.adamsuperapp.navigation.Screen
+import com.madhan.adamsuperapp.ui.theme.BackgroundWhite
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
+import com.madhan.core.ui.components.PrimaryButton
 
 @Composable
 fun SignUpScreen(
@@ -36,6 +46,8 @@ fun SignUpScreen(
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+    var isFocused by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     // Dummy list of already signed-up emails (for demonstration)
     val signedUpEmails = listOf("john@example.com", "mike@domain.com", "jane@company.com")
@@ -52,6 +64,7 @@ fun SignUpScreen(
         return password == confirmPassword
     }
 
+    //Handle Sign up
     fun handleSignUp() {
         when {
             userName.isEmpty() -> errorMessage = "Username cannot be empty"
@@ -63,133 +76,160 @@ fun SignUpScreen(
                 navController.navigate(Screen.SignIn.route)
             }
             else -> {
-                errorMessage = "Signup successful!"
-                navController.navigate(Screen.SignIn.route)
+                try {
+                    SigninWithEmailAndPassword.signUp(
+                        email, password,
+                        onResult = {
+                            navController.navigate(Screen.SignIn.route){
+                                popUpTo(Screen.SignUp.route){inclusive=true}
+                            }
+                        }
+                    )
+                    Toast.makeText(context, "Account Created Successfully", Toast.LENGTH_SHORT).show()
+                }catch (e:Exception){
+                    Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "Signup",
-                fontSize = 24.sp,
-                color = Color(0xFFFF8000),
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Image(
-                painter = painterResource(id = R.drawable.signup_image),
-                contentDescription = "Signup Image",
+    Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Column(modifier = Modifier.padding(innerPadding)) {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .aspectRatio(1f)
-            )
+                    .background(Color.White)
+                    .fillMaxSize()
+                    .padding(16.dp),
+                contentAlignment = Alignment.TopCenter
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = "Signup",
+                        fontSize = 24.sp,
+                        color = Color(0xFFFF8000),
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            // Display error message
-            if (errorMessage.isNotEmpty()) {
-                Text(
-                    text = errorMessage,
-                    color = Color.Red,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
+                    Image(
+                        painter = painterResource(id = R.drawable.signuplogo),
+                        contentDescription = "Signup Image",
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .aspectRatio(1f)
+                    )
 
-            // User Name Field
-            OutlinedTextField(
-                value = userName,
-                onValueChange = { userName = it },
-                label = { Text("User Name") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            // Email Field
-            OutlinedTextField(
-                value = email,
-                onValueChange = { email = it },
-                label = { Text("Email Address") },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Password Field
-            OutlinedTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = { Text("Password") },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // Confirm Password Field
-            OutlinedTextField(
-                value = confirmPassword,
-                onValueChange = { confirmPassword = it },
-                label = { Text("Confirm Password") },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(34.dp))
-
-            // Confirm Button (Yellow Color)
-            Button(
-                onClick = {
-                    SigninWithEmailAndPassword.signUp(email, password) { user ->
-                        if (user != null) {
-                            Log.d("Auth", "Sign-up successful")
-                            onNavigateToSignIn() // Navigate to Sign In after successful sign-up
-                        } else {
-                            Log.e("Auth", "Sign-up failed")
-                        }
+                    // Display error message
+                    if (errorMessage.isNotEmpty()) {
+                        Text(
+                            text = errorMessage,
+                            color = Color.Red,
+                            modifier = Modifier.padding(8.dp)
+                        )
                     }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF8000))
-            ) {
-                Text(text = "Confirm", fontSize = 18.sp, color = Color.Black)
-            }
 
+                    // User Name Field
+                    OutlinedTextField(
+                        value = userName,
+                        onValueChange = { userName = it },
+                        label = { Text("User Name") },
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = Color.Gray // Default border color
+                        )
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+                    // Email Field
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = { Text("Email Address") },
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = Color.Gray // Default border color
+                        )
+                    )
 
-            // Sign In Text
-            Row(
-                horizontalArrangement = Arrangement.Center
-            ) {
-                ClickableText(
-                    text = androidx.compose.ui.text.AnnotatedString("Already have an account? Signin"),
-                    onClick = { navController.navigate(Screen.SignIn.route)
-                    },
-                    style = TextStyle(color = Color(0xFFFF8000), fontSize = 14.sp)
-                )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Password Field
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = { password = it },
+                        label = { Text("Password") },
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = Color.Gray // Default border color
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Confirm Password Field
+                    OutlinedTextField(
+                        value = confirmPassword,
+                        onValueChange = { confirmPassword = it },
+                        label = { Text("Confirm Password") },
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+                        singleLine = true,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .onFocusChanged { isFocused = it.isFocused },//switch focus state
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = PrimaryColor,
+                            unfocusedBorderColor = Color.Gray // Default border color
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(34.dp))
+
+                    //Create Account Button
+                    PrimaryButton(
+                        text="Create Account",
+                        onClick = {
+                            handleSignUp()
+                        }
+                    )
+                    //Space
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Sign In Text
+                    Row(
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            modifier = Modifier.clickable {
+                                navController.navigate(Screen.SignIn.route)
+                            },
+                            text = AnnotatedString("Already have an account? Signin"),
+                            style = TextStyle(color = Color(0xFFFF8000), fontSize = 14.sp)
+                        )
+                    }
+                }
             }
         }
     }

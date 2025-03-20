@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.madhan.adamsuperapp.ui.screens.HomeScreen
 import com.madhan.adamsuperapp.ui.screens.SignInScreen
 import com.madhan.adamsuperapp.ui.screens.SignUpScreen

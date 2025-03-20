@@ -20,12 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 import com.madhan.feature_hotel.R
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.ui.widgets.CustomIconButton
-import com.madhan.feature_hotel.utils.customColors
 import com.madhan.feature_hotel.utils.routes.HOMESCREEN
+import com.madhan.feature_hotel.utils.routes.HOTELSCREEN
 
 @Composable
 fun OnboardingScreen(navController: NavController) {
@@ -59,7 +61,7 @@ fun OnboardingScreen(navController: NavController) {
              fontSize = 32.sp,
                 textAlign = TextAlign.Center,
              fontWeight = FontWeight.SemiBold,
-                color = customColors.hotelTextColor
+                color = hotelTextColor
             )
         )
         Spacer(modifier = Modifier.height(20.dp))
@@ -72,14 +74,18 @@ fun OnboardingScreen(navController: NavController) {
                 fontSize = 16.sp,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Medium,
-                color = customColors.descriptionColor,
+                color = descriptionColor,
             )
         )
         Spacer(modifier = Modifier.height(60.dp))
         //Button
        PrimaryButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = {navController.navigate(HOMESCREEN)},
+            onClick = {
+                navController.navigate(HOMESCREEN){
+                    popUpTo(HOTELSCREEN){inclusive=true}
+                }
+                      },
             text = "Let' go",
             width = 257.dp,
             height = 56.dp,
