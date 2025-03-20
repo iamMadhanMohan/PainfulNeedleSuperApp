@@ -134,37 +134,7 @@ fun CustomSearchCard(modifier: Modifier, onClick: () -> Unit ) {
         }
     }
 }
-@Composable
-fun IconTextRow(
-    modifier: Modifier = Modifier,
-    icon: Painter,
-    text: String,
-    iconSize: Dp = 16.dp,
-    textSize: TextUnit = 14.sp,
-    textColor: Color = Color(0xFF171D33),
-    iconTint: Color = Color(0xFFFF7A1A)
-) {
-    Row(
-        modifier = modifier
-    ) {
-        Icon(
-            modifier = Modifier.size(iconSize),
-            painter = icon,
-            contentDescription = "icon",
-            tint = iconTint
-        )
-        Spacer(Modifier.width(10.dp))
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = textSize,
-                fontWeight = FontWeight.SemiBold,
-                color = textColor,
-                textAlign = TextAlign.Start
-            )
-        )
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
