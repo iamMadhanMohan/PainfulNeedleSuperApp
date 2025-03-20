@@ -51,7 +51,7 @@ fun MapSearchScreen(navController: NavController) {
                     horizontalArrangement = Arrangement.Absolute.SpaceBetween
                 ) {
                     HomeIcon(
-                        onClick = { navController.navigate("delivery_home") },
+                        onClick = { navController.navigate("delivery_men") },
                         modifier = Modifier
                             .padding(8.dp)
                             .size(60.dp)
