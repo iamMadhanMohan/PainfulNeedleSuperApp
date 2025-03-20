@@ -156,18 +156,6 @@ fun HotelDetailScreen(navController: NavController){
                                 text = "$ 150"
                             )
                         }
-                       // Spacer(Modifier.height(20.dp))
-                        //Show modal when pressed
-                        IconButton(onClick = {
-                            /*Open a modal from the bottom*/
-                        }) {
-                            Icon(
-                                modifier=Modifier.size(24.dp),
-                                painter = painterResource(id=R.drawable.arrow_down),
-                                tint = descriptionColor,
-                                contentDescription = null
-                            )
-                        }
                     }
                 }
             }
@@ -179,7 +167,7 @@ fun HotelDetailScreen(navController: NavController){
             ) {
                 PrimaryButton(
                     modifier = Modifier,
-                    onClick = {},
+                    onClick = {/*Open the call*/},
                     width = 162.dp,
                     buttonBorder = BorderStroke(0.5.dp, descriptionColor),
                     height = 42.dp,
@@ -189,7 +177,7 @@ fun HotelDetailScreen(navController: NavController){
                 )
                 PrimaryButton(
                     modifier = Modifier,
-                    onClick = {},
+                    onClick = {/*Open the message*/},
                     width = 162.dp,
                     buttonBorder = BorderStroke(0.5.dp, descriptionColor),
                     height = 42.dp,

@@ -22,5 +22,7 @@ val hotelTextColor = Color(0xFF171D33)
 val descriptionColor = Color(0xFFA6AAB4)
 val cardColor = Color(0xFFE8E9EC)
 val dividerColor = Color(0xFFE8E9EC)
+val errorColor = Color(0xFFF44336)
+
 
 
