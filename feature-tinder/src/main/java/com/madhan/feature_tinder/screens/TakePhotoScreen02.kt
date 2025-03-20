@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.core.ui.screen.TakePhotoScreen
 import com.madhan.feature_tinder.R
 import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.composable.CustomButton
@@ -38,88 +39,100 @@ fun TakePhotoScreen02(
     modifier: Modifier = Modifier,
     navController: NavController? = null
 ){
-    val config = LocalConfiguration.current
-    val screenHeight = config.screenHeightDp.dp
-    val imageHeight = screenHeight * 0.75f
-    Column(modifier = modifier) {
-        TopBar(
-            leftSlot = {
-                Icon(
-                    painter = painterResource(R.drawable.ic_return),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .clickable {
-                            navController!!.navigate(TinderRoute.PictureChoice.route) {
-                                popUpTo(TinderRoute.TakePhoto.route) {
-                                    inclusive = true
-                                }
-                            }
-                        }
-                        .scale(2f)
-                        .size(32.dp),
-                    tint = PrimaryColor
-                )
-            },
-            middleSlot = {
-                TitleText(
-                    text = "Take a photo",
-                    style = MaterialTheme.typography.headlineSmall
-                )
-            },
-            rightSlot = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_picture),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(16.dp),
-                        tint = PrimaryColor
-                    )
-
-                    Icon(
-                        painter = painterResource(R.drawable.ic_question),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(32.dp),
-                        tint = PrimaryColor
-                    )
-                }
+    TakePhotoScreen(
+        onBackButtonClick = {
+            navController!!.navigate(TinderRoute.PictureChoice.route) {
+                    popUpTo(TinderRoute.TakePhoto.route) {
+                        inclusive = true
+                    }
             }
-        )
-        Column(
-            modifier = modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .height(imageHeight)
-                    .fillMaxWidth()
-                    .background(Color.Red)
-            ) {
-
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(32.dp)
-            ) {
-                CustomButton(
-                    icon = R.drawable.ic_camera,
-                    onClick = {
-                        navController!!.navigate(TinderRoute.AddProfile.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .heightIn(min = 64.dp)
-                )
-            }
+        },
+        onCameraLaunchSuccess = {
+            navController!!.navigate(TinderRoute.AddProfile.route)
         }
-    }
+    )
+//    val config = LocalConfiguration.current
+//    val screenHeight = config.screenHeightDp.dp
+//    val imageHeight = screenHeight * 0.75f
+//    Column(modifier = modifier) {
+//        TopBar(
+//            leftSlot = {
+//                Icon(
+//                    painter = painterResource(R.drawable.ic_return),
+//                    contentDescription = "",
+//                    modifier = Modifier
+//                        .clickable {
+//                            navController!!.navigate(TinderRoute.PictureChoice.route) {
+//                                popUpTo(TinderRoute.TakePhoto.route) {
+//                                    inclusive = true
+//                                }
+//                            }
+//                        }
+//                        .scale(2f)
+//                        .size(32.dp),
+//                    tint = PrimaryColor
+//                )
+//            },
+//            middleSlot = {
+//                TitleText(
+//                    text = "Take a photo",
+//                    style = MaterialTheme.typography.headlineSmall
+//                )
+//            },
+//            rightSlot = {
+//                Row(
+//                    verticalAlignment = Alignment.CenterVertically,
+//                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+//                ) {
+//                    Icon(
+//                        painter = painterResource(R.drawable.ic_picture),
+//                        contentDescription = "",
+//                        modifier = Modifier
+//                            .size(16.dp),
+//                        tint = PrimaryColor
+//                    )
+//
+//                    Icon(
+//                        painter = painterResource(R.drawable.ic_question),
+//                        contentDescription = "",
+//                        modifier = Modifier
+//                            .size(32.dp),
+//                        tint = PrimaryColor
+//                    )
+//                }
+//            }
+//        )
+//        Column(
+//            modifier = modifier
+//                .fillMaxSize(),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.spacedBy(16.dp)
+//        ) {
+//            Column(
+//                modifier = Modifier
+//                    .height(imageHeight)
+//                    .fillMaxWidth()
+//                    .background(Color.Red)
+//            ) {
+//
+//            }
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(32.dp)
+//            ) {
+//                CustomButton(
+//                    icon = R.drawable.ic_camera,
+//                    onClick = {
+//                        navController!!.navigate(TinderRoute.AddProfile.route)
+//                    },
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .heightIn(min = 64.dp)
+//                )
+//            }
+//        }
+//    }
 }
 
 @Preview(showBackground = true)
