@@ -34,15 +34,16 @@ fun CustomDataCard(
     isFavorite: Boolean,
     onFavoriteClick: () -> Unit,
 
-) {
+    ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .height(240.dp)
             .padding(16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = cardColor,
-            contentColor = hotelTextColor
+//            containerColor = cardColor,
+            containerColor = Color(0XFFE8E9EC),
+            contentColor = Color(0xFF171D33)
         ),
         shape = RoundedCornerShape(10.dp)
     ) {
@@ -52,7 +53,9 @@ fun CustomDataCard(
                 painter = backgroundImage,
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxWidth().height(136.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(136.dp)
             )
 
             // Like Icon
@@ -60,7 +63,7 @@ fun CustomDataCard(
                 modifier = Modifier.align(Alignment.TopEnd),
                 onClick = {
                     onFavoriteClick()
-                          },
+                },
                 colors = IconButtonDefaults.iconButtonColors(
                     containerColor = Color.Transparent,
                     contentColor = Color.White
@@ -130,7 +133,7 @@ fun CustomDataCard(
 
 @Preview(showBackground = true)
 @Composable
-fun CustomDataCardPreview(){
+fun CustomDataCardPreview() {
     CustomDataCard(
         modifier = Modifier.clickable {},
         backgroundImage = painterResource(id = R.drawable.hotelimg2),

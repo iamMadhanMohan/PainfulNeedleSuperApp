@@ -36,7 +36,7 @@ import com.madhan.feature_bank.components.BackTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TransactionScreen(navController: NavController){
+fun TransactionScreen(navController: NavController) {
 
     var transactionName by remember { mutableStateOf<String>("") }
     var amount by remember { mutableStateOf<String>("") }
@@ -107,8 +107,12 @@ fun TransactionScreen(navController: NavController){
 
         Spacer(modifier = Modifier.weight(1f))
 
-        CustomButton("Pay"){
-            navController.navigate("services")
+        CustomButton("Pay") {
+            navController.navigate("services") {
+                popUpTo("ibank_home") {
+                    inclusive = true
+                }
+            }
         }
     }
 }
@@ -116,7 +120,7 @@ fun TransactionScreen(navController: NavController){
 
 @Preview(showBackground = true)
 @Composable
-fun TransactionScreenPreview(){
+fun TransactionScreenPreview() {
     TransactionScreen(rememberNavController())
 }
 
@@ -148,7 +152,7 @@ fun IconsList() {
 
     var selectedIndex by remember { mutableStateOf(-1) }
 
-    Row{
+    Row {
         outlineIcons.forEachIndexed { index, outlineIcon ->
             val isSelected = selectedIndex == index
             Column(

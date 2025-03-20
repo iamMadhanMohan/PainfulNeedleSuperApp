@@ -25,13 +25,16 @@ import com.madhan.feature_bank.R
 import com.madhan.feature_bank.components.BackTopBar
 
 @Composable
-fun IBankHomeScreen(navController: NavController){
+fun IBankHomeScreen(navController: NavController) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(16.dp)
     ) {
-        BackTopBar("", navController)
+        BackTopBar("", navController) {
+            navController.navigate("home")
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -71,6 +74,6 @@ fun IBankHomeScreen(navController: NavController){
 
 @Preview(showBackground = true)
 @Composable
-fun IBankHomeScreenPreview(){
+fun IBankHomeScreenPreview() {
     IBankHomeScreen(rememberNavController())
 }
