@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.core.ui.components.RateSelection
 import com.madhan.feature_pet.R
 import com.madhan.feature_pet.composable.FilterSlider
 import com.madhan.feature_pet.composable.PetButton
@@ -131,16 +132,11 @@ fun FilterScreen(navController: NavHostController) {
 
         // Rating Section
         FilterSectionTitle(title = "Rate")
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            repeat(5) { index ->
-                Icon(
-                    painter = painterResource(id = if (index < rating.toInt()) R.drawable.ic_star_filled else R.drawable.ic_star_unfilled),
-                    contentDescription = "Rating Star",
-                    tint = Color(0xFFFF8C00),
-                    modifier = Modifier.size(48.dp)
-                )
-            }
-        }
+
+// Define a state for the selected stars
+        val selectedStars = remember { mutableStateOf(0) }
+
+        RateSelection(selectedStars = selectedStars)
 
         Spacer(modifier = Modifier.height(180.dp))
 
