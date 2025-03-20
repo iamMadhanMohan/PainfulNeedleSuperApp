@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
+import com.madhan.feature_delivery.ui.components.CustomBackButton
 import com.madhan.feature_delivery.ui.components.HomeIcon
 
 
@@ -60,15 +61,16 @@ fun ParcelScreen(navController: NavController) {
                     .padding(0.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                HomeIcon(onClick = { navController.navigate("home") })
-                //Spacer(modifier = Modifier.width(8.dp))
+                CustomBackButton(onClick = { navController.navigate("delivery_men") })
+                Spacer(modifier=Modifier.weight(0.5f))
                 Text(
                     text = "Your parcel",
-                    fontSize = 22.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
                 )
+                Spacer(modifier=Modifier.weight(1f))
+
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -84,11 +86,11 @@ fun ParcelScreen(navController: NavController) {
             // Brittle Checkbox Row
             BrittleCheckboxRow()
 
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(75.dp))
 
             // Next Button
             BottomOrangeButton(text = "Next") {
-                navController.navigate("delivery_address")
+                navController.navigate("delivery_men")
 
             }
         }

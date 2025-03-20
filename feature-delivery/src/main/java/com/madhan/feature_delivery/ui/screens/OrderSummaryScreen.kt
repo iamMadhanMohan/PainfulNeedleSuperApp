@@ -2,15 +2,11 @@ package com.madhan.feature_delivery.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,9 +20,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_delivery.R
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
+import com.madhan.feature_delivery.ui.components.CustomBackButton
 
 @Composable
 fun OrderSummaryScreen(navController: NavController) {
+    var showDialog by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -43,12 +42,16 @@ fun OrderSummaryScreen(navController: NavController) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = {
-                    navController.popBackStack()/* Handle back click */ }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
-                }
+                CustomBackButton { navController.navigate("order_details") }
                 Text(text = "Order", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                Text(text = "Cancel", fontSize = 16.sp, color = Color.White)
+
+                // Cancel Button with Clickable Modifier
+                Text(
+                    text = "Cancel",
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    modifier = Modifier.clickable { showDialog = true }
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -59,7 +62,7 @@ fun OrderSummaryScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.delivery_guy), //profile picture
+                    painter = painterResource(id = R.drawable.delivery_guy), // profile picture
                     contentDescription = "Profile Picture",
                     modifier = Modifier
                         .size(50.dp)
@@ -129,10 +132,10 @@ fun OrderSummaryScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = "Remove", fontSize = 14.sp, color = Color(0xFFFF8000))
                 }
-                Column (horizontalAlignment = Alignment.End){
+                Column(horizontalAlignment = Alignment.End) {
                     Text(text = "$ 15/kg", fontSize = 16.sp)
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = "x 5", fontSize = 16.sp,color = Color(0xFFFF8000),)
+                    Text(text = "x 5", fontSize = 16.sp, color = Color(0xFFFF8000))
                 }
             }
 
@@ -194,15 +197,43 @@ fun OrderSummaryScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(160.dp))
 
-            Row(horizontalArrangement = Arrangement.Center,
+            // Bottom Button Section
+            Row(
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)) { // Button Section (Bottom)
+                    .padding(16.dp)
+            ) {
                 BottomOrangeButton("Place Order") {
-                    // Handle confirm click
+                    navController.navigate("order_success")
                 }
             }
         }
+    }
+
+    // Confirmation Dialog (Appears when clicking "Cancel")
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false }, // Close dialog on outside click
+            title = { Text("Are you sure you want to cancel?") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        showDialog = false
+                        navController.navigate("delivery_men") // Navigate to home if "Yes" is clicked
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { showDialog = false } // Close dialog if "No" is clicked
+                ) {
+                    Text("No")
+                }
+            }
+        )
     }
 }
 

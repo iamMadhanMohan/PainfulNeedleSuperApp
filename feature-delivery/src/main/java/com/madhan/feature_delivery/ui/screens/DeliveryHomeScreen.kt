@@ -54,7 +54,7 @@ fun DeliveryHomeScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 CustomBackButton {  // Navigate back
-                    navController.navigate("root")
+                    navController.navigate("home")
                 }
                 Spacer(modifier = Modifier.weight(1f)) // Push other content to the right
             }
@@ -98,7 +98,7 @@ fun DeliveryHomeScreen(navController: NavController) {
             // Button
             BottomOrangeButton(text = "Let'go") {
                 // Handle click action
-                navController.navigate("parcel")
+                navController.navigate("delivery_men")
             }
         }
     }

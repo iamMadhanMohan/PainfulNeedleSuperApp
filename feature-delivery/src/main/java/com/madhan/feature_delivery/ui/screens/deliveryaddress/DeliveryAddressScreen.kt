@@ -1,4 +1,4 @@
-package com.madhan.feature_delivery.ui.screens
+package com.madhan.feature_delivery.ui.screens.deliveryaddress
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,7 +16,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.madhan.feature_delivery.R
 import com.google.android.gms.maps.model.LatLng
 import com.madhan.feature_delivery.ui.components.BottomOrangeButton
 import com.madhan.feature_delivery.ui.components.CustomBackButton
@@ -26,6 +25,8 @@ import androidx.navigation.compose.rememberNavController
 import android.location.Geocoder
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,18 +59,26 @@ fun DeliveryAddressScreen(navController: NavController) {
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
             TopAppBar(
-                title = { Text("Enter delivery address") },
+                title = { Text(
+                    text = "    Enter Delivery Address",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                    ) },
                 navigationIcon = {
                     CustomBackButton {
-                        navController.popBackStack()
+                        navController.navigate("delivery_men")
                     }
                 },
                 actions = {
                     IconButton(onClick = {
                         val latlng = LatLng(33.7490, -84.3880)
                         markerPosition.value = latlng
+
                     }) {
-                        Icon(painterResource(id = android.R.drawable.ic_menu_mylocation), contentDescription = "Current Location")
+                        Icon(painterResource(id = android.R.drawable.ic_menu_mylocation), contentDescription = "Current Location",
+                            )
                     }
                 }
             )

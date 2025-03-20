@@ -20,7 +20,7 @@ fun HomeIcon(onClick: () -> Unit,modifier: Modifier = Modifier,) {
         contentDescription = "Home",
         modifier = Modifier
             .clickable { onClick() }
-            .size(48.dp) // Adjust size as needed
+            .size(68.dp) // Adjust size as needed
             .padding(8.dp) // Add padding if needed
             .clip(CircleShape) // Clip to circle if desired
     )

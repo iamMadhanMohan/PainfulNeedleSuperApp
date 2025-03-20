@@ -13,7 +13,8 @@ fun RenderMarkers(markerPositions: List<LatLng>) {
         Marker(
             state = MarkerState(position = position),
             title = "Marker Title",  // Optional: Set a title if needed
-            snippet = "Marker Snippet"  // Optional: Set a snippet if needed
+            snippet = "Marker Snippet",  // Optional: Set a snippet if needed
+
         )
     }
 }
