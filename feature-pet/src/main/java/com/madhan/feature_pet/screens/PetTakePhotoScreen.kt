@@ -11,11 +11,11 @@ import com.madhan.core.ui.screen.TakePhotoScreen
 fun PetTakePhotoScreen(navController: NavHostController) {
     TakePhotoScreen(
         onBackButtonClick = {
-            // write your back screen navigation
+            navController.popBackStack()
         },
 
         onCameraLaunchSuccess = {
-            // write your next screen navigation
+            navController.navigate("dog_list")
         }
     )
 }

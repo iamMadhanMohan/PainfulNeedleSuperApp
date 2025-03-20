@@ -32,12 +32,7 @@ fun NavGraphBuilder.petNavGraph(navController: NavHostController) {
             val startDate = navController.currentBackStackEntry?.savedStateHandle?.get<String>("startDate") ?: "Choose Dates"
             val endDate = navController.currentBackStackEntry?.savedStateHandle?.get<String>("endDate") ?: ""
             PetCarePersonListScreen(
-                navController,
-                selectedStartDate = startDate,
-                selectedEndDate = endDate,
-                onGuardSelected = { guardName ->
-                    navController.navigate("order/$guardName/$startDate/$endDate")
-                }
+                navController
             )
         }
         composable("order/{guardName}/{startDate}/{endDate}") { backStackEntry ->

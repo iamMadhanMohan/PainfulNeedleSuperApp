@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.madhan.feature_pet.composable.PetButton
 import com.madhan.feature_pet.R
 
+
 @Composable
 fun StartScreen(navController: NavHostController) {
     Column(
@@ -35,12 +37,14 @@ fun StartScreen(navController: NavHostController) {
                 .padding(start = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_back),
-                contentDescription = "Back Button",
-                tint = Color(0xFFFF8C00), // Orange color
-                modifier = Modifier.size(48.dp)
-            )
+            IconButton(onClick = { navController.navigate("home") }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_home),
+                    contentDescription = "Back Button",
+                    tint = Color(0xFFFF8C00), // Orange color
+                    modifier = Modifier.size(35.dp)
+                )
+            }
         }
         Spacer(modifier = Modifier.height(32.dp))
         Image(

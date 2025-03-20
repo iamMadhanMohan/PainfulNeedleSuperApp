@@ -120,7 +120,7 @@ fun DogListScreen(navController: NavHostController) {
 
         // Next Button
         PetButton(text = "Next"){
-            navController.navigate("filter")
+            navController.navigate("pet_care_list")
         }
     }
 }

@@ -39,7 +39,7 @@ import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CommonCalendar(startDate: LocalDate?, endDate: LocalDate?, onDateSelected: (LocalDate) -> Unit) {
+fun CommonCalendar(startDate: LocalDate?, endDate: LocalDate?, onDateSelected: (LocalDate) -> Unit, onBackPress: () -> Unit) {
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
 
@@ -54,7 +54,7 @@ fun CommonCalendar(startDate: LocalDate?, endDate: LocalDate?, onDateSelected: (
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { /* Nav */ }) {
+            IconButton(onClick = { onBackPress() }) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back", tint = Color(0xFFFF8C00))
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -207,7 +207,12 @@ fun CalendarView(startDate: LocalDate?, endDate: LocalDate?, onDateSelected: (Lo
 @Composable
 fun CommonCalendarPreview() {
     val startDate = LocalDate.of(2023, 3, 20)
-    val endDate = LocalDate.of(2023, 3, 22) 
-    CommonCalendar(startDate = startDate, endDate = endDate) { selectedDate ->
-    }
+    val endDate = LocalDate.of(2023, 3, 22)
+
+    CommonCalendar(
+        startDate = startDate,
+        endDate = endDate,
+        onDateSelected = { /* Simulate Date Selection */ },
+        onBackPress = { /* Simulate Back Button Click */ }
+    )
 }
