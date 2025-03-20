@@ -22,7 +22,7 @@ import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_bank.R
 
 @Composable
-fun BackTopBar(title: String, navController: NavController){
+fun BackTopBar(title: String, navController: NavController, onBackClick: () -> Unit = {}) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
@@ -31,9 +31,11 @@ fun BackTopBar(title: String, navController: NavController){
             painter = painterResource(id = R.drawable.back_button),
             contentDescription = "back button",
             tint = PrimaryColor,
-            modifier = Modifier.width(28.dp).height(17.dp)
+            modifier = Modifier
+                .width(28.dp)
+                .height(17.dp)
                 .clickable {
-                    navController.navigateUp()
+                    onBackClick()
                 }
         )
 
@@ -52,6 +54,6 @@ fun BackTopBar(title: String, navController: NavController){
 
 @Preview(showBackground = true)
 @Composable
-fun BackTopBarPreview(){
+fun BackTopBarPreview() {
     BackTopBar("", rememberNavController())
 }
