@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.madhan.feature_tinder.TinderRoute
 import com.madhan.feature_tinder.screens.AddProfileScreen03
 import com.madhan.feature_tinder.screens.EnableLocationScreen04
 import com.madhan.feature_tinder.screens.PictureChoiceScreen01
@@ -21,23 +22,17 @@ fun NavGraphBuilder.tinderNavGraph(
     navController: NavController
 ){
     navigation(
-        startDestination = "tinder_home",
+        startDestination = TinderRoute.TinderScreen.route,
         route = "tinder",
     ) {
-
-        // Get the NavBackStackEntry for the "tinder" navigation graph
-//        val navBackStackEntry = navController.getBackStackEntry("tinder")
-        // Create the ProfileViewModel scoped to the "tinder" navigation graph
-//        val viewModel: ProfileViewModel = viewModel(navBackStackEntry)
-
-        composable("tinder_home") { TinderScreen00(navController = navController) }
-        composable("picture_choice") { PictureChoiceScreen01(navController = navController) }
-        composable("take_photo") { TakePhotoScreen02(navController = navController) }
-        composable("add_profile") { AddProfileScreen03(navController = navController) }
-        composable("enable_location") { EnableLocationScreen04(navController = navController) }
-        composable("tutorial_screen") { TutorialScreen05(navController = navController) }
+        composable(route = TinderRoute.TinderScreen.route) { TinderScreen00(navController = navController) }
+        composable(route = TinderRoute.PictureChoice.route) { PictureChoiceScreen01(navController = navController) }
+        composable(route = TinderRoute.TakePhoto.route) { TakePhotoScreen02(navController = navController) }
+        composable(route = TinderRoute.AddProfile.route) { AddProfileScreen03(navController = navController) }
+        composable(route = TinderRoute.EnableLocation.route) { EnableLocationScreen04(navController = navController) }
+        composable(route = TinderRoute.TutorialScreen.route) { TutorialScreen05(navController = navController) }
         var viewModel: ProfileViewModel? = null
-        composable("tinder_display_screen") {
+        composable(route = TinderRoute.TinderDisplayScreen.route) {
            viewModel = viewModel ?: viewModel()
             TinderDisplayScreen06(
                 navController = navController,
