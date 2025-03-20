@@ -13,12 +13,12 @@ class SigninWithEmailAndPassword {
 
         fun signUp(email: String, password: String, onResult: (FirebaseUser?) -> Unit) {
             firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                .addOnCompleteListener { user ->
+                    if (user.isSuccessful) {
                         Log.d("EmailAuth", "Sign-up successful for $email")
                         onResult(firebaseAuth.currentUser)  // Returns user if successful
                     } else {
-                        Log.e("EmailAuth", "Sign-up failed: ${task.exception?.message}")
+                        Log.e("EmailAuth", "Sign-up failed: ${user.exception?.message}")
                         onResult(null)  // Returns null if sign-up fails
                     }
                 }
@@ -29,12 +29,12 @@ class SigninWithEmailAndPassword {
 
         fun LogIn(email: String, password: String, onResult: (FirebaseUser?) -> Unit) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+                .addOnCompleteListener { user ->
+                    if (user.isSuccessful) {
                         Log.d("EmailAuth", "Sign-in successful for $email")
                         onResult(firebaseAuth.currentUser)  // Returns user if successful
                     } else {
-                        Log.e("EmailAuth", "Sign-in failed: ${task.exception?.message}")
+                        Log.e("EmailAuth", "Sign-in failed: ${user.exception?.message}")
                         onResult(null)  // Returns null if sign-in fails
                     }
                 }

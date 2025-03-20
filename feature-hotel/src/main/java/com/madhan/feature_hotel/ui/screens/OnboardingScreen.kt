@@ -38,11 +38,11 @@ fun OnboardingScreen(navController: NavController) {
         verticalArrangement = Arrangement.Top
     ) {
         //Back arrow
-        CustomIconButton(
-            onClick = { navController.navigate("root") },
-            icon = painterResource(R.drawable.back_arrow),
-            contentDescription = "Back Arrow"
-        )
+//        CustomIconButton(
+//            onClick = { navController.popBackStack()},
+//            icon = painterResource(R.drawable.back_arrow),
+//            contentDescription = "Back Arrow"
+//        )
         //Vector image
         Image(
             painter = painterResource(R.drawable.woman),

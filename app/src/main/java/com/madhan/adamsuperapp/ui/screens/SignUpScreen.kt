@@ -1,13 +1,10 @@
 package com.madhan.adamsuperapp.ui.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -30,9 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.madhan.adamsuperapp.R
 import com.madhan.adamsuperapp.auth.SigninWithEmailAndPassword
 import com.madhan.adamsuperapp.navigation.Screen
-import com.madhan.adamsuperapp.ui.theme.BackgroundWhite
 import com.madhan.adamsuperapp.ui.theme.PrimaryColor
-import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 import com.madhan.core.ui.components.PrimaryButton
 
 @Composable
@@ -57,7 +52,7 @@ fun SignUpScreen(
     }
 
     fun isValidPassword(password: String): Boolean {
-        return password.length >= 6
+        return Regex("^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#\$%^&+=!]).{6,}$").matches(password)
     }
 
     fun doPasswordsMatch(password: String, confirmPassword: String): Boolean {
@@ -69,7 +64,7 @@ fun SignUpScreen(
         when {
             userName.isEmpty() -> errorMessage = "Username cannot be empty"
             !isValidEmail(email) -> errorMessage = "Invalid email format"
-            !isValidPassword(password) -> errorMessage = "Password must be at least 6 characters"
+            !isValidPassword(password) -> errorMessage = "Password must have at least 6 characters, 1 capital, 1 number, and 1 special character"
             !doPasswordsMatch(password, confirmPassword) -> errorMessage = "Passwords do not match"
             signedUpEmails.contains(email) -> {
                 errorMessage = "Email already exists! Redirecting to Sign In..."
@@ -113,9 +108,8 @@ fun SignUpScreen(
                         color = Color(0xFFFF8000),
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
-
                     Spacer(modifier = Modifier.height(16.dp))
-
+                    //Signup logo
                     Image(
                         painter = painterResource(id = R.drawable.signuplogo),
                         contentDescription = "Signup Image",
@@ -123,9 +117,7 @@ fun SignUpScreen(
                             .fillMaxWidth(0.8f)
                             .aspectRatio(1f)
                     )
-
                     Spacer(modifier = Modifier.height(16.dp))
-
                     // Display error message
                     if (errorMessage.isNotEmpty()) {
                         Text(
@@ -134,7 +126,6 @@ fun SignUpScreen(
                             modifier = Modifier.padding(8.dp)
                         )
                     }
-
                     // User Name Field
                     OutlinedTextField(
                         value = userName,
@@ -150,7 +141,6 @@ fun SignUpScreen(
                         )
                     )
                     Spacer(modifier = Modifier.height(12.dp))
-
                     // Email Field
                     OutlinedTextField(
                         value = email,
@@ -166,7 +156,6 @@ fun SignUpScreen(
                             unfocusedBorderColor = Color.Gray // Default border color
                         )
                     )
-
                     Spacer(modifier = Modifier.height(12.dp))
 
                     // Password Field

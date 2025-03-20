@@ -15,8 +15,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,6 +49,7 @@ import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.adamsuperapp.utils.UiStatus
 import com.madhan.core.ui.components.PrimaryButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController) {
 
@@ -53,105 +62,99 @@ fun HomeScreen(navController: NavController) {
         ServiceItem("Pet", R.drawable.pet, Screen.Pet.route),
     )
 
-    //context
     val context = LocalContext.current
-
-    // Get the ViewModel using hiltViewModel()
     val viewModel: SigninWithGoogleViewModel = hiltViewModel()
-
-    // Observe the login state
     val logoutState by viewModel.logoutState.collectAsState()
 
-    // UI elements based on login state
     when (logoutState) {
-        is UiStatus.LOADING -> {
-        }
+        is UiStatus.LOADING -> {}
         is UiStatus.SUCCESS -> {
-            // Navigate to next screen on success
-            val user = (logoutState as UiStatus.SUCCESS).message
-            Toast.makeText(
-                context,
-                "Logout Successful",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(context, "Logout Successful", Toast.LENGTH_LONG).show()
             navController.navigate(Screen.SignIn.route) {
-                popUpTo(Screen.Home.route) { inclusive = true } // Clears Home from backstack
+                popUpTo(Screen.Home.route) { inclusive = true }
             }
         }
         is UiStatus.ERROR -> {
-            // Handle login error
             val errorMessage = (logoutState as UiStatus.ERROR).error
             Toast.makeText(context, "Login failed: $errorMessage", Toast.LENGTH_SHORT).show()
         }
     }
 
-    Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
-            .padding(16.dp)
-    ) {
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.background(PrimaryColor),
+                title = { Text("Super App", color = Color.White) },
+                actions = {
+                    IconButton(onClick = { viewModel.logOut() }) {
+                        Icon(
+                            modifier = Modifier.size(28.dp),
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Logout",
+                            tint = PrimaryColor
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(16.dp)
+        ) {
+            Text(
+                text = "Welcome to Super App",
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = PrimaryColor
+            )
 
-        Text(
-            text = "Welcome to Super App",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold,
-            color = PrimaryColor
-        )
+            Spacer(modifier = Modifier.height(32.dp))
 
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Text(
-            text = "Recent Services",
-            fontWeight = FontWeight.SemiBold,
-            color = Color.DarkGray,
-            fontSize = 16.sp,
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        services.chunked(3).forEach { rowItems ->
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                rowItems.forEach { service ->
-                    Box(
-                        modifier = Modifier
-                            .shadow(8.dp, RoundedCornerShape(12.dp))
-                            .background(Color.White, RoundedCornerShape(12.dp))
-                            .clickable { navController.navigate(service.route) }
-                            .padding(1.dp)
-                    ) {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(8.dp)
+            Text(
+                text = "Recent Services",
+                fontWeight = FontWeight.SemiBold,
+                color = Color.DarkGray,
+                fontSize = 16.sp,
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            services.chunked(3).forEach { rowItems ->
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    rowItems.forEach { service ->
+                        Box(
+                            modifier = Modifier
+                                .shadow(8.dp, RoundedCornerShape(12.dp))
+                                .background(Color.White, RoundedCornerShape(12.dp))
+                                .clickable { navController.navigate(service.route) }
+                                .padding(1.dp)
                         ) {
-                            Image(
-                                painter = painterResource(id = service.icon),
-                                contentDescription = service.name,
-                                modifier = Modifier
-                                    .size(64.dp)
-                                    .padding(8.dp)
-                            )
-                            Text(text = service.name)
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(8.dp)
+                            ) {
+                                Image(
+                                    painter = painterResource(id = service.icon),
+                                    contentDescription = service.name,
+                                    modifier = Modifier
+                                        .size(64.dp)
+                                        .padding(8.dp)
+                                )
+                                Text(text = service.name)
+                            }
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(16.dp))
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
         }
-        PrimaryButton(
-            text = "Log Out",
-            onClick = {
-                viewModel.logOut()
-            },
-            modifier = Modifier.fillMaxWidth()
-        )
     }
-
 }
 
 @Preview(showBackground = true)
