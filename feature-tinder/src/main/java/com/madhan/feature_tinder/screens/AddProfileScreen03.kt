@@ -58,9 +58,17 @@ fun AddProfileScreen03(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     val datePickerState = rememberDatePickerState()
-    val selectedDate = datePickerState.selectedDateMillis?.let {
+    var selectedDate = datePickerState.selectedDateMillis?.let {
         convertMillisToDate(it)
     } ?: ""
+    var description by remember { mutableStateOf("") }
+    var city by remember { mutableStateOf("") }
+    if (datePickerState.selectedDateMillis != null) {
+        selectedDate = convertMillisToDate(datePickerState.selectedDateMillis!!)
+        if (showDatePicker) {
+            showDatePicker = false;
+        }
+    }
     Column(modifier = modifier) {
         TopBar(
             leftSlot = {
@@ -95,23 +103,28 @@ fun AddProfileScreen03(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = description,
+                onValueChange = { description = it },
                 label = {
                     Text(text = "Description")
                 },
                 modifier = Modifier
                     .fillMaxWidth(),
-                minLines = 5
+                minLines = 5,
+                maxLines = 5
+
+
             )
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = city,
+                onValueChange = { city = it },
                 label = {
                     Text(text = "City")
                 },
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                minLines = 1,
+                maxLines = 1
             )
 
             Box(
@@ -119,7 +132,7 @@ fun AddProfileScreen03(
             ) {
                 OutlinedTextField(
                     value = selectedDate,
-                    onValueChange = { },
+                    onValueChange = { selectedDate = it },
                     label = { Text("DOB") },
                     readOnly = true,
                     trailingIcon = {
