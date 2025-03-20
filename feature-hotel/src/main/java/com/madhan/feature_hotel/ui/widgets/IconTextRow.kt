@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 
 @Composable
 fun IconTextRow(
@@ -26,8 +27,8 @@ fun IconTextRow(
     text: String,
     iconSize: Dp = 16.dp,
     textSize: TextUnit = 14.sp,
-    textColor: Color = customColors.hotelTextColor,
-    iconTint: Color = customColors.orange
+    textColor: Color = hotelTextColor,
+    iconTint: Color = PrimaryColor
 ) {
     Row(
         modifier = modifier

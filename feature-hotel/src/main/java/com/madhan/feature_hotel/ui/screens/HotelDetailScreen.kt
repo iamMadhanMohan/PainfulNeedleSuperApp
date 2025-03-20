@@ -2,12 +2,16 @@ package com.madhan.feature_hotel.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -36,13 +40,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
+import com.madhan.adamsuperapp.ui.theme.SecondaryColor
+import com.madhan.adamsuperapp.ui.theme.descriptionColor
+import com.madhan.adamsuperapp.ui.theme.dividerColor
+import com.madhan.adamsuperapp.ui.theme.hotelTextColor
 import com.madhan.core.ui.components.PrimaryButton
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.DummyData
 import com.madhan.feature_hotel.ui.widgets.CustomTitleText
 import com.madhan.feature_hotel.ui.widgets.IconTextRow
 import com.madhan.feature_hotel.ui.widgets.RoomInfoRow
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.utils.routes.HOMESCREEN
+import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
 import com.madhan.feature_hotel.utils.routes.ORDERSCREEN
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -65,19 +75,36 @@ fun HotelDetailScreen(navController: NavController){
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(14.dp) // Adds spacing between images
             ) {
-                items(DummyData.imageList) {  imageResId -> // Adjust the number based on your data
-                    Image(
-                        painter = painterResource(id = imageResId),
-                        contentDescription = "Hotel Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .height(215.dp)
-                            .width(328.dp)
-                            .clip(
-                                RoundedCornerShape(8.dp)
+                items(DummyData.imageList) {  imageResId ->
+                    Box(modifier = Modifier) {
+                        //images
+                        Image(
+                            painter = painterResource(id = imageResId),
+                            contentDescription = "Hotel Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .height(215.dp)
+                                .width(328.dp)
+                                .clip(
+                                    RoundedCornerShape(8.dp)
 
+                                )
+                        )
+                        //Back button
+                        IconButton(
+                            onClick = { navController.popBackStack(HOMESCREEN, inclusive = false) },
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .size(40.dp)
+                                .background(Color.Black.copy(alpha = 0.5f), CircleShape) // Semi-transparent background
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back",
+                                tint = Color.White
                             )
-                    )
+                        }
+                    }
                 }
             }
 
@@ -100,12 +127,12 @@ fun HotelDetailScreen(navController: NavController){
                         modifier = Modifier.absolutePadding(top = 10.dp, left = 15.dp),
                         text = "Johannesburg",
                         fontWeight = FontWeight.Medium,
-                        color = customColors.descriptionColor,
+                        color = descriptionColor,
                         fontSize = 14.sp,
                         textAlign = TextAlign.Start
                     )
                     Spacer(Modifier.height(10.dp))
-                    HorizontalDivider(thickness = 0.4.dp, color = customColors.dividerColor)
+                    HorizontalDivider(thickness = 0.4.dp, color = dividerColor)
                     Column(modifier = Modifier,
                       horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
@@ -137,7 +164,7 @@ fun HotelDetailScreen(navController: NavController){
                             Icon(
                                 modifier=Modifier.size(24.dp),
                                 painter = painterResource(id=R.drawable.arrow_down),
-                                tint = customColors.descriptionColor,
+                                tint = descriptionColor,
                                 contentDescription = null
                             )
                         }
@@ -154,19 +181,19 @@ fun HotelDetailScreen(navController: NavController){
                     modifier = Modifier,
                     onClick = {},
                     width = 162.dp,
-                    buttonBorder = BorderStroke(0.5.dp, customColors.descriptionColor),
+                    buttonBorder = BorderStroke(0.5.dp, descriptionColor),
                     height = 42.dp,
                     colors = ButtonDefaults.buttonColors(Color.White),
                     text="Call",
-                    textColor = customColors.hotelTextColor
+                    textColor = hotelTextColor
                 )
                 PrimaryButton(
                     modifier = Modifier,
                     onClick = {},
                     width = 162.dp,
-                    buttonBorder = BorderStroke(0.5.dp, customColors.descriptionColor),
+                    buttonBorder = BorderStroke(0.5.dp, descriptionColor),
                     height = 42.dp,
-                    colors = ButtonDefaults.buttonColors(customColors.buttonColorGreen),
+                    colors = ButtonDefaults.buttonColors(SecondaryColor),
                     text="Message"
                 )
 
@@ -191,7 +218,7 @@ fun HotelDetailScreen(navController: NavController){
                    CustomTitleText(
                        modifier = Modifier.weight(1f),
                        text = "2",
-                       color = customColors.descriptionColor,
+                       color = descriptionColor,
                        fontWeight = FontWeight.SemiBold,
                        fontSize = 18.sp,
                        textAlign = TextAlign.Start
@@ -239,7 +266,7 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.orange
+                            color = PrimaryColor
                         )
                         Spacer(Modifier.height(5.dp))
                         CustomTitleText(
@@ -248,7 +275,7 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 18.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.hotelTextColor
+                            color = hotelTextColor
                         )
                     }
                     Spacer(Modifier.width(10.dp))
@@ -258,7 +285,7 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.orange
+                            color = PrimaryColor
                         )
                         Spacer(Modifier.height(5.dp))
                         CustomTitleText(
@@ -266,7 +293,7 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 18.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.hotelTextColor
+                            color = hotelTextColor
                         )
                     }
                     Column ( modifier = Modifier.weight(1f)){
@@ -275,7 +302,7 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.orange
+                            color = PrimaryColor
                         )
                         Spacer(Modifier.height(5.dp))
                         CustomTitleText(
@@ -283,14 +310,14 @@ fun HotelDetailScreen(navController: NavController){
                             fontWeight = FontWeight.Medium,
                             fontSize = 18.sp,
                             textAlign = TextAlign.Start,
-                            color = customColors.hotelTextColor
+                            color = hotelTextColor
                         )
                     }
                 }
             }
             Spacer(Modifier.height(15.dp))
             //Divider
-            HorizontalDivider(thickness = 0.4.dp, color = customColors.dividerColor)
+            HorizontalDivider(thickness = 0.4.dp, color = dividerColor)
             Spacer(Modifier.height(15.dp))
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -304,9 +331,9 @@ fun HotelDetailScreen(navController: NavController){
                         icon= painterResource(id=R.drawable.wifi),
                         iconSize = 20.dp,
                         text = "Wifi",
-                        textColor = customColors.descriptionColor,
+                        textColor = descriptionColor,
                         textSize = 14.sp,
-                        iconTint = customColors.descriptionColor
+                        iconTint = descriptionColor
                     )
                     //Spacer(Modifier.width(10.dp))
                     IconTextRow(
@@ -314,8 +341,8 @@ fun HotelDetailScreen(navController: NavController){
                         icon= painterResource(id=R.drawable.bed),
                         iconSize = 20.dp,
                         text = "Kingsize",
-                        textColor = customColors.descriptionColor,
-                        iconTint = customColors.descriptionColor,
+                        textColor = descriptionColor,
+                        iconTint = descriptionColor,
                         textSize = 14.sp
                     )
                     Spacer(Modifier.width(10.dp))
@@ -324,14 +351,14 @@ fun HotelDetailScreen(navController: NavController){
                         icon= painterResource(id=R.drawable.dimension),
                         text = "12 m3",
                         iconSize = 20.dp,
-                        textColor = customColors.descriptionColor,
-                        iconTint = customColors.descriptionColor,
+                        textColor = descriptionColor,
+                        iconTint = descriptionColor,
                         textSize = 14.sp
                     )
                 }
             }
             //Divider
-            HorizontalDivider(thickness = 0.6.dp, color = customColors.dividerColor)
+            HorizontalDivider(thickness = 0.6.dp, color = dividerColor)
             Spacer(Modifier.height(10.dp))
             //Row
             Column(modifier = Modifier.absolutePadding(top = 10.dp, left = 15.dp)) {
@@ -344,7 +371,7 @@ fun HotelDetailScreen(navController: NavController){
                 )
                 Spacer(Modifier.height(15.dp))
                 //Divider
-                HorizontalDivider(thickness = 0.4.dp, color = customColors.descriptionColor)
+                HorizontalDivider(thickness = 0.4.dp, color = descriptionColor)
                 RoomInfoRow(
                     title = "Free Cancellation",
                     stayIcon = painterResource(id = R.drawable.moon),
@@ -354,7 +381,7 @@ fun HotelDetailScreen(navController: NavController){
                 )
                 Spacer(Modifier.height(15.dp))
                 //Divider
-                HorizontalDivider(thickness = 0.4.dp, color = customColors.descriptionColor)
+                HorizontalDivider(thickness = 0.4.dp, color = descriptionColor)
                 RoomInfoRow(
                     title = "Free Cancellation \n Breakfast",
                     stayIcon = painterResource(id = R.drawable.moon),
@@ -387,7 +414,7 @@ fun HotelDetailScreen(navController: NavController){
                                 Icon(
                                     painter = painterResource(id = R.drawable.close),
                                     contentDescription = "Close Modal",
-                                    tint = customColors.orange
+                                    tint = PrimaryColor
                                 )
                             }
                             Spacer(modifier = Modifier.height(16.dp))
@@ -415,15 +442,17 @@ fun HotelDetailScreen(navController: NavController){
                                         iconSize = 17.dp,
                                         text = "$ 150",
                                         textSize = 14.sp,
-                                        iconTint = customColors.descriptionColor
+                                        iconTint = descriptionColor
                                     )
 
                                 }
                                 //Description
                                 CustomTitleText(
-                                    modifier = Modifier.weight(1f).padding(bottom = 10.dp),
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(bottom = 10.dp),
                                     text = DummyData.hotelDescription,
-                                    color = customColors.descriptionColor,
+                                    color = descriptionColor,
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 14.sp,
                                     textAlign = TextAlign.Start
@@ -435,11 +464,12 @@ fun HotelDetailScreen(navController: NavController){
                                     verticalArrangement = Arrangement.Center
                                 ) {
                                     Surface(
-                                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
                                             .height(51.dp)
                                             .width(51.dp),
                                         shape = RoundedCornerShape(8.dp),
-                                        border = BorderStroke(1.dp, customColors.descriptionColor)
+                                        border = BorderStroke(1.dp,descriptionColor)
                                     ) {
                                         Box(
                                             contentAlignment = Alignment.Center, // Centers the text inside Surface
@@ -449,7 +479,7 @@ fun HotelDetailScreen(navController: NavController){
                                                 text = "2",
                                                 fontWeight = FontWeight.SemiBold,
                                                 fontSize = 24.sp,
-                                                color = customColors.hotelTextColor
+                                                color = hotelTextColor
                                             )
                                         }
                                     }
@@ -461,14 +491,18 @@ fun HotelDetailScreen(navController: NavController){
                                         fontWeight = FontWeight.SemiBold,
                                         fontSize = 14.sp,
                                         textAlign = TextAlign.Center,
-                                        color = customColors.orange
+                                        color = PrimaryColor
                                     )
                                 }
                                 //Spacer
                                Spacer(Modifier.height(10.dp))
                                 PrimaryButton(
                                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                                    onClick = {navController.navigate(ORDERSCREEN)},
+                                    onClick = {
+                                        navController.navigate(ORDERSCREEN){
+                                            popUpTo(HOTELDETAILSCREEN){inclusive=true}
+                                        }
+                                              },
                                     text = "Add to Order",
                                 )
                             }

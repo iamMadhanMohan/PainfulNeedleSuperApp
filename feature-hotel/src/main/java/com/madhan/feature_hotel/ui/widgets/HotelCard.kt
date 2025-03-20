@@ -1,6 +1,7 @@
 package com.madhan.feature_hotel.ui.widgets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -18,15 +19,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_hotel.R
 import com.madhan.feature_hotel.data.model.HotelLocation
-import com.madhan.feature_hotel.utils.customColors
+
 
 
 @Composable
-fun HotelCard(hotel: HotelLocation) {
+fun HotelCard(hotel: HotelLocation, onClick: () -> Unit) {
     Card(
         modifier = Modifier
+            .clickable { onClick() }
             .padding(8.dp)
             .width(160.dp),
         shape = RoundedCornerShape(10.dp),
@@ -47,7 +50,7 @@ fun HotelCard(hotel: HotelLocation) {
                 Icon(
                     painter = painterResource(R.drawable.rate),
                     contentDescription = "Star",
-                    tint = customColors.orange
+                    tint = PrimaryColor
                 )
                 Text(hotel.rating.toString(), fontWeight = FontWeight.Bold)
             }

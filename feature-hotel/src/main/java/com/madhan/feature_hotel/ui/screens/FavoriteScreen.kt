@@ -21,10 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.madhan.adamsuperapp.ui.theme.PrimaryColor
 import com.madhan.feature_hotel.data.vm.FavoriteViewModel
 import com.madhan.feature_hotel.ui.widgets.CustomHotelCard
-import com.madhan.feature_hotel.utils.customColors
+import com.madhan.feature_hotel.utils.routes.FAVORITESCREEN
 import com.madhan.feature_hotel.utils.routes.HOTELDETAILSCREEN
+import com.madhan.feature_hotel.utils.routes.PLACESCREEN
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -36,13 +38,13 @@ fun FavoriteScreen(navController: NavController, viewModel: FavoriteViewModel = 
         modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
-                title = { Text(text = "Favorites", color = customColors.orange) },
+                title = { Text(text = "Favorites", color = PrimaryColor) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) { // Pop back to previous screen
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
-                            tint = customColors.orange
+                            tint = PrimaryColor
                         )
                     }
                 }
@@ -64,14 +66,18 @@ fun FavoriteScreen(navController: NavController, viewModel: FavoriteViewModel = 
                 LazyColumn {
                     items(favoriteHotels) { hotel ->
                         CustomHotelCard(
-                            modifier = Modifier.clickable { navController.navigate(HOTELDETAILSCREEN) },
+                            modifier = Modifier.clickable {
+                                navController.navigate(HOTELDETAILSCREEN){
+                                    popUpTo(FAVORITESCREEN){inclusive=true}
+                                }
+                                                          },
                             backgroundImage = painterResource(id = hotel.imageResId),
                             hotelType = hotel.hotelType,
                             hotelLocation = hotel.hotelLocation,
                             hotelRating = hotel.hotelRating,
                             hotelDistance = hotel.hotelDistance,
                             hotelPrice = hotel.hotelPrice,
-                            isFavorite = true, // All items here are favorites
+                            isFavorite = true,
                             onFavoriteClick = { viewModel.toggleFavorite(hotel) }
                         )
                     }

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.google.firebase.auth.FirebaseAuth
 import com.madhan.adamsuperapp.ui.screens.HomeScreen
 import com.madhan.adamsuperapp.ui.screens.SignInScreen
 import com.madhan.adamsuperapp.ui.screens.SignUpScreen
@@ -24,7 +25,7 @@ fun AppNavigation(navController: NavHostController) {
     val favoriteViewModel: FavoriteViewModel = viewModel()
     NavHost(
         navController,
-        startDestination = Screen.SignIn.route,
+        startDestination = if(FirebaseAuth.getInstance().currentUser != null) Screen.Home.route  else Screen.SignIn.route,
         route = "root"
     ) {
         composable(Screen.SignIn.route) { SignInScreen(navController) }
