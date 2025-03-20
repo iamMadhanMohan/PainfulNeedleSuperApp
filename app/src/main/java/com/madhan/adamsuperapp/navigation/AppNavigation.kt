@@ -7,9 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.auth.FirebaseAuth
 import com.madhan.adamsuperapp.ui.screens.HomeScreen
 import com.madhan.adamsuperapp.ui.screens.SignInScreen
 import com.madhan.adamsuperapp.ui.screens.SignUpScreen
@@ -18,55 +15,60 @@ import com.madhan.feature_bank.navigation.tinderNavGraph
 import com.madhan.feature_delivery.navigation.deliveryNavGraph
 import com.madhan.feature_hotel.data.vm.FavoriteViewModel
 import com.madhan.feature_hotel.navigation.hotelNavGraph
-import com.madhan.feature_uber.Screens.Navigation.SetupNavGraph
 import com.madhan.feature_pet.navigation.petNavGraph
+import com.madhan.feature_uber.Screens.Navigation.SetupNavGraph
+import com.madhan.feature_uber.Screens.vm.SharedViewModel // Import your SharedViewModel
 
 @Composable
 fun AppNavigation(navController: NavHostController) {
-
-    val isLoggedIn = Firebase.auth.currentUser
-
-    // Create the FavoriteViewModel for Favorites
+    // ViewModel for Favorites (Hotel feature)
     val favoriteViewModel: FavoriteViewModel = viewModel()
+
+    // Root NavHost
     NavHost(
-        navController,
-        startDestination = if (isLoggedIn == null) Screen.SignIn.route else Screen.Home.route,
+        navController = navController,
+        startDestination = Screen.Home.route,
         route = "root"
     ) {
+        // Super app screens
         composable(Screen.SignIn.route) { SignInScreen(navController) }
         composable(Screen.SignUp.route) {
             SignUpScreen(
-                navController,
-                onNavigateToSignIn = { navController.navigate(Screen.SignIn.route) })
+                navController = navController,
+                onNavigateToSignIn = { navController.navigate(Screen.SignIn.route) }
+            )
         }
         composable(Screen.Home.route) { HomeScreen(navController) }
+
+        // Uber Feature (Nested Navigation Graph)
         navigation(
             startDestination = "uber_main",
             route = Screen.Uber.route
         ) {
             composable("uber_main") {
-                // Create a nested NavController specifically for the Uber feature
+                // Uber's internal NavController and SharedViewModel
                 val uberNavController = rememberNavController()
+                val sharedViewModel: SharedViewModel = viewModel()
 
-                // Pass a callback to handle back navigation to home
+                // Uber's navigation graph (see Step 2)
                 SetupNavGraph(
                     navController = uberNavController,
+                    sharedViewModel = sharedViewModel,
                     onBackToHome = {
-                        // Navigate to the home screen
+                        // Navigate back to super app's Home screen
                         navController.navigate(Screen.Home.route) {
-                            // Clear the back stack up to home
-                            popUpTo("root") {
-                                inclusive = false
-                            }
+                            popUpTo("root") { inclusive = false }
                         }
                     }
                 )
             }
         }
-        deliveryNavGraph(navController) // Delivery NavGraph
-        petNavGraph(navController) // Pet NavGraph
-        tinderNavGraph(navController) // Tinder NavGraph
-        bankNavGraph(navController) // IBank NavGraph
-        hotelNavGraph(navController, favoriteViewModel) // Hotel NavGraph
+
+        // Other features (Delivery, Pet, etc.)
+        deliveryNavGraph(navController)
+        petNavGraph(navController)
+        tinderNavGraph(navController)
+        bankNavGraph(navController)
+        hotelNavGraph(navController, favoriteViewModel)
     }
 }

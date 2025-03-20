@@ -70,6 +70,8 @@ fun DelayedTripDateTimeScreen(
     val lightGray = Color(0xFFF5F5F5)
     val mediumGray = Color(0xFFE0E0E0)
     val darkGray = Color(0xFF9E9E9E)
+    val green = Color(0xFF4CAF50)
+
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }

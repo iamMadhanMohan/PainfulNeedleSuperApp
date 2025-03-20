@@ -1,6 +1,5 @@
 package com.madhan.feature_uber.Screens.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -26,14 +25,10 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -45,58 +40,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-data class RideInfo(
-    val driverName: String,
-    val driverRating: Double,
-    val carModel: String,
-    val carColor: String,
-    val estimatedTime: Int,
-    val estimatedPriceRange: String,
-    val pickupLocation: LocationInfo,
-    val destinationLocation: LocationInfo
-)
-
-data class LocationInfo(
-    val name: String,
-    val address: String,
-    val city: String
-)
-
-val rideInfo = RideInfo(
-    driverName = "Sina Fahimi",
-    driverRating = 4.8,
-    carModel = "Batmobile",
-    carColor = "Black",
-    estimatedTime = 3,
-    estimatedPriceRange = "$50",
-    destinationLocation = LocationInfo(
-        name = "Work",
-        address = "28 Broad Street",
-        city = "Johannesburg"
-    ),
-    pickupLocation = LocationInfo(
-        name = "Home",
-        address = "28 Orchard Road",
-        city = "Johannesburg"
-    )
-)
+import com.madhan.feature_uber.Screens.Model.Driver
+import com.madhan.feature_uber.Screens.Model.Location
+import com.madhan.feature_uber.Screens.Model.VehicleType
+import com.madhan.feature_uber.Screens.vm.SharedViewModel
 
 @Composable
 fun RideConfirmationScreen(
-    rideInfo: RideInfo,
+    viewModel: SharedViewModel,
     onBackClick: () -> Unit,
     onCancelRide: () -> Unit,
     onOrderClick: () -> Unit,
     onSharePickup: () -> Unit,
     onShareDestination: () -> Unit,
     onEditPickup: () -> Unit,
-    onEditDestination: () -> Unit
+    onEditDestination: () -> Unit,
+    sharedViewModel: SharedViewModel
 ) {
+
+
     val orange = Color(0xFFFF7D1E)
     val lightGray = Color(0xFFF5F5F5)
+    val mediumGray = Color(0xFFAAAAAA)
+    val darkGray = Color(0xFF9E9E9E)
     val blue = Color(0xFF2196F3)
     val green = Color(0xFF4CAF50)
+
+    val selectedDriver = viewModel.selectedDriver
+    val pickup = viewModel.pickupLocation
+    val destination = viewModel.destinationLocation
 
     Scaffold(
         topBar = {
@@ -104,9 +76,8 @@ fun RideConfirmationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
-                    .background(lightGray)
+                    .background(Color.LightGray)
             ) {
-                // Map placeholder
                 IconButton(
                     onClick = onBackClick,
                     modifier = Modifier.padding(16.dp)
@@ -125,7 +96,6 @@ fun RideConfirmationScreen(
                     }
                 }
 
-                // Progress indicator
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
@@ -142,7 +112,6 @@ fun RideConfirmationScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // Header with title and cancel button
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -171,156 +140,143 @@ fun RideConfirmationScreen(
                 }
             }
 
-            // Driver info card
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // Driver photo
-                Box(
+            selectedDriver?.let { driver ->
+                Row(
                     modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .background(Color.LightGray),
-                    contentAlignment = Alignment.Center
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Person,
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(30.dp)
-                    )
-                }
-
-                Spacer(modifier = Modifier.width(16.dp))
-
-                // Driver info
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
+                    Box(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .background(Color.LightGray),
+                        contentAlignment = Alignment.Center
                     ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = driver.name,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 16.sp
+                            )
+
+                            Spacer(modifier = Modifier.width(8.dp))
+
+                            Icon(
+                                imageVector = Icons.Default.Star,
+                                contentDescription = null,
+                                tint = Color(0xFFFFB800),
+                                modifier = Modifier.size(16.dp)
+                            )
+
+                            Text(
+                                text = driver.rating.toString(),
+                                color = Color.Gray,
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(start = 2.dp)
+                            )
+                        }
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 4.dp)
+                        ) {
+                            Text(
+                                text = driver.car,
+                                color = Color.Gray,
+                                fontSize = 14.sp
+                            )
+                            Text(
+                                text = " ${driver.carColor}",
+                                color = Color.Gray,
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
+
+                    Column(horizontalAlignment = Alignment.End) {
                         Text(
-                            text = rideInfo.driverName,
+                            text = "Estimate",
+                            color = Color.Gray,
+                            fontSize = 12.sp
+                        )
+                        Text(
+                            text = driver.estimatedPriceRange,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(top = 4.dp)
                         )
-
-                        Spacer(modifier = Modifier.width(8.dp))
-
-                        Icon(
-                            imageVector = Icons.Default.Star,
-                            contentDescription = null,
-                            tint = Color(0xFFFFB800),
-                            modifier = Modifier.size(16.dp)
-                        )
-
-                        Text(
-                            text = rideInfo.driverRating.toString(),
-                            color = Color.Gray,
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(start = 2.dp)
-                        )
-                    }
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(top = 4.dp)
-                    ) {
-                        Text(
-                            text = "${rideInfo.carModel}",
-                            color = Color.Gray,
-                            fontSize = 14.sp
-                        )
-
-                        Text(
-                            text = " ${rideInfo.carColor}",
-                            color = Color.Gray,
-                            fontSize = 14.sp
-                        )
-                    }
-                }
-
-                // Time and price
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(
-                        text = "Estimate",
-                        color = Color.Gray,
-                        fontSize = 12.sp
-                    )
-
-                    Text(
-                        text = rideInfo.estimatedPriceRange,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(top = 4.dp)
-                    )
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(top = 4.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = null,
-                            tint = Color.Gray,
-                            modifier = Modifier.size(14.dp)
-                        )
-
-                        Text(
-                            text = "${rideInfo.estimatedTime} min",
-                            color = Color.Gray,
-                            fontSize = 14.sp,
-                            modifier = Modifier.padding(start = 2.dp)
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(top = 4.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.LocationOn,
+                                contentDescription = null,
+                                tint = Color.Gray,
+                                modifier = Modifier.size(14.dp)
+                            )
+                            Text(
+                                text = "${driver.estimatedTime} min",
+                                color = Color.Gray,
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(start = 2.dp)
+                            )
+                        }
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Destination location
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 Text(
                     text = "Destination location",
                     color = Color.Gray,
                     fontSize = 12.sp
                 )
-
-                LocationCard(
-                    location = rideInfo.destinationLocation,
-                    onShareClick = onShareDestination,
-                    onEditClick = onEditDestination,
-                    iconBackgroundColor = green
-                )
+                if (destination != null) {
+                    LocationCard(
+                        location = destination,
+                        onShareClick = onShareDestination,
+                        onEditClick = onEditDestination,
+                        iconBackgroundColor = green
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Pick up location
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                 Text(
                     text = "Pick up location",
                     color = Color.Gray,
                     fontSize = 12.sp
                 )
-
-                LocationCard(
-                    location = rideInfo.pickupLocation,
-                    onShareClick = onSharePickup,
-                    onEditClick = onEditPickup,
-                    iconBackgroundColor = blue
-                )
+                if (pickup != null) {
+                    LocationCard(
+                        location = pickup,
+                        onShareClick = onSharePickup,
+                        onEditClick = onEditPickup,
+                        iconBackgroundColor = blue
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Order button
             Button(
                 onClick = onOrderClick,
                 modifier = Modifier
@@ -342,7 +298,7 @@ fun RideConfirmationScreen(
 
 @Composable
 fun LocationCard(
-    location: LocationInfo,
+    location: Location,
     onShareClick: () -> Unit,
     onEditClick: () -> Unit,
     iconBackgroundColor: Color
@@ -353,27 +309,22 @@ fun LocationCard(
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = location.name,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
-
             Text(
                 text = location.address,
                 fontSize = 14.sp
             )
-
-            Text(
-                text = location.city,
-                fontSize = 14.sp
-            )
+//            Text(
+//                text = location.city,
+//                fontSize = 14.sp
+//            )
         }
 
-        // Share button
         IconButton(
             onClick = onShareClick,
             modifier = Modifier
@@ -390,7 +341,6 @@ fun LocationCard(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        // Edit button
         IconButton(
             onClick = onEditClick,
             modifier = Modifier
@@ -410,35 +360,42 @@ fun LocationCard(
 @Preview(showBackground = true)
 @Composable
 fun RideConfirmationScreenPreview() {
-    MaterialTheme {
-        val sampleRide = RideInfo(
-            driverName = "Gabriel F.",
-            driverRating = 4.8,
-            carModel = "Peugeot 308",
-            carColor = "Red",
-            estimatedTime = 3,
-            estimatedPriceRange = "$50",
-            destinationLocation = LocationInfo(
-                name = "Work",
-                address = "28 Broad Street",
-                city = "Johannesburg"
-            ),
-            pickupLocation = LocationInfo(
-                name = "Home",
-                address = "28 Orchard Road",
-                city = "Johannesburg"
-            )
-        )
-
-        RideConfirmationScreen(
-            rideInfo = sampleRide,
-            onBackClick = {},
-            onCancelRide = {},
-            onOrderClick = {},
-            onSharePickup = {},
-            onShareDestination = {},
-            onEditPickup = {},
-            onEditDestination = {}
-        )
-    }
+//    MaterialTheme {
+//        val previewViewModel = SharedViewModel().apply {
+//            selectedDriver = Driver(
+//                id = "1",
+//                name = "Gabriel F.",
+//                rating = 4.8,
+//                car = "Peugeot 308",
+//                carColor = "Red",
+//                estimatedTime = 3,
+//                estimatedPriceRange = "$50",
+//                vehicleType = VehicleType.CAR
+//            )
+//            pickupLocation = Location(
+//                id = "home",
+//                name = "Home",
+//                address = "28 Orchard Road",
+//                coordinates = Pair(-26.2041, 28.0473)
+//            )
+//            destinationLocation = Location(
+//                id = "work",
+//                name = "Work",
+//                address = "28 Broad Street",
+//                coordinates = Pair(-26.2041, 28.0573)
+//            )
+//        }
+//
+//        RideConfirmationScreen(
+//            viewModel = previewViewModel,
+//            onBackClick = {},
+//            onCancelRide = {},
+//            onOrderClick = {},
+//            onSharePickup = {},
+//            onShareDestination = {},
+//            onEditPickup = {},
+//            onEditDestination = {},
+//            sharedViewModel = sharedViewModel
+//        )
+//    }
 }

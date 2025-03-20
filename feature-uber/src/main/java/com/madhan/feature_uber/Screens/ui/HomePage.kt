@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -19,6 +20,15 @@ import com.madhan.feature_uber.R
 
 @Composable
 fun TransportScreen(onLoginClick: () -> Unit, onBackHomeClick: () -> Unit) {
+
+
+    val orange = Color(0xFFFF7D1E)
+    val lightGray = Color(0xFFF5F5F5)
+    val mediumGray = Color(0xFFAAAAAA)
+    val darkGray = Color(0xFF9E9E9E)
+    val blue = Color(0xFF2196F3)
+    val green = Color(0xFF4CAF50)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
